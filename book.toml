@@ -1,0 +1,6 @@
+[book]
+authors = ["Jeff Greene"]
+language = "en"
+multilingual = false
+src = "src"
+title = "DBL Book"
