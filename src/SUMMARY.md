@@ -13,4 +13,7 @@
   - [Comments](./chapter_2/comments.md)
   - [Arrays](./chapter_2/arrays.md)
   - [Literals](./chapter_2/literals.md)   
-  - [Ranging](./chapter_2/ranging.md)
+  - [Ranging and Overlays](./chapter_2/ranging.md)
+  - [Routines](./chapter_2/routines.md)
+  - [Control Flow](./chapter_2/control_flow.md)
+  - [Quiz Answers](./chapter_2/quiz_answers.md)

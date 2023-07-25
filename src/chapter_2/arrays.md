@@ -2,7 +2,7 @@
 
 ## Real Arrays and Pseudo Arrays
 
-In DBL, fixed size arrays can either be 'real' or 'pseudo'. While pseudo arrays are deprecated and not recommended for use, understanding their properties and limitations is still important. It's important to note that, unlike many other programming languages, DBL uses a one-based indexing system for arrays, meaning that array elements start at index 1.
+Fixed size arrays can either be 'real' or 'pseudo'. While pseudo arrays are deprecated and not recommended for use, understanding their properties and limitations is still important. It's important to note that, unlike many other programming languages, DBL uses a one-based indexing system for arrays, meaning that array elements start at index 1.
 
 ### Real Arrays
 
@@ -81,7 +81,7 @@ Using dynamic arrays in DBL can make your code more flexible and efficient, as i
 
 Here's a few examples showing how to declare and initialize dynamic arrays in DBL
 
-```dbl,ignore,does_not_compile
+```dbl
 main
     record
         myStringArray, [#]String

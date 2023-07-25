@@ -6,6 +6,15 @@ In programming language design, the balance between business functionality and m
 
 What's more, DBL’s extensive support for various file access methods and data types makes it an excellent choice for data-intensive applications. With DBL, you gain control over intricate details without the complexity typically associated with such precision. This gives you the power to focus on what matters most: building reliable, cross-platform business software.
 
+## Naming
+In your journey through DBL, you'll encounter several names for this programming language and its associated tools. This diversity of terminology is an unfortunate side effect of its longevity. Originating from DIBOL, DBL has grown and adapted to accommodate various runtimes and environments.
+
+One crucial aspect of DBL is its standalone runtime, often referred to as Traditional Synergy or Traditional DBL. This standalone variant serves as a comprehensive environment for executing DBL applications independently. The robustness and platform independence offered by Traditional Synergy allow for efficient and reliable operation of DBL software written 40 years ago.
+
+Further enhancing DBL's versatility is its ability to compile natively to .NET. This integration, frequently referred to as Synergy.NET or DBL running on .NET, permits seamless interaction with .NET framework and services. This adaptability ensures that DBL applications can leverage the power and scope of .NET's extensive libraries and tools.
+
+Whether you're using DBL in its traditional form or harnessing the power of .NET, the essence of DBL remains consistent - offering robust features and superior reliability for diverse programming tasks. The different names of DBL merely reflect its multifaceted nature and ability to operate in varied environments.
+
 ## Who This Book Is For
 
 This book assumes that you’ve written code in another programming language but
@@ -21,3 +30,7 @@ In general, this book assumes that you’re reading it in sequence from front to
 back. Later chapters build on concepts in earlier chapters, and earlier
 chapters might not delve into details on a particular topic but will revisit
 the topic in a later chapter.
+
+## Special Thanks
+
+This book is inspired by, generally structured as and sometimes copied from the [Rust Book](https://github.com/rust-lang/book)

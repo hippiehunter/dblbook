@@ -109,3 +109,59 @@ endsubroutine
 > ```
 > 13
 > ```
+
+
+> #### Quiz
+> 1. What are the three forms of alpha types in DBL?
+>    - [ ] a, alpha, a10
+>    - [ ] a, a*, asize
+>    - [ ] a, a10, a*
+>    - [ ] a, a*, asize+
+>    
+> 2. What's the maximum length of alpha types in 32-bit Windows and Linux when running Traditional DBL?
+>    - [ ] 65,535 characters
+>    - [ ] 32,767 characters
+>    - [ ] 2,147,483,647 characters
+>    - [ ] 2,147,483,648 characters
+>    
+> 3. In Traditional DBL, how is a byte represented?
+>    - [ ] Eight-bit unsigned integer
+>    - [ ] Eight-bit signed integer
+>    - [ ] Sixteen-bit signed integer
+>    - [ ] Sixteen-bit unsigned integer
+>    
+> 4. What's the main difference between the decimal and implied-decimal types in DBL?
+>    - [ ] Decimal types are unsigned, implied-decimal types are signed.
+>    - [ ] Decimal types are whole numbers, implied-decimal types have a sized precision.
+>    - [ ] Decimal types have a fractional precision, implied-decimal types are whole numbers.
+>    - [ ] Decimal types are signed, implied-decimal types are unsigned.
+>    
+> 5. What is the default value for the .NET System.Double structure in DBL?
+>    - [ ] 1.0
+>    - [ ] 0.0
+>    - [ ] NULL
+>    - [ ] Undefined
+>    
+> 6. What type does short map to in Traditional DBL and DBL on .NET respectively?
+>    - [ ] i2 and System.Int32
+>    - [ ] i2 and System.Int64
+>    - [ ] i2 and System.Int16
+>    - [ ] i4 and System.Int16
+>    
+> 7. When defining a record, when must you include a size for certain synergy types (a,d,i,id)?
+>    - [ ] Only when the fields need to be stored in an array.
+>    - [ ] Only when the fields will be processed in a loop.
+>    - [ ] When the fields define a memory layout (most of the time).
+>    - [ ] When the fields are initialized with a certain value.
+>    
+> 8. In Synergy DBL, when is the size of parameters and non ^VAL return types determined?
+>    - [ ] At compile time
+>    - [ ] At runtime
+>    - [ ] When they are initialized
+>    - [ ] When they are declared
+>    
+> 9. What happens when you pass the string "a slightly longer alpha" to a routine with an unsized alpha parameter myFld, a?
+>    - [ ] An error occurs as the parameter is unsized.
+>    - [ ] The parameter myFld will have a size of 23.
+>    - [ ] The parameter myFld will have a size of 24, including the end character.
+>    - [ ] The program will crash.

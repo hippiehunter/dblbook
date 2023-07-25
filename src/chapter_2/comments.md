@@ -11,7 +11,7 @@ Here’s a simple comment:
 ; hello, world
 ```
 
-In DBL, the idiomatic comment style starts a comment with one or two semicolons, and the
+The idiomatic comment style starts a comment with one or two semicolons, and the
 comment continues until the end of the line. For comments that extend beyond a
 single line, you’ll need to include `;` on each line, like this:
 
@@ -27,8 +27,6 @@ Console.WriteLine("Hello World") ;this is a comment
 ```
 
 ## Doc Comments
-
-## Doc Comments in DBL
 
 When compiling for .NET, similar to XML documentation in C#, triple semicolons `;;;` are used to create documentation comments. These are special kind of comments that can be processed by a documentation generator to produce software documentation. They are typically placed immediately before the code statement they are annotating.
 
