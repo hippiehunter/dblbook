@@ -18,18 +18,16 @@ For purely historical reasons 'brk[ ]' is valid and refers to the entire scope, 
 
 
 ```dbl
-main
-    record demo
-        alpha       ,[3,2]d2 ,      12 ,34,
-    &                             56 ,78,
-    &                             98 ,76
-        beta        ,[2,4]a3,       "JOE" ,"JIM" ,"TED" ,"SAM",
-    &                             "LOU" ,"NED" ,"BOB" ,"DAN"
+record demo
+    alpha       ,[3,2]d2 ,    12 ,34,
+&                             56 ,78,
+&                             98 ,76
+    beta        ,[2,4]a3,     "JOE" ,"JIM" ,"TED" ,"SAM",
+&                             "LOU" ,"NED" ,"BOB" ,"DAN"
 proc
     Console.WriteLine(demo.alpha[1,2])
     Console.WriteLine(demo.beta[2,1])
     Console.WriteLine(demo.beta[])
-endmain
 ```
 
 > #### Output
@@ -52,14 +50,12 @@ It's worth noting that you cannot declare a real array of .NET value types or ob
 Finally, to get the length of an entire static array, use '^size' on the array variable with empty brackets:
 
 ```dbl
-main
-    record
-        fld, 10i4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+record
+    fld, 10i4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 proc
     Console.WriteLine(^size(fld[]))
     Console.WriteLine(^size(fld[1]))
     Console.WriteLine(fld[1])
-endmain
 ```
 
 > #### Output
@@ -71,21 +67,20 @@ endmain
 
 ## Dynamic Arrays
 
-Dynamic arrays in Synergy DBL (DBL) provide a structure for storing multiple values of the same type, with the ability to resize during program execution. They are declared using the hash symbol (`#`) in square brackets, which denotes a dynamic array.
+Dynamic arrays provide a structure for storing multiple values of the same type, with the ability to resize during program execution. They are declared using the hash symbol (`#`) in square brackets, which denotes a dynamic array.
 
 Dynamic arrays are not limited to storing simple data types such as integers or characters; they can also store complex data types like structures or classes. 
 
-DBL dynamic arrays support various operations for data manipulation and retrieval. These include methods like `Clear()`, `IndexOf()`, `LastIndexOf()`, and `Copy()`, which clear the contents, find an element, find the last matching element, and copying, respectively. The `Length` property can be used to get the current size of the array.
+Regardless of what platform you're running on, dynamic arrays support various operations for data manipulation and retrieval. These include methods like `Clear()`, `IndexOf()`, `LastIndexOf()`, and `Copy()`, which clear the contents, find an element, find the last matching element, and copying, respectively. The `Length` property can be used to get the current size of the array. When running on .NET you have access to the remainder of the `System.Array` properties and methods.
 
 Using dynamic arrays in DBL can make your code more flexible and efficient, as it allows you to handle varying data quantities without the need for manual memory management using `^m` or huge static arrays.
 
 Here's a few examples showing how to declare and initialize dynamic arrays in DBL
 
 ```dbl
-main
-    record
-        myStringArray, [#]String
-        anotherStringArray, [#]String
+record
+    myStringArray, [#]String
+    anotherStringArray, [#]String
 proc
     ;;create a new array with 2 values
     myStringArray = new String[#] { "first value", "second value"}
@@ -100,8 +95,6 @@ proc
     Array.Copy(myStringArray, 1, anotherStringArray, 1, 2)
 
     Console.WriteLine(anotherStringArray[1])
-
-endmain
 ```
 
 > #### Output

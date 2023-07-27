@@ -92,7 +92,7 @@ You can see from the output that interpreting a decimal field as an alpha can le
 
 
 ### Absolute Ranging
-A ranged reference in Synergy DBL allows you to specify a range of characters within a variable's data space. This range is specified in parentheses following the variable reference and represents the starting and ending character positions relative to the start of the variable's data. The value of a ranged variable is the sequence of characters between, and including, these start and end positions. If the specified range exceeds the limit of the first variable, the range continues onto the next variable.
+A ranged reference in DBL allows you to specify a range of characters within a variable's data space. This range is specified in parentheses following the variable reference and represents the starting and ending character positions relative to the start of the variable's data. The value of a ranged variable is the sequence of characters between, and including, these start and end positions. If the specified range exceeds the limit of the first variable, the range continues onto the next variable.
 
 Ranging is possible on real arrays. An example would be `my_alpha_array[1,2](1,2)`. However, subscripted arrays cannot be ranged, and trying to do so, such as `my_alpha_array(4)(1,2)`, will produce an error.
 

@@ -72,13 +72,13 @@
    - [x] i2 and System.Int16
    - [ ] i4 and System.Int16
    
-7. When defining a record, when must you include a size for certain synergy types (a,d,i,id)?
+7. When defining a record, when must you include a size for certain dbl types (a,d,i,id)?
    - [ ] Only when the fields need to be stored in an array.
    - [ ] Only when the fields will be processed in a loop.
    - [x] When the fields define a memory layout (most of the time).
    - [ ] When the fields are initialized with a certain value.
    
-8. In Synergy DBL, when is the size of parameters and non ^VAL return types determined?
+8. In DBL, when is the size of parameters and non ^VAL return types determined?
    - [ ] At compile time
    - [x] At runtime
    - [ ] When they are initialized
@@ -89,3 +89,10 @@
    - [x] The parameter myFld will have a size of 23.
    - [ ] The parameter myFld will have a size of 24, including the end character.
    - [ ] The program will crash.
+
+
+### Control Flow
+    - What does this program output if month = 5 instead of 3?
+      - shrug
+    - What does this program output if month = 5555 instead of 3?
+      - "wild month"

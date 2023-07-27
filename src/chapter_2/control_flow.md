@@ -97,36 +97,177 @@ All of these structures have a similar purpose - evaluate an expression and then
 
 ### CASE
 
-`CASE` is the most basic of the control flow statements. It allows selection from a set of unlabeled or labeled statements, based on the value of the control expression.
+`CASE` is the most basic of the control flow statements. It allows selection from a set of unlabeled or labeled statements, based on the value of the control expression. 
 
 - **Unlabeled CASE**: The control expression is non-implied numeric and interpreted as an ordinal number 1-n, where n is the number of statements in the set. For example, a value of 6 selects the sixth statement.
 
 - **Labeled CASE**: All statements are identified with labels which must be literals and of the same type as the control expression. Labels can be a single literal or a range (using a hyphen). The control expression is matched with these labels to select the corresponding statement.
 
+`ELSE` is used to specify a block of code to be executed if no case labels match the value of the switch expression. It's akin to an "else" clause in an if-then-else conditional block. If the else case is not provided and no match is found, the case statement will simply do nothing.
+
+```dbl
+record
+    num, i4
+    color, a10
+proc
+    num = 2
+    color = "red"
+    ;;Labeled case
+    case num of
+    begincase
+    1:  Console.WriteLine("You entered 1")
+    2:  Console.WriteLine("You entered 2")
+    3:  Console.WriteLine("You entered 3")
+    endcase
+    else
+        Console.WriteLine("You entered something else")
+
+    case num of
+    begincase
+    1-5:  Console.WriteLine("You entered something between 1 and 5")
+    6-9:  Console.WriteLine("You entered something between 6 and 9")
+    10-15:  Console.WriteLine("You entered something between 10 and 15")
+    endcase
+
+    ;;Labeled case - alpha
+    case color of
+    begincase
+    "red":  Console.WriteLine("You entered red")
+    "blue":  Console.WriteLine("You entered blue")
+    "green":  Console.WriteLine("You entered green")
+    endcase
+    else
+        Console.WriteLine("You entered something else")
+
+    ;;Unlabeled case
+    case num of
+    begincase
+        Console.WriteLine("You entered 1")
+        Console.WriteLine("You entered 2")
+        Console.WriteLine("You entered 3")
+    endcase
+```
+
+> #### Output
+> ```
+> You entered 2
+> You entered something between 1 and 5
+> You entered red
+> You entered 2
+> ```
+
 ### USING
 
-The `USING` statement selects a statement for execution from a set based on the evaluation of a control expression against one or more `match_term` conditions. Each `match_term` is evaluated from top to bottom and left to right. Once a match is found, no other conditions are evaluated. The `USING` statement provides more powerful structures than `CASE` and is efficient when using an `i` or `d` control expression and all `match_terms` are compile-time literals.
+The `USING` statement selects a statement for execution from a set based on the evaluation of a control expression against one or more `match_term` conditions. Each `match_term` is evaluated from top to bottom and left to right. Once a match is found, no other conditions are evaluated. The `USING` statement is more efficient than `CASE` when using an `i` or `d` control expression and all `match_terms` are compile-time literals.
+
+```dbl
+record
+    code, a2
+proc
+    code = "AA"
+
+    using code select
+    ('0' thru '9'),
+    begin
+        ;;begin end can be used here
+        Console.WriteLine("matched 0 thru 9")
+    end
+    ('A' thru 'Z'),
+        Console.WriteLine("matched A thru Z")
+    ("99", '$'),
+        Console.WriteLine("matched 99 or $")
+    (.gt.'z'),
+        Console.WriteLine("matched greater than z")
+    (),
+        Console.WriteLine("fell through to the default")
+    endusing
+```
+
+> #### Output
+> ```
+> matched A thru Z
+> ```
 
 ### USING-RANGE
 
-The `USING-RANGE` statement is similar to `USING` but adds a range for the control expression. This allows you to define a range of values within which the control expression is evaluated. If the control expression falls outside the defined range, the compiler generates warnings. The `USING-RANGE` statement builds a dispatch table at compile time and is typically faster than the `USING` statement.
+The `USING-RANGE` statement is similar to `USING` but adds a range for the control expression. This allows you to define a range of values within which the control expression is evaluated. The `USING-RANGE` statement builds a dispatch table at compile time and is typically faster than the `USING` statement.
+
+```dbl
+record
+    month,        int
+    monthName,    a10
+
+proc
+    month = 3   ; Let's assume the month is March
+
+    USING month RANGE 1 THRU 12 SELECT
+    (1),
+        monthName = "January"
+    (2),
+        monthName = "February"
+    (3),
+        monthName = "March"
+    (4),
+        monthName = "April"
+    (%OUTRANGE), 
+        monthName = "wild month"
+    (%INRANGE),  
+        monthName = "shrug"
+    ENDUSING
+
+    Console.WriteLine(monthName)
+```
+
+> #### Output
+> ```
+> March
+> ```
+
+> #### Quiz
+> What does this program output if month = 5 instead of 3?
+> 
+> What does this program output if month = 5555 instead of 3?
 
 ---
 
-Each of these structures is powerful in their own way. The `CASE` statement is straightforward and simple to use, the `USING` statement offers more powerful matching conditions, and the `USING-RANGE` statement provides an efficiency boost when a control expression is evaluated within a predefined range.
+While each of these control flow mechanisms has its uses, in most modern coding scenarios the USING statement tends to be the go-to choice due to its flexibility and powerful matching conditions. Although the `CASE` statement is straightforward and simple to use, it tends to be slower. As it was developed earlier, it is frequently encountered in legacy code. In the other direction, the USING-RANGE statement provides a slight efficiency boost when a control expression is evaluated within a predefined range.
 
-The choice among these options will depend on your specific use case. Factors to consider include the complexity of your matching conditions, the need for a defined range for the control expression, and the importance of execution speed.
+It's important to consider several factors when deciding which structure to use in your specific use case. These include the complexity of your matching conditions, the need for a defined range for the control expression, and the importance of execution speed. However, given its power and versatility, the USING statement will often be a sensible default choice for new code.
 
 ## Loops
 
 The `FOR variable FROM initial THRU final [BY incr]` loop executes the statement as long as the variable's value is within the specified range. The variable's value is incremented by an optional `incr` value (default is 1) after each iteration.
 
-```dbl,ignore,does_not_compile
-for var from initial thru final by 1
-begin
-    ; statement
-end
+```dbl
+record
+        var, i4
+        initial, i4, 0
+        final, i4, 5
+proc
+    for var from initial thru final by 1
+    begin
+        Console.WriteLine(var)
+    end
+
+    for var from 5 thru 7 by 1
+    begin
+        Console.WriteLine(var)
+    end
+
 ```
+
+> #### Output
+> ```
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 5
+> 6
+> 7
+> ```
 
 The `WHILE condition [DO] statement` loop continues as long as the specified condition is true. Once the condition is no longer true, the loop will be exited.
 
@@ -225,9 +366,24 @@ end
 
 The `FOR variable = initial [STEP incr] UNTIL final DO` loop behaves similarly to the `FOR FROM THRU` loop but allows modifications to the final value and increment during the loop's execution.
 
-```dbl
+```dbl,ignore,does_not_compile
 for var = initial step 1 until final do
 begin
     ; statement
 end
 ```
+
+
+### Unconditional Control Flow
+Unconditional control flow in refers to statements that alter the sequential execution of code without evaluating any conditions. These instructions, such as `GOTO`, `EXIT`, `EXITLOOP`, and `NEXTLOOP`, allow the programmer to jump to a specific point in the code or terminate loops prematurely, regardless of any attached conditions. Because these statements don't have their own conditions, they are almost always paired with some kind of `IF`. 
+
+1.  `EXIT [label]`: Use the `EXIT` statement to transfer control to the `END` statement of the current `BEGIN-END` block. If there are nested `BEGIN-END` blocks, you can use an optional label with `EXIT` to specify which block you want to exit. The label corresponds to a label on a `BEGIN` statement.
+
+2.  `GOTO label` or `GOTO(label[, ...]), selector`: `GOTO` is used to redirect execution control to a specific label in your program. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the `GOTO`. You may see the computed goto form in your codebase but should strongly prefer one of the more structured control flow options such as `USING`
+
+3.  `EXITLOOP`: This statement is used to break out of a loop prematurely. When `EXITLOOP` is executed, it terminates the current loop (`DO FOREVER`, `FOR`, `REPEAT`, `WHILE`, etc.) and control is transferred to the statement immediately after the loop.
+
+4.  `NEXTLOOP`: Use `NEXTLOOP` when you want to terminate the current iteration of a loop, but not the entire loop. After executing `NEXTLOOP`, control goes to the next iteration of the current loop (`DO`, `FOR`, `REPEAT`, `WHILE`, etc.).
+
+As a best practice, try to limit the use of `GOTO`, as it can make code difficult to read and maintain. Structured control flow with loops, conditionals, and routine calls is generally preferred. However, `EXIT` and `EXITLOOP` can be very useful for managing control flow, especially when you need to leave a loop or block due to an error condition or when a certain condition is met. `NEXTLOOP` is also a handy tool when you want to skip the current iteration and continue with the next one.
+

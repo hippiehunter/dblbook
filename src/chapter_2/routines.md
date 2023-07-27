@@ -1,9 +1,23 @@
 # Routines
+A function, subroutine or method is a self-contained block of code designed to perform a specific task. The task could be anything, from complex mathematical operations to manipulating data or creating output. Each routine is given a name, and this name is used to call or invoke the routine at different points in a program.
 
-Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular subroutines.
+Routines usually take inputs, known as 'arguments' or 'parameters', and return output(s), or 'return value'. The inputs are values that the routine operates on, and the output is the result of the routine's operation.
 
+One key feature of functions is that they promote reusability and organization in code. If you have a task that needs to be performed multiple times throughout a program, you can define a function for that task and then call the function whenever the task needs to be performed. This helps to reduce repetition and makes the code easier to maintain and understand.
+
+While you may find that a significant portion of your existing application code consists of large routines, opting for smaller, more precise routines over comprehensive 'kitchen sink' ones comes with a host of benefits.
+
+First, smaller routines are generally easier to understand and maintain. Each routine has a specific, well-defined purpose, which can be described by its name and the names of its parameters. When you need to modify a routine or diagnose an issue, you can focus on a smaller amount of code that's specific to one task, rather than having to navigate a larger, more complex routine that handles many tasks.
+
+Second, smaller routines promote code reusability. If a routine performs a single, well-defined task, it's likely that task could be needed elsewhere in your program or even in other programs. By keeping your routines small and focused, you make it easier to reuse your code, reducing duplication and making your overall codebase more efficient.
+
+Third, smaller routines are easier to test. You can write unit tests for each routine that cover its expected behavior, handling of edge cases, and error conditions. This would be far more challenging with a larger routine where different tasks are intertwined.
+
+Lastly, decomposing a problem into smaller parts can often make the problem easier to solve and the solution easier to reason about. It's a form of 'divide and conquer' strategy that's often very effective in programming.
 
 ### Subroutines
+
+Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular subroutines.
 
 An external subroutine, simply referred to as a subroutine, is a separate entity from the routine that calls it. This subroutine can be present in the same source file as the invoking routine or in a different file.
 
@@ -24,6 +38,9 @@ endsubroutine
 
 A subroutine is invoked using the 'xcall' statement. In Traditional DBL, if the first parameter is not an alpha, these subroutines can also be used as functions (i.e., in the form %subroutine). This requires the first argument passed to contain the result of the operation and the subroutine to be declared as an external function in your code.
 
+> #### Implicit stop
+> In Traditional DBL, if a subroutine reaches its end without an 'xreturn' or 'return', it's treated as an implicit 'stop' statement, which results in program termination. This often leads to significant frustration among new developers who are taken aback by this behavior. However, altering this behavior would break backward compatibility for code that relies on it.
+
 ### Local subroutines
 
 A local subroutine resides in the same method, function or subroutine in which it's called. It's located between the 'proc' statement and its corresponding 'end' statement of the calling routine, starting with a label and ending with the 'return' statement. Local subroutines don't accept arguments but share the calling routine's data. This makes local subroutines function much like class members or the captured variables of a lambda in other languages, allowing for data sharing within a scope.
@@ -42,7 +59,7 @@ xcall subroutine(arg1, %function(arguments), arg3)
 
 Functions in DBL can be invoked in a unique manner where the return value is used as an additional argument. For example, a function call that appears as retval = %myRoutine(arg1, arg2) is interpreted by the compiler as xcall myRoutine(retval, arg1, arg2).
 
-Functions are declared using the function statement, followed by data and procedure divisions. The freturn statement is used to terminate the function and return control to the caller.
+Functions are declared using the function statement, followed by data and procedure divisions. The `freturn` statement is used to terminate the function and return control to the caller.
 
 A function name in traditional DBL can technically be up to 255 characters long. However, names longer than 30 characters get truncated upon linking, so it's important to ensure that the first 30 characters are unique.
 
@@ -55,7 +72,7 @@ function fred ,REENTRANT
 
 ```
 
-Here, all unqualified RECORD statements in function fred behave as STACK RECORD statements, disallowing initial values in STACK records.
+Here, all unqualified RECORD statements in function fred behave as STACK RECORD statements.
 
 The VARARGS modifier, which is optional for unprototyped functions and subroutines, is required when you want to pass more arguments than declared while using strong prototypes or running on .NET. We will cover prototyping extensively in a later chapter.
 
@@ -144,7 +161,7 @@ In DBL running on .NET, two familiar mechanisms for passing parameters are used:
 
 * BYREF: This mode is used for objects and passes a reference to the object. This means that if the routine modifies the value, the change is reflected in both the calling and the called routine.
 
-When DBL is running on .NET, arguments that would have been passed by descriptor in Traditional DBL are actually an object handle passed by value. This implementation detail aligns with the .NET framework's standard practice of passing objects handles by value. Because of the semantics of in, out and inout this detail is hidden unless you dig into the guts.
+When DBL is running on .NET, arguments that would have been passed by descriptor in Traditional DBL are actually an object handle passed by value. This implementation detail aligns with .NET's standard practice of passing objects handles by value. Because of the semantics of in, out and inout this detail is hidden unless you dig into the guts.
 
 > #### Mismatch
 > The MISMATCH modifier provides flexibility with weakly typed systems, permitting you to bypass type checking and pass variables of one type as arguments to parameters of a different type without raising a prototype mismatch error.
@@ -158,6 +175,9 @@ When DBL is running on .NET, arguments that would have been passed by descriptor
 > When you're dealing with a MISMATCH alpha parameter and expecting a decimal parameter to be treated as an alpha, ensure to explicitly control the datatype with casting.
 > 
 > In situations where you want to pass a decimal variable to a routine with an alpha parameter and you're not using explicit casting when writing to it, it's not advisable to use MISMATCH alpha. Rather, you should convert the routine to use a numeric parameter and use MISMATCH numeric, along with appropriate casting, when the parameter is used as an alpha.
+
+> TODO Note
+> because of the usefulness in resolving common prototyping errors for legacy code, this is worth an extensive example, most importantly including the unexpected results from a poor mismatch choice vs an un-prototyped mismatched parameter. Also I need a deeper pass over to inject the why around mismatch parameters and maybe reduce some of the bland fluff
 
 #### Optional Vs Default
 Optional parameters and parameters with default values both offer flexibility in function or method invocation. However, their behavior differs when it comes to determining if an argument was passed.
@@ -191,3 +211,6 @@ endmain
 For leading or middle parameters you can put `,` without any argument to indicate this parameter is not passed. You can also do this for trailing arguments but as you can see in the example above you can just omit them entirely.
 
 On the other hand, parameters with a default value are technically always supplied an argument. If no explicit argument is passed in the function call, the default value is used. As a result, ^PASSED will always return true for these parameters, indicating that an argument, even if it's the default one, was provided. This behavior effectively makes these parameters a hybrid between optional and required parameters.
+
+### Methods, Properties, Lambdas, Delegates
+These are function like things and we will describe them in much more detail in the Object Oriented and Functional programming chapters. You've already seen at least one example of a method, `Console.WriteLine` is a static method on a class named `System.Console`.

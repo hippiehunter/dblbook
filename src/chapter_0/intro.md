@@ -9,7 +9,7 @@ What's more, DBL’s extensive support for various file access methods and data 
 ## Naming
 In your journey through DBL, you'll encounter several names for this programming language and its associated tools. This diversity of terminology is an unfortunate side effect of its longevity. Originating from DIBOL, DBL has grown and adapted to accommodate various runtimes and environments.
 
-One crucial aspect of DBL is its standalone runtime, often referred to as Traditional Synergy or Traditional DBL. This standalone variant serves as a comprehensive environment for executing DBL applications independently. The robustness and platform independence offered by Traditional Synergy allow for efficient and reliable operation of DBL software written 40 years ago.
+One crucial aspect of DBL is its standalone runtime, often referred to as Traditional Synergy or Traditional DBL. This standalone variant serves as a comprehensive environment for executing DBL applications independently. The robustness and platform independence offered by Traditional DBL allow for efficient and reliable operation of DBL software written 40 years ago.
 
 Further enhancing DBL's versatility is its ability to compile natively to .NET. This integration, frequently referred to as Synergy.NET or DBL running on .NET, permits seamless interaction with .NET framework and services. This adaptability ensures that DBL applications can leverage the power and scope of .NET's extensive libraries and tools.
 

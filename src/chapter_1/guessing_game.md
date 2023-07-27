@@ -1,7 +1,7 @@
 # Programming a Guessing Game
 
 Let’s jump into DBL by working through a hands-on project together! This
-chapter introduces you to a few common Rust concepts by showing you how to use
+chapter introduces you to a few common concepts by showing you how to use
 them in a real program. You’ll learn about TODO, methods, associated
 functions, and more! In the following chapters, we’ll explore
 these ideas in more detail. In this chapter, you’ll just practice the

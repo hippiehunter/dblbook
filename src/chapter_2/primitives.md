@@ -69,7 +69,7 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type mappin
 
 ## Ownership
 ### Sized declarations
-When declaring one of the following synergy types `a,d,i,id` somewhere that defines a memory layout or owns its own memory you must include a size. Let's consider an example where we define several fields in a `record`.
+When declaring one of the following DBL types `a,d,i,id` somewhere that defines a memory layout or owns its own memory you must include a size. Let's consider an example where we define several fields in a `record`.
 
 ```dbl,ignore,does_not_compile
 record
@@ -85,7 +85,7 @@ This is an implied decimal declaration. The decimal places are implied within th
 
 ### Unsized Declarations
 
-In Synergy DBL, the size of parameters and return types is determined at runtime, rather than being defined during compile time. This means that the size of these variables is based on the actual data that is passed or returned during the execution of your program. 
+The size of parameters and return types is determined at runtime, rather than being defined during compile time. This means that the size of these variables is based on the actual data that is passed or returned during the execution of your program. 
 
 When declaring a field like an alpha (`a`) type within a `record`, `structure`, `group`, or `class`, you would usually specify the size, for example `myFld, a10`. However, for parameter or return type declarations, the size is omitted, and you would declare it simply as `myFld, a`.
 
@@ -148,13 +148,13 @@ endsubroutine
 >    - [ ] i2 and System.Int16
 >    - [ ] i4 and System.Int16
 >    
-> 7. When defining a record, when must you include a size for certain synergy types (a,d,i,id)?
+> 7. When defining a record, when must you include a size for certain DBL types (a,d,i,id)?
 >    - [ ] Only when the fields need to be stored in an array.
 >    - [ ] Only when the fields will be processed in a loop.
->    - [ ] When the fields define a memory layout (most of the time).
+>    - [ ] When the fields define a memory layout ((this is most of the time).
 >    - [ ] When the fields are initialized with a certain value.
 >    
-> 8. In Synergy DBL, when is the size of parameters and non ^VAL return types determined?
+> 8. In DBL, when is the size of parameters and non ^VAL return types determined?
 >    - [ ] At compile time
 >    - [ ] At runtime
 >    - [ ] When they are initialized
