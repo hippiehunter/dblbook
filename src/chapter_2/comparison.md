@@ -14,11 +14,7 @@ Here are the comparison operators:
 Comparing Alphanumeric and String Operands
 -------------------------------------------------
 
-> TODO note
-> 
-> expand the description and create significant examples to demonstrate the nuance of alpha/string comparisons
-
-When you are comparing alphanumeric (`alpha`) operands or `System.String` operands, it's essential to understand their differences. `==` is translated to mean `.EQS.` when both operands are `alpha` but `.EQ.` otherwise. 
+When you are comparing alphanumeric (`alpha`) operands or `System.String` operands, it's essential to understand their differences. `==` is translated to mean `.EQ.` when both operands are `alpha` but `.EQS.` if one of the operands is a `System.String`. 
 
 ### Alphanumeric Comparisons
 
@@ -45,3 +41,48 @@ Ternary Operator
 ---------------------------
 
 The ternary operator (`?:`) that takes three operands: a condition, a result for when the condition is true, and a result for when the condition is false. The syntax is `condition ? result_if_true : result_if_false`. The two possible results must be of compatible types.
+
+Here's a few example expressions, notice from the output that true is 1 and false is 0:
+
+```dbl
+proc
+    ;;alpha comparisons
+    Console.WriteLine("ABCDEF" .eq. "ABC")
+    Console.WriteLine("ABCDEF" .eq. "ABD")
+    Console.WriteLine("ABCDEF" .eq. "abc")
+
+    ;;string style comparisons
+    Console.WriteLine("ABCDEF" .eqs. "ABC")
+    Console.WriteLine("ABCDEF" .eqs. "ABCDEF")
+    Console.WriteLine("ABCDEF" .eqs. "abcdef")
+    Console.WriteLine("ABCDEF" .eqs. "FEDCBA")
+
+    Console.WriteLine(5 > 8)
+    Console.WriteLine(5 < 8)
+
+    Console.WriteLine(true && false)
+    Console.WriteLine(true && true)
+
+    Console.WriteLine(true || false)
+    Console.WriteLine(true || true)
+
+    Console.WriteLine(5 > 8 ? "how did this happen" : "everything normal")
+```
+
+> #### Output
+> ```
+> 1
+> 0
+> 0
+> 0
+> 1
+> 0
+> 0
+> 0
+> 1
+> 0
+> 1
+> 1
+> 1
+> everything normal
+> ```

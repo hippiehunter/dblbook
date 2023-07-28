@@ -5,15 +5,21 @@ Now, let's look at the various types of literals:
 
 #### Alpha Literals
 
-An alpha literal is essentially a string of characters, enclosed in either single or double quotation marks, and can be up to 255 characters long. For example:
-```
-'This is an ALPHA literal'
-"This is also an ALPHA literal"
-```
+An alpha literal in DBL is essentially a string of characters. These characters are enclosed in either single or double quotation marks and can be up to 255 characters long. For example:
 
-If you need to include a quotation mark within an alpha literal, you must use two successive quotation marks. However, if the embedded character is different from the ones delimiting the literal, no such doubling is required.
+`'This is an ALPHA literal'
+"This is also an ALPHA literal"`
 
-You may also split an alpha literal into smaller parts, with the DBL compiler concatenating these parts if separated by blanks and tabs. Remember that alpha literals are case sensitive.
+In order to include a quotation mark within an alpha literal, you must use two successive quotation marks. However, if the embedded character is different from the ones delimiting the literal, you don't need to double it.
+
+For example:
+
+`"This is an ""embedded"" quotation mark"
+'This is an "embedded" quotation mark'`
+
+You can also split an alpha literal into smaller parts, and the DBL compiler will concatenate these parts if they are separated by blanks and tabs. Note that alpha literals are case sensitive.
+
+It's important to remember that DBL does not support the C-style escape sequences found in some other languages. For instance, where in C or C# you might use `\r\n` to represent carriage return and newline, in DBL you would use `+ %char(13) + %char(10)`. So, to concatenate the words "hello" and "world" with a newline in between, you would write it as `"hello" + %char(13) + %char(10) + "world"`.
 
 #### Decimal Literals
 

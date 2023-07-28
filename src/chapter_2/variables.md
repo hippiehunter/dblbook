@@ -12,9 +12,9 @@ Records and groups in DBL can be declared with different storage specifiers: sta
 
 'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered and deallocated when that scope is exited.
 
-'Static' variables have a unique characteristic. There's exactly one instance of the variable that is shared throughout the entire program, similar to global variables. Once initialized, they retain their value until the program ends, allowing data to persist between function calls.
+'Static' variables have a unique characteristic. There's exactly one instance of the variable that is across all invocations of their defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls.
 
-'Local' variables, meanwhile, behave similarly to static variables in that they are shared across the program. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced computers had significantly less ram and local variables were flexible choice for large data structures. There is no reason to use them today.
+'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced computers had significantly less ram and local variables were flexible choice for large data structures. There is no reason to use them today.
 
 ### Common and Global Data Section (GDS)
 

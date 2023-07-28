@@ -1,5 +1,4 @@
 # Primitive  Types
-## Basic Data Types in DBL
 
 ### Alpha
 

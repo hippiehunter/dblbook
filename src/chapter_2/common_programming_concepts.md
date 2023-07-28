@@ -6,3 +6,6 @@ In particular, we will explore variables, basic data types, routines, comments, 
 
 > #### Keywords
 > Unlike many other languages, DBL primarily doesn't use keywords for features existing before its ninth version. This allows you to use terms typically reserved in other languages as variable or function names in DBL. While newer versions have introduced some reserved words, much of DBL's core functionality doesn't rely on specific keywords. If you're used to other languages, this might seem unusual, but it's part of DBL's design. 
+>
+> #### Case sensitivity
+> DBL is mostly case insensitive. so while you may see keywords or identifiers shown in all UPPER CASE the compiler will treat the identifier upPPeR_cASe identically to UPPER_CASE. The only time DBL is case sensitive is when calling OO things or when it needs to decide between two ambiguous identifiers.

@@ -90,7 +90,7 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 ### Defining Subroutines and Functions
 > #### Function
 > ```dbl,ignore,does_not_compile
-> [access] [function_mod ...] FUNCTION name[, return_type[size]][, options, ...]
+> [access] [function_mod ...] FUNCTION name[, return_type][, option, ...]
 >    parameter_def
 >    .
 >    .
@@ -111,7 +111,7 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 
 #### Common between functions and subroutines
 
-* access (optional): Sets access levels when defined inside a class. Options include PUBLIC, PROTECTED, PRIVATE, INTERNAL, and PROTECTED INTERNAL. More details in the chapter about objects.
+* access (optional): Sets access levels when defined inside a class. Options include PUBLIC, PROTECTED, PRIVATE, INTERNAL, and PROTECTED INTERNAL. More details in TODO.
 
 * function_mod / subroutine_mod (optional, DBL on .NET only)
   * STATIC: Accessed without a reference object.
@@ -213,4 +213,4 @@ For leading or middle parameters you can put `,` without any argument to indicat
 On the other hand, parameters with a default value are technically always supplied an argument. If no explicit argument is passed in the function call, the default value is used. As a result, ^PASSED will always return true for these parameters, indicating that an argument, even if it's the default one, was provided. This behavior effectively makes these parameters a hybrid between optional and required parameters.
 
 ### Methods, Properties, Lambdas, Delegates
-These are function like things and we will describe them in much more detail in the Object Oriented and Functional programming chapters. You've already seen at least one example of a method, `Console.WriteLine` is a static method on a class named `System.Console`.
+These are function like things and we will describe them in much more detail in chapters TODO. You've already seen at least one example of a method, `Console.WriteLine` is a static method on a class named `System.Console`.

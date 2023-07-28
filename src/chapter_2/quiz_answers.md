@@ -75,7 +75,7 @@
 7. When defining a record, when must you include a size for certain dbl types (a,d,i,id)?
    - [ ] Only when the fields need to be stored in an array.
    - [ ] Only when the fields will be processed in a loop.
-   - [x] When the fields define a memory layout (most of the time).
+   - [x] When the fields define a memory layout (this is most of the time).
    - [ ] When the fields are initialized with a certain value.
    
 8. In DBL, when is the size of parameters and non ^VAL return types determined?
@@ -96,3 +96,33 @@
       - shrug
     - What does this program output if month = 5555 instead of 3?
       - "wild month"
+
+   1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
+      - [ ] The statement to be executed when the condition is true.
+      - [x] The statement to be executed when the condition is false.
+      - [ ] The condition to be checked after the initial condition is checked.
+      - [ ] The default statement that is always executed.
+
+   2. In an IF construct, are parentheses around the condition required?
+      - [ ] Yes, the condition must always be enclosed in parentheses.
+      - [ ] Yes, but only when using the ELSE IF clause.
+      - [x] No, parentheses can improve readability but are entirely optional.
+      - [ ] No, parentheses are not allowed in the IF construct.
+
+   3. Which statement about `THEN` in DBL is correct?
+      - [ ] `THEN` is always required in IF and ELSE IF statements.
+      - [ ] `THEN` is only required in IF statements.
+      - [ ] `THEN` is never required in DBL.
+      - [x] `THEN` is required if another `ELSE` or `ELSE-IF` will follow but it is not allowed on the last one.
+
+   4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in the DBL programming language?
+      - [ ] `IF`, `ELSE IF`, `ELSE`
+      - [x] `USING`, `CASE`
+      - [ ] `FOR`, `WHILE`
+      - [ ] `BEGIN`, `END`
+
+   5. What is the purpose of the `ELSE` clause in a `CASE` control flow statement?
+      - [ ] It provides a condition to be checked if no prior conditions have been met.
+      - [ ] It acts as the default case that is always executed.
+      - [x] It specifies a block of code to be executed if no case labels match the value of the switch expression.
+      - [ ] It causes the program to exit the `CASE` statement if no match is found.

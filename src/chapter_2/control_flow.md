@@ -236,6 +236,8 @@ It's important to consider several factors when deciding which structure to use 
 
 ## Loops
 
+Loops are foundational constructs used to automate and repeat tasks a certain number of times, or until a specific condition is met. The `for` loop is typically utilized when the exact number of iterations is known beforehand, whereas `while` and `do-while` loops are more suitable when the iterations depend on certain conditions. `foreach` is used to improve readability when operating over a collection or dynamic array. However, there are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative to loops that can be more intuitive for certain tasks, such as traversing tree-like data structures. Recursion may lead to higher memory usage and potential stack overflow errors if not implemented correctly. Furthermore, earlier, less-structured looping mechanisms like the `goto` statement were used to jump to different points in the code. While goto provides a great degree of freedom, it often leads to "spaghetti code," which is hard to read and maintain due to its lack of structure.
+
 The `FOR variable FROM initial THRU final [BY incr]` loop executes the statement as long as the variable's value is within the specified range. The variable's value is incremented by an optional `incr` value (default is 1) after each iteration.
 
 ```dbl
@@ -386,4 +388,37 @@ Unconditional control flow in refers to statements that alter the sequential exe
 4.  `NEXTLOOP`: Use `NEXTLOOP` when you want to terminate the current iteration of a loop, but not the entire loop. After executing `NEXTLOOP`, control goes to the next iteration of the current loop (`DO`, `FOR`, `REPEAT`, `WHILE`, etc.).
 
 As a best practice, try to limit the use of `GOTO`, as it can make code difficult to read and maintain. Structured control flow with loops, conditionals, and routine calls is generally preferred. However, `EXIT` and `EXITLOOP` can be very useful for managing control flow, especially when you need to leave a loop or block due to an error condition or when a certain condition is met. `NEXTLOOP` is also a handy tool when you want to skip the current iteration and continue with the next one.
+
+
+> #### Quiz
+> 1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
+>    - [ ] The statement to be executed when the condition is true.
+>    - [ ] The statement to be executed when the condition is false.
+>    - [ ] The condition to be checked after the initial condition is checked.
+>    - [ ] The default statement that is always executed.
+> 
+> 2. In an IF construct, are parentheses around the condition required?
+>    - [ ] Yes, the condition must always be enclosed in parentheses.
+>    - [ ] Yes, but only when using the ELSE IF clause.
+>    - [ ] No, parentheses can improve readability but are entirely optional.
+>    - [ ] No, parentheses are not allowed in the IF construct.
+> 
+> 3. Which statement about `THEN` in DBL is correct?
+>    - [ ] `THEN` is always required in IF and ELSE IF statements.
+>    - [ ] `THEN` is only required in IF statements.
+>    - [ ] `THEN` is never required in DBL.
+>    - [ ] `THEN` is required if another `ELSE` or `ELSE-IF` will follow but it is not allowed on the last one.
+> 
+> 4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in the DBL programming language?
+>    - [ ] `IF`, `ELSE IF`, `ELSE`
+>    - [ ] `USING`, `CASE`
+>    - [ ] `FOR`, `WHILE`
+>    - [ ] `BEGIN`, `END`
+> 
+> 5. What is the purpose of the `ELSE` clause in a `CASE` control flow statement?
+>    - [ ] It provides a condition to be checked if no prior conditions have been met.
+>    - [ ] It acts as the default case that is always executed.
+>    - [ ] It specifies a block of code to be executed if no case labels match the value of the switch expression.
+>    - [ ] It causes the program to exit the `CASE` statement if no match is found.
+
 

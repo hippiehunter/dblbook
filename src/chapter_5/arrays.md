@@ -71,7 +71,7 @@ Dynamic arrays provide a structure for storing multiple values of the same type,
 
 Dynamic arrays are not limited to storing simple data types such as integers or characters; they can also store complex data types like structures or classes. 
 
-Regardless of what platform you're running on, dynamic arrays support various operations for data manipulation and retrieval. These include methods like `Clear()`, `IndexOf()`, `LastIndexOf()`, and `Copy()`, which clear the contents, find an element, find the last matching element, and copying, respectively. The `Length` property can be used to get the current size of the array. When running on .NET you have access to the remainder of the `System.Array` properties and methods.
+Regardless of what platform you're running on, dynamic arrays support various operations for data manipulation and retrieval. These include methods like `Clear()`, `IndexOf()`, `LastIndexOf()`, and `Copy()`, which clear the contents, find an element, find the last matching element, and copying, respectively. The `Length` property can be used to get the current size of the array. Dynamic arrays can be iterated over one element at a time using the foreach loop. When running on .NET you have access to the remainder of the `System.Array` properties and methods.
 
 Using dynamic arrays in DBL can make your code more flexible and efficient, as it allows you to handle varying data quantities without the need for manual memory management using `^m` or huge static arrays.
 
