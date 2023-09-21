@@ -61,7 +61,7 @@ proc
 > ```
 
 ### Alpha to String
-Directly assigning an alpha to a string may not yield the desired results, as whitespace behaves differently in strings and alphas. In strings, whitespace is significant, while in alphas it's generally ignored. Therefore, if you assign an alpha to a string as in string_var = a500Var, you'll get a 500-character-long string, even if its all whitespace. To circumvent this and ignore leading whitespace, use `string_var = %atrimtostring(a500var)`
+Directly assigning an alpha to a string may not yield the desired results, as whitespace behaves differently in strings and alphas. In strings, leading whitespace is significant, while in alphas it's generally ignored. Therefore, if you assign an alpha to a string as in string_var = a500Var, you'll get a 500-character-long string, even if its all whitespace. To circumvent this and ignore leading whitespace, use `string_var = %atrimtostring(a500var)`
 
 ### Alpha to Numeric
 The process of assigning an alpha to a numeric destination involves several steps:

@@ -14,6 +14,10 @@ Common string operations include:
 -   Case Conversion: Changing a string to all upper-case or all lower-case letters.
 -   Comparison: Checking if strings are identical or determining their alphabetical order.
 
+> ### TODO Note
+> include when to use LOCALIZE, INSTR, LOCASE, UPCASE, %STRING, %ATRIM, %ATRIMTOSTRING, %ATRIMZ, TRIM vs ATRIM, %CHAR, %UCHAR, make note of ranging in the advanced_memory_managment chapter 
+
+
 An important thing to note is that `System.String` is "immutable," meaning they can't be changed once created. Any operation that seems to modify a `System.String` is actually creating a new one. Also, since `System.String` is an object, it can't be included directly in a record or structure meant for writing to disk or network transmission. While it's possible to perform these operations, extra coding is required due to the object's non-fixed size at compile time.
 
 `System.String` can be treated as a collection of characters. In .NET these are a Fixed width 16bit character set commonly referred to as UTF-16 but the actual implementation is an earlier variant UCS-2. In Traditional DBL `System.String` is made up of 8bit characters. Because `System.String` is a collection, it means you can index into it or iterate over it using a foreach loop.

@@ -33,3 +33,37 @@ On the other hand, the `##` operator allows for true rounding (rounding without 
 3.  If the round value is negative, rounding begins "round value + 1" places to the right of the decimal point. For example, if the round value is -1, rounding begins two places to the right of the decimal point.
 4.  The resulting data type is always decimal.
 
+### Examples
+The following examples demonstrate the use of the `#` and `##` operators:
+
+```dbl
+record
+        tmpdec, d9, 12345
+proc
+    Console.writeLine(%string(12345.6789 ## 3))
+    Console.writeLine(%string(12345.6789 ## 1))
+    Console.writeLine(%string(12345.6789 ## 30))
+
+    Console.writeLine(%string(12345.6789 ## -3))
+    Console.writeLine(%string(12345.6789 ## -1))
+    Console.writeLine(%string(12345.6789 ## -30))
+
+    Console.writeLine(%string(tmpdec # 3))
+    Console.writeLine(%string(tmpdec # 1))
+    ;;fails with DBR-E-RNDVAL, Invalid round value:  30
+    Console.writeLine(%string(tmpdec # 30))
+```
+
+> #### Output
+> ```
+> 12000
+> 12350
+> 0
+> 12345.679
+> 12345.7
+> 12345.6789
+> 12
+> 1235
+> 
+> %DBR-E-RNDVAL, Invalid round value:  30
+> ```

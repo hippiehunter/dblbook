@@ -40,7 +40,7 @@ In addition to comparison operators, we have Boolean operators. They compare the
 Ternary Operator
 ---------------------------
 
-The ternary operator (`?:`) that takes three operands: a condition, a result for when the condition is true, and a result for when the condition is false. The syntax is `condition ? result_if_true : result_if_false`. The two possible results must be of compatible types.
+The ternary operator, also known as the conditional operator, is a concise way to perform simple if-else logic in a single line of code. It is called 'ternary' because it takes three operands: a condition, a result for when the condition is true, and a result for when the condition is false. The general syntax is condition ? result_if_true : result_if_false. This operator is incredibly useful for simplifying code when assigning a value to a variable based on a condition. It can make the code more readable by reducing the need for more verbose control structures, especially in situations where the control flow logic is straightforward. However, caution should be taken not to overuse the ternary operator or use it in overly complex expressions, as it can lead to code that is difficult to read and understand. Always consider the balance between brevity and clarity in your code.
 
 Here's a few example expressions, notice from the output that true is 1 and false is 0:
 
