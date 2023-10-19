@@ -26,6 +26,8 @@ Comments can also be placed at the end of lines containing code:
 Console.WriteLine("Hello World") ;this is a comment
 ```
 
+> TODO: add a section describing common patterns in dbl codebases. Routine top comments and the usage as a change log. make suggestions on what to do going forward.
+
 ## Doc Comments
 
 When compiling for .NET, similar to XML documentation in C#, triple semicolons `;;;` are used to create documentation comments. These are special kind of comments that can be processed by a documentation generator to produce software documentation. They are typically placed immediately before the code statement they are annotating.

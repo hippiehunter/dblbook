@@ -48,6 +48,9 @@ The compiler removes nonsignificant leading or trailing zeros before processing.
 In DBL, you can't directly write integer literals like you would with alpha, decimal, or implied-decimal literals. However, when a decimal literal is part of an arithmetic expression with an integer variable, the compiler generates an integer literal in the code.
 
 #### Literal definition
+
+> #### Note this is a weird failed concept, you dont need to keep doing it 
+
 The *literal* declaration allows you to define a local, read-only data structure that cannot be altered during the execution of the program. The companion statement *endliteral* marks the conclusion of this declaration.
 
 You can declare a literal within a routine. Depending on your needs, a literal can be either *global*, which results in the allocation of data space, or *external*, which simply references the data space. The fields within an *external literal* map to the data in the corresponding *global literal* based on matching field names. If you do not specify either *global* or *external*, the literals are added to the local literal space.

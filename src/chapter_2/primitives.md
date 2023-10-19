@@ -1,5 +1,13 @@
 # Primitive  Types
 
+> ### notes
+> rework this section
+
+Static typing + weak typing = descriptors
+Signed vs unsigned
+Why synergy applications dont use floating point
+Overflow, truncation, misuse of data (math on an alpha)
+
 ### Alpha
 
 An alpha value (`a`, `a*`, `asize`) is a sequence of printable ASCII characters treated as a single information unit. 

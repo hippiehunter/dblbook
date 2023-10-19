@@ -1,5 +1,5 @@
 # Anti-Patterns
-
+TODO: break this out into its own chapter. Include additional patterns and provide more concrete examples to identify, understand the costs and remediate them.
 
 ### Big Ball Of Mud
 The "big ball of mud" is a term used in software engineering to describe a system that lacks a discernible architecture. It is often considered an anti-pattern, representing a codebase that has grown haphazardly and chaotically over time, resulting in a monolithic structure where everything is entwined into a single, tightly-coupled entity. This often occurs when rapid growth and immediate functionality are prioritized over sustainable design and future scalability.

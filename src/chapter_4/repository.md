@@ -2,7 +2,7 @@
 
 
 ### A Data Dictionary
-A data dictionary is a centralized repository of information about data, detailing the description, structure, relationships, usage, and regulations surrounding them. Think of it as a "metadata container", providing developers, database administrators, and other stakeholders a comprehensive overview of data items in a system. Repository is the DBL version of a data dictionary.
+A data dictionary is a centralized repository of information about data, detailing the description, structure, relationships, usage, and regulations surrounding them. Think of it as a "metadata container", providing developers, database administrators, and other key participants a comprehensive overview of data items in a system. Repository is the DBL version of a data dictionary.
 
 A typical repository contains entries for each data element or database object and may include its name, type, permissible values, default values, constraints, and description. Iit may also include details about primary keys, foreign keys, indexes, and relationships between structures.
 
