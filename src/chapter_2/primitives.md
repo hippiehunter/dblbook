@@ -24,7 +24,6 @@ proc
 endsubroutine
 ```
 
-```
 > #### Output
 > ```
 > 5

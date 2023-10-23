@@ -1,43 +1,42 @@
 # Exceptions
 
 1. **Understanding Exceptions:**
-   - Exceptions are runtime errors or unexpected conditions encountered by the program. In structured languages like DBL or C#, exceptions disrupt the normal flow of an application. This could be anything from attempting to open a file that doesn't exist, to trying to read beyond the end of an array.
+Exceptions are runtime errors or unexpected conditions encountered by the program. In structured languages like DBL or C#, exceptions disrupt the normal flow of an application. This could be anything from attempting to open a file that doesn't exist, to trying to read beyond the end of an array.
 
-2. **The Try-Catch-Finally Structure:**
-   - Exception handling is typically implemented using a try-catch-finally block. The "try" block contains code that might potentially cause an exception. The "catch" block is where you handle the exception, and the "finally" block contains code that is always executed, whether an exception occurs or not.
-   - Here's how it's typically structured:
-     ```
-     try
-     begin
-       ;; Code that may cause an exception
-     end
-     catch (ex, @ExceptionType)
-     begin
-       ;; Code to handle the exception
-       ;; 'ex' is the caught exception object
-     end
-     finally
-     begin
-       ;; Cleanup code that always runs
-     end
-     endtry
-     ```
-     In DBL, the structure will be similar, but the syntax might slightly differ, particularly in the declaration of the exception type and the block delimiters.
+1. **The Try-Catch-Finally Structure:**
+Exception handling is typically implemented using a try-catch-finally block. The "try" block contains code that might potentially cause an exception. The "catch" block is where you handle the exception, and the "finally" block contains code that is always executed, whether an exception occurs or not.
+Here's how it's typically structured:
+```
+try
+begin
+  ;; Code that may cause an exception
+end
+catch (ex, @ExceptionType)
+begin
+  ;; Code to handle the exception
+  ;; 'ex' is the caught exception object
+end
+finally
+begin
+  ;; Cleanup code that always runs
+end
+endtry
+```
 
-3. **Catching Specific Exceptions:**
-   - It's considered good practice to catch specific exceptions rather than a general exception, as this allows more fine-grained error handling. You can have multiple "catch" blocks to handle different types of exceptions specifically.
+1. **Catching Specific Exceptions:**
+It's considered good practice to catch specific exceptions rather than a general exception, as this allows more fine-grained error handling. You can have multiple "catch" blocks to handle different types of exceptions specifically.
 
-4. **The Exception Object:**
-   - When an exception is caught, information about the nature of the error is encapsulated in an exception object (denoted as `ex` in the catch block above). This object can contain several properties that you can use to understand the error better, such as the cause of the exception, the stack trace, and more.
+1. **The Exception Object:**
+When an exception is caught, information about the nature of the error is encapsulated in an exception object (denoted as `ex` in the catch block above). This object can contain several properties that you can use to understand the error better, such as the cause of the exception, the stack trace, and more.
 
-5. **The Finally Block:**
-   - The "finally" block is optional but important for resource management. Code within this block will always run, regardless of whether an exception was thrown. This characteristic makes it the ideal location for cleanup code, such as closing file streams or releasing any resources that were locked.
+1. **The Finally Block:**
+The "finally" block is optional but important for resource management. Code within this block will always run, regardless of whether an exception was thrown. This characteristic makes it the ideal location for cleanup code, such as closing file streams or releasing any resources that were locked.
 
-6. **Throwing Exceptions:**
-   - Apart from handling exceptions, you can also throw your own exceptions using the `throw` keyword when you detect an unrecoverable state in your program. You can either throw a pre-defined system exception or a custom exception that you define.
+1. **Throwing Exceptions:**
+Apart from handling exceptions, you can also throw your own exceptions using the `throw` keyword when you detect an unrecoverable state in your program. You can either throw a pre-defined system exception or a custom exception that you define.
 
-7. **Custom Exceptions:**
-   - If the predefined system exceptions aren't sufficient, you can define your own exception classes. These are particularly useful to indicate specific errors that are unique to your application's business logic.
+1. **Custom Exceptions:**
+If the predefined system exceptions aren't sufficient, you can define your own exception classes. These are particularly useful to indicate specific errors that are unique to your application's business logic.
 
 Exception handling is about maintaining control over an application when abnormal conditions occur. It prevents the application from terminating abruptly, allowing it to handle the error gracefully, which might include informing the user, logging the error for future analysis, or gently shutting down the process. Remember, while it's important to catch exceptions, overuse of exception handling can lead to code that's difficult to understand and maintain. As a rule of thumb, use exceptions for exceptional conditions, not the normal flow of control. Below, I'll outline two scenarios: one where using exceptions is almost universally considered appropriate, and another where avoiding exceptions is a better choice.
 
