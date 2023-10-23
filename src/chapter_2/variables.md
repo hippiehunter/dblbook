@@ -66,7 +66,7 @@ However, on the flip side, type inference can make refactoring more risky. Chang
 > If a routine return value is of type 'a', 'd', or 'id', the compiler will not be able to infer the data type for initial value expressions. In contrast, data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
 
 > #### Traditional DBL note
-> `data` declarations must be contained in at least one `begin-end` scope, this restriction doesnt exist in DBL running on .NET
+> `data` declarations must declared at the top of a `begin-end` scope, this restriction doesnt exist in DBL running on .NET
 
 Here's an example showing the basics of data declarations.
 
@@ -82,6 +82,9 @@ proc
             data just_typed, int
             just_typed = 5
             Console.WriteLine(explicitly_typed_inited)
+            ;;in Traditional DBL the following line would be an error if it wasnt commented
+            ;;See the note above about data declaration restrictions in Traditional DBL
+            ;;data another_declaration, a10, "hello data"
         end
     end
 ```

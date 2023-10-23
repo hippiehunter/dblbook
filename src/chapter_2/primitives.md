@@ -1,12 +1,47 @@
 # Primitive  Types
 
-> ### notes
-> rework this section
+In DBL, weakly typed descriptor types like alpha, decimal, implied decimal and integer are not bound by strict data type constraints. This wasn't really done on purpose, it would be more accurate to say that in the days of single pass compilers and very limited memory it was not possible to enforce strong typing. This weak typing means that variables declared with these types can be assigned a range of values or even manipulated in ways typically restricted in strongly-typed systems. However, while this allows very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It's possible to tell the modern DBL compiler to enforce strong typing but it requires well organized projects an a few compiler switches to be set. 
 
-Static typing + weak typing = descriptors
-Signed vs unsigned
-Why synergy applications dont use floating point
-Overflow, truncation, misuse of data (math on an alpha)
+Consider an example where a routine is expecting an alpha parameter but a caller instead passes a decimal. In a strongly typed language, this would result in a compile-time error. Depending on your compiler switches, in Traditional DBL the compiler will allow that decimal to be passed in. At runtime there may be no ill effects but it will depend on what the value was. A negative number would result in a strange alpha while a positive number would look the same as if the caller of the routine had passed the correct type. 
+
+```dbl
+proc
+    xcall test_parameters(5, "5", 5)
+    xcall test_parameters(-5, " 5", -5)
+    xcall test_parameters(0, "p5zdfsdf", 0)
+endmain
+
+
+subroutine test_parameters
+    param1, a
+    param2, d
+    param3, n
+proc
+    Console.WriteLine(param1)
+    Console.WriteLine(%string(param2 + 5))
+    Console.WriteLine(%string(param3 + 5))
+    xreturn
+endsubroutine
+```
+
+```
+> #### Output
+> ```
+> 5
+> 10
+> 10
+> u
+> 10
+> 0
+> 0
+> -5:46341
+> 5
+> %DBR-S-STPMSG, STOP
+> ```
+
+You can see from the 'u' and '-5:46341' outputs that this wouldn't be a good idea in a real program. You are likely to encounter code not too dissimilar to this in legacy DBL programs but it's very unlikely that it will manifest in this obvious way. Because of the age and relative stability of most DBL codebases it's more likely that there is some rarely taken code path that is not being tested and is almost never seen in production.
+
+DBL can also enforce a more rigid type system, as seen with the "string" type in DBL or languages like C#. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. Developers must perform explicit type conversions and cannot rely on the language to coerce types implicitly, leading to more predictable yet verbose code.
 
 ### Alpha
 
@@ -22,57 +57,19 @@ An alpha value (`a`, `a*`, `asize`) is a sequence of printable ASCII characters 
 > - 32,767 characters in OpenVMS
 > - 2,147,483,647 characters in all other platforms
 
-### Boolean
-
-A boolean data type represents a true/false value, defaulting to false.
-
-### Byte
-
-In Traditional DBL, byte represents an eight-bit signed integer (`i1`), whereas in DBL on .NET, it's an eight-bit unsigned integer mapping to the .NET System.Byte structure. The default byte value is 0.
-
-### Char
-
-In Traditional DBL, char is a 16-bit numeric value (C# char), allowing a DBL program to write records read by C# programs.
-
 ### Decimal and Implied-decimal
 
-The `d`, `d*`, and `dsize` types represent decimal data, signed whole numbers consisting of ASCII numeric characters. The `d.`, `dsize.precision`, and `decimal` types represent implied decimal data, signed numbers with a whole number part and fractional precision.
+Decimal (`d`, `d*`, `dsize`) and implied-decimal (`d.`, `dsize.precision`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
 
-### Double
-
-In DBL on .NET, double is a value type mapping to the .NET System.Double structure, defaulting to 0.0. It's not recommended for Traditional DBL.
-
-### Float
-
-In DBL on .NET, float maps to the .NET System.Single structure, defaulting to 0.0. It's not recommended for Traditional DBL.
+In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule per operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
 
 ### Integer
 
 An integer (`i`, `i*`, `i1`, `i2`, `i4`, and `i8`) is a byte-oriented, binary representation of a signed whole number. The integer value depends on its usage and can be a value type or descriptor type. 
 
-### IntPtr and UIntPtr (DBL on .NET only)
-
-The .NET System.IntPtr and System.UIntPtr are unsigned integers of native size, depending on the platform.
-
-### Long
-
-In Traditional DBL, long maps to `i8`. In DBL on .NET, it's a value type mapping to System.Int64, defaulting to 0.
-
 ### Numeric
 
-Numeric types (`n` and `n.`) define numeric parameters that can pass any of the numeric data types: decimal, packed, or integer (for `n`), and implied decimal or implied packed (for `n.`).
-
-### Packed and Implied-packed
-
-Data in packed or implied-packed form (`p`, `psize`, `p.`, or `psize.precision`) is stored as two digits per byte, plus an extra byte for the sign. This data type is uncommon and can usually be migrated to decimal and implied decimal without significant trouble.
-
-### Sbyte
-
-In Traditional DBL, sbyte maps to an `i1`. In DBL on .NET, it represents an eight-bit signed integer, mapping to the .NET System.Sbyte structure, defaulting to 0.
-
-### Short
-
-In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type mapping to System.Int16, defaulting to 0.
+Numeric types (`n` and `n.`) define numeric parameters that can pass any of the numeric data types: decimal, packed, or integer (for `n`), and implied decimal or implied packed (for `n.`). Its not possible to declare a numeric field, only a parameter or return type.
 
 ## Ownership
 ### Sized declarations
@@ -116,6 +113,48 @@ endsubroutine
 > ```
 > 13
 > ```
+
+## Less common types
+
+### Packed and Implied-packed
+
+Data in packed or implied-packed form (`p`, `psize`, `p.`, or `psize.precision`) is stored as two digits per byte, plus an extra byte for the sign. This data type is uncommon and can usually be migrated to decimal and implied decimal without significant trouble.
+
+### Boolean
+
+A boolean data type represents a true/false value, defaulting to false.
+
+### Byte
+
+In Traditional DBL, byte represents an eight-bit signed integer (`i1`), whereas in DBL on .NET, it's an eight-bit unsigned integer mapping to the .NET System.Byte structure. The default byte value is 0.
+
+### Char
+
+In Traditional DBL, char is a 16-bit numeric value (C# char), allowing a DBL program to write records read by C# programs.
+
+### Double
+
+In DBL on .NET, double is a value type mapping to the .NET System.Double structure, defaulting to 0.0. It's not recommended for Traditional DBL.
+
+### Float
+
+In DBL on .NET, float maps to the .NET System.Single structure, defaulting to 0.0. It's not recommended for Traditional DBL.
+
+### IntPtr and UIntPtr (DBL on .NET only)
+
+The .NET System.IntPtr and System.UIntPtr are unsigned integers of native size, depending on the platform.
+
+### Long
+
+In Traditional DBL, long maps to `i8`. In DBL on .NET, it's a value type mapping to System.Int64, defaulting to 0.
+
+### Sbyte
+
+In Traditional DBL, sbyte maps to an `i1`. In DBL on .NET, it represents an eight-bit signed integer, mapping to the .NET System.Sbyte structure, defaulting to 0.
+
+### Short
+
+In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type mapping to System.Int16, defaulting to 0.
 
 
 > #### Quiz
