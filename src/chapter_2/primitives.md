@@ -40,7 +40,7 @@ endsubroutine
 
 You can see from the 'u' and '-5:46341' outputs that this wouldn't be a good idea in a real program. You are likely to encounter code not too dissimilar to this in legacy DBL programs but it's very unlikely that it will manifest in this obvious way. Because of the age and relative stability of most DBL codebases it's more likely that there is some rarely taken code path that is not being tested and is almost never seen in production.
 
-DBL can also enforce a more rigid type system, as seen with the "string" type in DBL or languages like C#. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. Developers must perform explicit type conversions and cannot rely on the language to coerce types implicitly, leading to more predictable yet verbose code.
+DBL can also enforce a more rigid type system, as seen with the "string" type. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. Developers must perform explicit type conversions and cannot rely on the language to coerce types implicitly, leading to more predictable yet verbose code.
 
 ### Alpha
 
