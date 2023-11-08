@@ -161,6 +161,27 @@ endnamespace
 
 In this code:
 
+```svgbob
+Before Exception:
++-----------------+
+| ProcessFile     | <- Top of the stack
++-----------------+
+| ValidateFilePath|
++-----------------+
+| ReadFile        |
++-----------------+
+
+During Stack Unwinding:
++-----------------+
+| ProcessFile     | <- Exception caught here, unwinding stops
++-----------------+
+| (Unwinding...)  | <- Stack is unwinding, leaving ReadFile
++-----------------+
+| ReadFile        | <- NoFileFoundException thrown here
++-----------------+
+```
+
+
 1. `ProcessFile` method is called to start the file processing.
 2. Inside `ProcessFile`, `ValidateFilePath` is first called to check the validity of the file path.
 3. Next, `ReadFile` is called to read the file content, but let's assume the file doesn't exist, so a `NoFileFoundException` is thrown.
