@@ -66,11 +66,11 @@ An alpha value (`a`, `a*`, `a<size>`) is a sequence of printable ASCII character
 Decimal (`d`, `d*`, `d<size>`) and implied-decimal (`d.`, `d<size>.<precision>`, `decimal`) types in DBL handle numbers as sequences of ASCII characters`[**"numerals"]`, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
 
 In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` `[**(discussed below)]` is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule per operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
-`[**The first sentence's passiveness seems too striking. Maybe something like "*******"]`
+`[**The first sentence's passiveness seems too striking. Maybe something like "Floating point numbers, such as float and double, are generally avoided in DBL programs.". Actually, though, the first sentence is talking about avoiding floating point numbers in DBL programs specifically, so "like" or "such as" probably isn't correct, since float and double are (I'm thinking) the only floating point types in DBL, and then they're apparently only floating point numbers in Syn.NET.]`
 
 ### Integer
 
-An integer (`i`, `i*`, `i1`, `i2`, `i4`, or `i8`) is a byte-oriented, binary representation of a signed whole number. The integer value depends on its usage`[**What does "depends on it's usage" mean?]` and can be a value type or descriptor type`[**more info on when it's value or descriptor?]`. 
+An integer (`i`, `i*`, `i1`, `i2`, `i4`, or `i8`) is a byte-oriented`[**what does that mean here?]`, binary representation of a signed whole number. The integer value depends on its usage`[**What does "depends on it's usage" mean here?]` and can be a value type or descriptor type`[**more info on when it's value or descriptor?]`. 
 
 ### Numeric
 
