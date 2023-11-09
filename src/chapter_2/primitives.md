@@ -3,7 +3,7 @@
 
 In DBL, weakly typed descriptor types like alpha, decimal, implied decimal and integer are not bound by strict data type constraints`[**tautology (?) Rework]`. This wasn't really done on purpose. It would be more accurate to say that in the days `...when DBL was being defined, the days` of single-pass compilers and very limited memory`,` it was not possible to enforce strong typing. This weak typing means that variables declared with these types can be assigned a range `[**"variety" ?]` of values or even manipulated in ways strongly typed systems would typically prevent. However, while `...the continuation of` this `...design` allows very old applications to move forward without significant and costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well-organized projects and a few compiler switches to be set`[**will this be explained? Compiler stuff is probably out of scope, so maybe something like"...and compiler switches set to enforce it"]`. 
 
-Consider a situation where a routine is expecting an alpha parameter, but a caller instead passes a decimal`, as in the following example`. In a strongly typed language, this would result in a compile-time error. However, depending on the compiler switches used, in traditional DBL the compiler may allow that decimal to be passed in. At runtime there may be no ill effects, depending on what the value was. A negative number would result in a strange alpha, while a positive number would look the same as if the caller of the routine had passed the correct type. 
+Consider a situation where a routine is expecting an alpha parameter, but a caller instead passes a decimal`, as in the following example`. In a strongly typed language, this would result in a compile-time error. However, depending on the compiler switches used, in traditional`[**I've lowercase the initial t here and elsewhere because that's how it is in the docs]` DBL the compiler may allow that decimal to be passed in. At runtime there may be no ill effects, depending on what the value was. A negative number would result in a strange alpha, while a positive number would look the same as if the caller of the routine had passed the correct type. 
 
 ```dbl
 proc
@@ -39,23 +39,27 @@ endsubroutine
 > %DBR-S-STPMSG, STOP
 > ```
 
-You can see from the 'u' and '-5:46341' outputs that this wouldn't be a good idea in a real program. You may encounter code like this in legacy DBL programs, but it's very unlikely that it will manifest in this obvious way`[**"manifest" doesn't work well as an intransitive verb here. Rework or "manifest itself..."]`. Because of the age and relative stability of most DBL code, it's more likely that when this exists, it's in some rarely-taken code path that is not being tested and is almost never seen in production.
+You can see from the 'u' and '-5:46341' outputs that this wouldn't be a good idea in a real program. You may encounter code like this in legacy DBL programs, but it's very unlikely that it will manifest in this obvious way`[**"manifest" doesn't work well as an intransitive verb here. Rework or "manifest itself in this..."]`. Because of the age and relative stability of most DBL code, it's more likely that when this exists, it's in some rarely-taken code path that is not being tested and is almost never seen in production.
 
-DBL can also enforce a more rigid type system`[**"...more rigid type checking"?]`, as seen with the "string" type. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. To change a string variable's type, a developer must perform explicit type conversion and cannot rely on the language to coerce types implicitly. This leads to more predictable, though verbose, code.
+DBL can also enforce a more rigid type system`[**"...more rigid type checking"?]`, as seen with the "string" type. Here, a variable declared as a string can hold only string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. To change a string variable's type, a developer must perform explicit type conversion and cannot rely on the language to coerce types implicitly. This leads to more predictable yet verbose code.
 
 ### Alpha
 
-An alpha value (`a`, `a*`, `a<size>`) is a sequence of printable ASCII characters treated as a single information unit. 
+An alpha value (`a`, `a*`, `a<size>`) is a sequence of printable ASCII characters treated as a single information unit. `[**I think the angle brackets around "size" and the like make things more readable, so I've added them to show my preference and prompt discussion]`
 
 - `a`: An alpha parameter, return type, or method property
-- `a*`: An alpha data field with size determined by its initial value
-- `a<size>`: An alpha data field of specified size, and filled with spaces by default
+- `a*`: An alpha data field with size determined by its initial value `[i.e., so apparently you must give it an initial value when you define it]`
+- `a<size>`: An alpha data field of specified size, filled with spaces by default
 
 > #### Platform Limits
 > Alpha values have the following size restrictions: 
 > - 65,535 characters on 32-bit Windows and `[**32-bit]`Linux when running traditional DBL
 > - 32,767 characters on OpenVMS
 > - 2,147,483,647 characters on all other platforms
+
+`[**mention that alpha variables are padded with spaces if you assign a value that doesn't take up all bytes?]`
+
+`[**mention that an ASCII character takes a single byte and that <size> tells you how many bytes the a will have, so it also tells you how many characters it will have?]`
 
 ### Decimal and Implied-Decimal
 
