@@ -48,7 +48,7 @@ DBL can also enforce a more rigid type system`[**"...more rigid type checking"?]
 An alpha value (`a`, `a*`, `a<size>`) is a sequence of printable ASCII characters treated as a single information unit. `[**I think the angle brackets around "size" and the like make things more readable, so I've added them to show my preference and prompt discussion]`
 
 - `a`: An alpha parameter, return type, or method property
-- `a*`: An alpha data field with size determined by its initial value `[i.e., so apparently you must give it an initial value when you define it]`
+- `a*`: An alpha data field with size determined by its initial value `[i.e., so apparently you must give it an initial value when you define it. ]`
 - `a<size>`: An alpha data field of specified size, filled with spaces by default
 
 > #### Platform Limits
@@ -63,9 +63,10 @@ An alpha value (`a`, `a*`, `a<size>`) is a sequence of printable ASCII character
 
 ### Decimal and Implied-Decimal
 
-Decimal (`d`, `d*`, `dsize`) and implied-decimal (`d.`, `d<size>.<precision>`, `decimal`) types in DBL handle numbers as sequences of ASCII characters`[**"numerals"--unless scientific notation is supported]`, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
+Decimal (`d`, `d*`, `d<size>`) and implied-decimal (`d.`, `d<size>.<precision>`, `decimal`) types in DBL handle numbers as sequences of ASCII characters`[**"numerals"]`, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
 
-In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule per operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
+In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` `[**(discussed below)]` is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule per operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
+`[**The first sentence's passiveness seems too striking. Maybe something like "*******"]`
 
 ### Integer
 
