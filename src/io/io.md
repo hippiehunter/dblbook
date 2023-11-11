@@ -1,3 +1,7 @@
+# Input/Output (I/O) Operations
+
+In this chapter, we delve into the input/output (I/O) operations available and commonly used by DBL programmers. I/O operations form the backbone of any application, providing essential capabilities to interact with various data sources and destinations. Our journey will traverse the spectrum of I/O functionalities in DBL, starting from the basics of simple terminal I/O, advancing through the intricacies of handling raw and ISAM files, and culminating in networked file access and semi relational data manipulation using the powerful `Select` class. By exploring these built-in routines and classes, you will gain a robust understanding of how DBL stores, receives and accesses data, whether it be reading user input from the console, managing large volumes of data in ISAM files. This chapter is designed not only to impart technical knowledge but also to equip you with practical skills for transforming your codebase to best take advantage of modern hardware.
+
 A core concept essential for understanding input/output (I/O) operations is the mechanism of channels. These channels are at the heart of how DBL manages various types of I/O operations, whether they are related to files or terminal interactions. To kick off the topic of I/O, let's delve into a few key aspects of channels:
 
 ### Numeric Representation of I/O Handles

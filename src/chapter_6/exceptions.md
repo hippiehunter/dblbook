@@ -119,7 +119,7 @@ namespace UnwindingExample
             begin
                 data fileContent, string
                 ValidateFilePath(filePath)
-                fileContent = ReadFile(filePath)
+                fileContent = DoSomeStuff(filePath)
                 ProcessContent(fileContent)
             end
             catch (ex, @Exception)
@@ -139,6 +139,23 @@ namespace UnwindingExample
             end
         endmethod
     
+        private method DoSomeStuff, string
+            filePath, string
+            endparams
+        proc
+            try
+            begin
+                mreturn ReadFile(filePath)
+            end
+            finally
+            begin
+                ;;  Do some cleanup
+                Console.WriteLine("Cleaning up in DoSomeStuff")
+            end
+            endtry
+        endmethod
+
+
         private method ReadFile, string
             filePath, string 
             endparams
@@ -164,37 +181,43 @@ In this code:
 ```svgbob
 Before Exception:
 +-----------------+
-| ProcessFile     | <- Top of the stack
+| Main            | <- Root of the stack
 +-----------------+
-| ValidateFilePath|
+| ProcessFile     | 
 +-----------------+
-| ReadFile        |
+| DoSomeStuff     |
++-----------------+
+| ReadFile        | <- Execution is here
 +-----------------+
 
 During Stack Unwinding:
 +-----------------+
-| ProcessFile     | <- Exception caught here, unwinding stops
+| Main            | <- Root of the stack, unaffected
 +-----------------+
-| (Unwinding...)  | <- Stack is unwinding, leaving ReadFile
+| ProcessFile     | <- Exception caught here, unwinding stops, execution continues inside the catch block
 +-----------------+
-| ReadFile        | <- NoFileFoundException thrown here
+| DoSomeStuff     | <- Stack is unwinding, executing code in the finally block
++-----------------+
+| ReadFile        | <- NoFileFoundException thrown here, unwinding begins
 +-----------------+
 ```
 
 
 1. `ProcessFile` method is called to start the file processing.
 2. Inside `ProcessFile`, `ValidateFilePath` is first called to check the validity of the file path.
-3. Next, `ReadFile` is called to read the file content, but let's assume the file doesn't exist, so a `NoFileFoundException` is thrown.
+3. Next, `DoSomeStuff` is called to perform some operations on the file.
+4. Inside `DoSomeStuff`, `ReadFile` is called to read the file content, but let's assume the file doesn't exist, so a `NoFileFoundException` is thrown.
 
 At this point, stack unwinding begins due to the unhandled `NoFileFoundException`:
 
 1. The runtime starts the unwinding process, looking for a catch block that can handle a `NoFileFoundException`. 
 2. It first checks the current method, `ReadFile`, but doesn't find a suitable exception handler.
-3. The runtime then leaves the `ReadFile` method and moves to the previous method in the call stack, which is `ProcessFile`.
-4. In `ProcessFile`, it finds a catch block that handles the base `Exception` type (which can catch any exception). The `NoFileFoundException` is successfully caught here, and the error message is printed to the console.
-5. The `finally` block, if it existed within the `try-catch` block of `ProcessFile`, would execute after the catch block, regardless of whether an exception was caught.
+3. The runtime then leaves the `ReadFile` method and moves to the previous method in the call stack, which is `DoSomeStuff`.
+4. In `DoSomeStuff`, it finds no catch block to handle the `NoFileFoundException`, but it does find a `finally` block. The `finally` block is executed, and the runtime continues unwinding in `ProcessFile`
+5. In `ProcessFile`, it finds a catch block that handles the base `Exception` type (which can catch any exception). The `NoFileFoundException` is successfully caught here, and the error message is printed to the console.
+6. The `finally` block, if it existed within the `try-catch` block of `ProcessFile`, would execute after the catch block, regardless of whether an exception was caught.
 
-During this unwinding process, the stack is effectively being "unwound" from the point of the exception (inside `ReadFile`) back up through the nested method calls (`ProcessFile`) until it finds an appropriate handler. If there were more method calls nested, the runtime would continue unwinding through them in the same manner.
+During this unwinding process, the stack is effectively being "unwound" from the point of the exception (inside `ReadFile`) back up through the nested method calls (`DoSomeStuff` and `ProcessFile`) until it finds an appropriate handler. If there were more method calls nested, the runtime would continue unwinding through them in the same manner.
 
 > #### Note about local calls
 > There's really no interaction with local calls during stack unwinding. The compiler will not allow you to call a local procedure within a try-catch block. The specific error is `DBL-E-LBLSCOPE` telling you that the label is out of scope. The error is technically correct though it could be more informative.

@@ -47,6 +47,8 @@ A local subroutine resides in the same method, function or subroutine in which i
 
 To invoke a local subroutine, we use the 'call' statement. After returning from the call, the processing continues at the line immediately following the 'call' statement. This provides a level of encapsulation and data sharing within a single routine or function.
 
+> TODO - add example and diagram to help understand return vs xreturn/freturn/mreturn
+
 ### Functions
 
 a function is a structured block of code designed to perform a specific task. It can return a value and can be invoked from anywhere a literal is allowed in an expression. The function name may optionally be preceded by a percent sign (%). An example invocation of a function could look like this:
@@ -71,6 +73,9 @@ The REENTRANT modifier allows a function to be called recursively it also change
 function fred ,REENTRANT
 
 ```
+
+> TODO example to demonstrate a non reentrant function - maybe just explain why this thing exists and what you can do to get rid of it
+
 
 Here, all unqualified RECORD statements in function fred behave as STACK RECORD statements.
 
@@ -163,21 +168,128 @@ In DBL running on .NET, two familiar mechanisms for passing parameters are used:
 
 When DBL is running on .NET, arguments that would have been passed by descriptor in Traditional DBL are actually an object handle passed by value. This implementation detail aligns with .NET's standard practice of passing objects handles by value. Because of the semantics of in, out and inout this detail is hidden unless you dig into the guts.
 
-> #### Mismatch
-> The MISMATCH modifier provides flexibility with weakly typed systems, permitting you to bypass type checking and pass variables of one type as arguments to parameters of a different type without raising a prototype mismatch error.
->
-> When MISMATCH is used with an alpha, numeric, decimal, or implied-decimal parameter type, it allows the program to interchangeably pass either alpha or numeric type arguments to that parameter. This feature provides a certain level of freedom, but must be used with care to avoid unexpected behaviors or errors.
+```dbl
+
+record
+    value1, int
+    value2, int
+    value3, int
+    value4, int
+proc
+    value1 = 10
+    value2 = 20
+    value3 = 30
+    value4 = 0
+
+    xcall InParameter(value1)
+    xcall OutParameter(value2)
+    xcall InoutParameter(value3)
+
+    value4 = %ReturnValue()
+
+    Console.WriteLine("Value1 (in): " + %string(value1))  ; Expected output: 10
+    Console.WriteLine("Value2 (out): " + %string(value2)) ; Expected output: 100
+    Console.WriteLine("Value3 (inout): " + %string(value3)) ; Expected output: 60
+    Console.WriteLine("Value4 (return): " + %string(value4)) ; Expected output: 99
+end
+
+subroutine InParameter
+    in param, int
+proc
+    ; Changes here will result in a compiler error
+    ; DBL-E-READONLY, Cannot write to read-only data : param = param * 2
+    ; param = param * 2  
+    xreturn
+endsubroutine
+
+subroutine OutParameter
+    out param, int
+proc
+    param = 100  ; The original value is overwritten
+    xreturn
+endsubroutine
+
+subroutine InoutParameter
+    inout param, int
+proc
+    param = param * 2  ; Changes here will affect the original value
+    xreturn
+endsubroutine
+
+function ReturnValue, int
+proc
+    freturn 99
+endfunction
+```
+> #### Output
+> ```
+> Value1 (in): 10
+> Value2 (out): 100
+> Value3 (inout): 60
+> Value4 (return): 99
 > 
-> If you use MISMATCH with a numeric parameter, it's recommended to only use it for routines that either pass the parameter as an argument to another routine also marked MISMATCH numeric or where you explicitly control the datatype with casting. Failure to do so might lead to unexpected results, especially when running DBL on .NET as compared to Traditional DBL.
-> 
-> For instance, when an alpha parameter is passed to a MISMATCH numeric parameter, it's interpreted as decimal in Traditional DBL but remains alpha in DBL on .NET, leading to subtle differences in behavior. To safely pass an alpha to a numeric parameter, consider using explicit casting unless the routine uses MISMATCH numeric.
-> 
-> When you're dealing with a MISMATCH alpha parameter and expecting a decimal parameter to be treated as an alpha, ensure to explicitly control the datatype with casting.
-> 
-> In situations where you want to pass a decimal variable to a routine with an alpha parameter and you're not using explicit casting when writing to it, it's not advisable to use MISMATCH alpha. Rather, you should convert the routine to use a numeric parameter and use MISMATCH numeric, along with appropriate casting, when the parameter is used as an alpha.
+> %DBR-S-STPMSG, STOP
+> ```
+
+
+#### Mismatch
+The MISMATCH modifier provides flexibility with weakly typed systems, permitting you to bypass type checking and pass variables of one type as arguments to parameters of a different type without raising a prototype mismatch error.
+
+When MISMATCH is used with an alpha, numeric, decimal, or implied-decimal parameter type, it allows the program to interchangeably pass either alpha or numeric type arguments to that parameter. This feature provides a certain level of freedom, but must be used with care to avoid unexpected behaviors or errors.
+
+If you use MISMATCH with a numeric parameter, it's recommended to only use it for routines that either pass the parameter as an argument to another routine also marked MISMATCH numeric or where you explicitly control the datatype with casting. Failure to do so might lead to unexpected results, especially when running DBL on .NET as compared to Traditional DBL.
+
+For instance, when an alpha parameter is passed to a MISMATCH numeric parameter, it's interpreted as decimal in Traditional DBL but remains alpha in DBL on .NET, leading to subtle differences in behavior. To safely pass an alpha to a numeric parameter, consider using explicit casting unless the routine uses MISMATCH numeric.
+
+When you're dealing with a MISMATCH alpha parameter and expecting a decimal parameter to be treated as an alpha, ensure to explicitly control the datatype with casting.
+
+In situations where you want to pass a decimal variable to a routine with an alpha parameter and you're not using explicit casting when writing to it, it's not advisable to use MISMATCH alpha. Rather, you should convert the routine to use a numeric parameter and use MISMATCH numeric, along with appropriate casting, when the parameter is used as an alpha.
 
 > TODO Note
 > because of the usefulness in resolving common prototyping errors for legacy code, this is worth an extensive example, most importantly including the unexpected results from a poor mismatch choice vs an un-prototyped mismatched parameter. Also I need a deeper pass over to inject the why around mismatch parameters and maybe reduce some of the bland fluff
+
+```dbl
+proc
+    Console.WriteLine("lookalike data")
+    xcall mismatched_params(5, "5", "5.5")
+    Console.WriteLine("correctly typed data")
+    xcall mismatched_params("5", 5, 5.5)
+    xreturn
+end
+
+
+subroutine mismatched_params
+    mismatch param1, a
+    mismatch param2, n
+    mismatch param3, n.
+    record
+        idField, d3.1
+proc
+    Console.WriteLine(param1)
+    Console.WriteLine(%string(param2 + 5))
+    Console.WriteLine(%string(param3 + 5.5))
+
+    idField = param3
+    Console.WriteLine(%string(idField))
+
+    xreturn
+endsubroutine
+```
+> #### Output
+> ```
+> lookalike data
+> 5
+> 10
+> 650.5
+> >5.0
+> correctly typed data
+> 5
+> 10
+> 11.0
+> 5.5
+> 
+> %DBR-S-STPMSG, STOP
+> ```
 
 #### Optional Vs Default
 Optional parameters and parameters with default values both offer flexibility in function or method invocation. However, their behavior differs when it comes to determining if an argument was passed.

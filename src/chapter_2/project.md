@@ -15,7 +15,7 @@ The goal of this assignment is to apply basic programming concepts like variable
 
 **Part 3: Transaction Menu**
 
-Create a simple text-based menu routine `TransactionMenu` that allows the user to choose an operation (create client, display client, deposit, or withdraw) based on a number. Though it's only available when targeting .NET you can use `Console.ReadKey` to get the user choice. `Console.ReadKey()` will return a single character of input from the user. You will need to declare appropriate variables for use with the available routines you've written. Use a `using` statement to handle the user's choice. For instance:
+Create a simple text-based menu routine `TransactionMenu` that allows the user to choose an operation (create client, display client, deposit, or withdraw) based on a number. Though it's only available when targeting .NET you can use `Console.Read` to get the user choice. `Console.Read()` will return a single character of input from the user. You will need to declare appropriate variables for use with the available routines you've written. Use a `using` statement to handle the user's choice. For instance:
 
 -   If the user chooses "create client", call the `CreateClient` routine and store the returned values into a record.
 -   If the user chooses "display client", call the `DisplayClient` routine with the stored client values into a record.

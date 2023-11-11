@@ -48,6 +48,7 @@
   - [Console](./io/console.md)
   - [Files](./io/files.md)
   - [ISAM](./io/isam.md)
+  - [Hooks](./io/hooks.md)
   - [Select](./io/select.md)
   - [DBMS](./io/dbms.md)
   - [Network File Access](./io/network_file_access.md)

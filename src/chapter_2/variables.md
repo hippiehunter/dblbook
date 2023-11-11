@@ -4,13 +4,35 @@ The structure of a DBL program is divided into two main divisions: the data divi
 
 Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the 'data' keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to the language, as it allows for more readable and maintainable code.
 
-Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put endrecord at the end of a record but it is considered good form.
+Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put endrecord at the end of a record but it is considered good form. Records are considered a top level declaration within the data division so while you can nest groups within records you cannot nest records within records.
 
-TODO: explain whats top level what can be nested
+#### Named vs Unnamed
+The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two usecases, the first is is codestyle, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second much more complex use is when you want to refer to all of the data as a single variable. That last sentance is doing a lot of heavy lifting so im going to try unpacking it. 
 
-'groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure' TODO: link this to complex types and let reader know whats coming. This suggestion stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
+```svgbob
++---------------------------------------------------+
+| EmployeeRecord                                    |
++-------------------+-------------------------------+
+| id (4 bytes)      | [0000]                        |
+| name (30 bytes)   | [name         ] (30 chars)    |
+| salary (10 bytes) | [0000000000]                  |
++-------------------+-------------------------------+
+                |
+                | (referred to as a single variable)
+                V
++---------------------------------------------------+
+| [id][name.........................][salary]       |
+|  4     30 chars                        10         |
++---------------------------------------------------+
+| [0000name                          0000000000]    |
++---------------------------------------------------+
+```
 
-TODO: Top level data div things [Records in DBL] can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of the data.
+You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data together.
+
+'groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../chapter_4/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
+
+Top level data div records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
 
 'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered and deallocated when that scope is exited.
 
