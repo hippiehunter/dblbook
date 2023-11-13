@@ -40,30 +40,6 @@ Top level data div records can be declared with different storage specifiers: st
 
 'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced computers had significantly less ram and local variables were flexible choice for large data structures. There is no reason to use them today.
 
-### Scope shadowing
-DBL follows variable shadowing rules similar to those in other languages, meaning an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. The follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, it's worth considering implementing them. Here's a short example to illustrate the concept:
-
-```dbl
-record
-    my_field, a10
-proc
-    my_field = "hello"
-    begin
-        data my_field, d10
-        ;;this is a totally different variable
-        my_field = 999999999
-        Console.WriteLine(%string(my_field))
-    end
-    ;;once we exit the other scope, we're back to the original variable
-    Console.WriteLine(my_field)
-```
-
-> #### Output
-> ```
-> 999999999
-> hello
-> ```
-
 ### Common and Global Data Section (GDS)
 
 Both the COMMON statement and the GLOBAL data sections serve to establish shared data areas accessible by multiple routines within a program. However, they differ in how they manage and access the shared data.
@@ -272,6 +248,30 @@ proc
 > #### Output
 > ```
 > hello data
+> ```
+
+### Scope shadowing
+DBL follows variable shadowing rules similar to those in other languages, meaning an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. The follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, it's worth considering implementing them. Here's a short example to illustrate the concept:
+
+```dbl
+record
+    my_field, a10
+proc
+    my_field = "hello"
+    begin
+        data my_field, d10
+        ;;this is a totally different variable
+        my_field = 999999999
+        Console.WriteLine(%string(my_field))
+    end
+    ;;once we exit the other scope, we're back to the original variable
+    Console.WriteLine(my_field)
+```
+
+> #### Output
+> ```
+> 999999999
+> hello
 > ```
 
 ## Paths and abbreviated paths
