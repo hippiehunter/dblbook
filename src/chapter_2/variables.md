@@ -41,7 +41,28 @@ Top level data div records can be declared with different storage specifiers: st
 'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced computers had significantly less ram and local variables were flexible choice for large data structures. There is no reason to use them today.
 
 ### Scope shadowing
-DBL follows variable shadowing rules similar to those in other languages, meaning an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. The follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, it's worth considering implementing them.
+DBL follows variable shadowing rules similar to those in other languages, meaning an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. The follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, it's worth considering implementing them. Here's a short example to illustrate the concept:
+
+```dbl
+record
+    my_field, a10
+proc
+    my_field = "hello"
+    begin
+        data my_field, d10
+        ;;this is a totally different variable
+        my_field = 999999999
+        Console.WriteLine(%string(my_field))
+    end
+    ;;once we exit the other scope, we're back to the original variable
+    Console.WriteLine(my_field)
+```
+
+> #### Output
+> ```
+> 999999999
+> hello
+> ```
 
 ### Common and Global Data Section (GDS)
 
@@ -51,9 +72,141 @@ The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is 
 
 The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed at the point of the GLOBAL COMMON declaration, and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.
 
-In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. TODO: try this harder, reco dont use common its harder to understand how it links
+In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. Here's an example that will hopefully illustrate how commons are bound at link time.
 
-The unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs. The size of each named section is determined by the size of the largest definition.
+```dbl
+global common
+    fld1, a10
+    fld2, a10
+global common named
+    nfld1, a10
+    nfld2, a10
+proc
+    fld1 = "fld1"
+    fld2 = "fld2"
+    nfld1 = "nfld1"
+    nfld2 = "nfld2"
+    Console.WriteLine("initial values set")
+    Console.WriteLine("fld1 = " + fld1)
+    Console.WriteLine("fld2 = " + fld2)
+    Console.WriteLine("nfld1 = " + nfld1)
+    Console.WriteLine("nfld2 = " + nfld2)
+    xcall common_binding_1()
+    xcall common_binding_2()
+end
+
+
+subroutine common_binding_1
+    common
+        fld1, a10
+        fld2, a10
+
+    common named
+        nfld1, a10
+        nfld2, a10
+proc
+    Console.WriteLine("initial values common_binding_1")
+    Console.WriteLine("fld1 = " + fld1)
+    Console.WriteLine("fld2 = " + fld2)
+    Console.WriteLine("nfld1 = " + nfld1)
+    Console.WriteLine("nfld2 = " + nfld2)
+
+    xreturn
+endsubroutine
+
+subroutine common_binding_2
+    common named
+        nfld2, a10
+        nfld1, a10
+    common
+        fld2, a10
+        fld1, a10
+proc
+    Console.WriteLine("initial values common_binding_2")
+    Console.WriteLine("fld1 = " + fld1)
+    Console.WriteLine("fld2 = " + fld2)
+    Console.WriteLine("nfld1 = " + nfld1)
+    Console.WriteLine("nfld2 = " + nfld2)
+    xreturn
+endsubroutine
+```
+
+> #### Output
+> ```
+> initial values set
+> fld1 = fld1
+> fld2 = fld2
+> nfld1 = nfld1
+> nfld2 = nfld2
+> initial values common_binding_1
+> fld1 = fld1
+> fld2 = fld2
+> nfld1 = nfld1
+> nfld2 = nfld2
+> initial values common_binding_2
+> fld1 = fld1
+> fld2 = fld2
+> nfld1 = nfld1
+> nfld2 = nfld2
+> ```
+
+You can see from the output that It doesnt matter what order the fields are declared in, the linker will bind them to the correctly named fields in the common. By contrast the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs. The size of each named section is determined by the size of the largest definition. Here's an example to demonstrate the binding differences from common with global data sections that dont have the same definitions.
+
+```dbl
+global data section my_section, init
+    record
+        fred, a10
+    endrecord
+    record named_record
+        another_1, a10
+        another_2, a10
+    endrecord
+endglobal
+proc
+    fred = "fred"
+    another_1 = "another1"
+    another_2 = "another2"
+    Console.WriteLine("initial values set")
+    Console.WriteLine("fred = " + fred)
+    Console.WriteLine("another_1 = " + another_1)
+    Console.WriteLine("another_2 = " + another_2)
+    xcall gds_example_1
+end
+
+
+subroutine gds_example_1
+    global data section my_section
+        record named_record
+            another_1, a10
+            another_2, a10
+        endrecord
+
+        record
+            fred, a10
+        endrecord
+        
+    endglobal
+proc
+    Console.WriteLine("values in a routine, bound differently")
+    Console.WriteLine("fred = " + fred)
+    Console.WriteLine("another_1 = " + another_1)
+    Console.WriteLine("another_2 = " + another_2)
+end
+```
+
+> #### Output
+> ```
+> initial values set
+> fred = fred
+> another_1 = another1
+> another_2 = another2
+> values in a routine, bound differently
+> fred =   another2
+> another_1 = fred
+> another_2 =   another1
+> ```
+
+You can see from the output that the fields names inside the GDS dont matter to the linker. A GDS is just a section of memory to be overlaid with whatever definition you tell it to use.
 
 In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section.
 
@@ -68,8 +221,6 @@ Often in the past, developers have chosen to use COMMON and GDS instead of param
 4.  **Code reusability:** Routines that operate only on their inputs and outputs, without depending on external state, are much more flexible and can be easily reused in different contexts.
 
 5.  **Testing:** Routines that use parameters are easier to test, as you can easily provide different inputs for testing. With global variables, you need to carefully set up the global state before each test and clean it up afterwards, which can be error-prone.
-
-### Unnamed records, groups, ect
 
 ### Data
 
