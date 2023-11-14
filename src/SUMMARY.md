@@ -1,5 +1,5 @@
 # The DBL Programming Language
-[Introduction](./chapter_0/intro.md)
+[Introduction](./intro/intro.md)
 
 ## Getting started
 - [Getting Started](./intro/getting_started.md)
