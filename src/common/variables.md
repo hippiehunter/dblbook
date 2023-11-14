@@ -30,7 +30,7 @@ The existence of named or unnamed records can be a little confusing for develope
 
 You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data together.
 
-'groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../chapter_4/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
+'groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../complex_types/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
 
 Top level data div records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
 
@@ -223,6 +223,9 @@ However, on the flip side, type inference can make refactoring more risky. Chang
 
 > #### Traditional DBL note
 > `data` declarations must declared at the top of a `begin-end` scope, this restriction doesnt exist in DBL running on .NET
+
+
+TODO: note about goto/call out of scopes with local data declarations
 
 Here's an example showing the basics of data declarations.
 
