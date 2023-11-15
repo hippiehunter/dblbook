@@ -7,7 +7,7 @@ Historically, the separation between these two divisions was strict, but more re
 Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put endrecord at the end of a record but it is considered good form. Records are considered a top level declaration within the data division so while you can nest groups within records you cannot nest records within records.
 
 #### Named vs Unnamed
-The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two usecases, the first is is codestyle, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second much more complex use is when you want to refer to all of the data as a single variable. That last sentance is doing a lot of heavy lifting so im going to try unpacking it. 
+The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two use cases, the first is is code style, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second much more complex use is when you want to refer to all of the data as a single variable. That last sentence is doing a lot of heavy lifting so im going to try unpacking it. 
 
 ```svgbob
 +---------------------------------------------------+
