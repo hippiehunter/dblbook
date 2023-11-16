@@ -1,14 +1,15 @@
 # Variables
 
-The structure of a DBL program is divided into two main divisions: the data division and the procedure division. The data division is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
+The structure of a DBL program`"structure of a DBL routine(?)"` is divided into two main divisions: the data division and the procedure division. The data division is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
 Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the 'data' keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to the language, as it allows for more readable and maintainable code.
 
-Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put endrecord at the end of a record but it is considered good form. Records are considered a top level declaration within the data division so while you can nest groups within records you cannot nest records within records.
+Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)?` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division so while you can nest groups within records you cannot nest records within records.
 
 #### Named vs Unnamed
-The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two use cases, the first is is code style, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second much more complex use is when you want to refer to all of the data as a single variable. That last sentence is doing a lot of heavy lifting so im going to try unpacking it. 
+The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two use cases, the first is is code style, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second and much more complex use is when you want to refer to all of the data as a single variable. That last sentence is doing a lot of heavy lifting, so let's unpack it. 
 
+`would a space before every closing ) or ] prevent the ) or ] from stepping on the previous character`
 ```svgbob
 +---------------------------------------------------+
 | EmployeeRecord                                    |
@@ -28,23 +29,23 @@ The existence of named or unnamed records can be a little confusing for develope
 +---------------------------------------------------+
 ```
 
-You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data together.
+You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code, and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data together.
 
-'groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../complex_types/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
+'Groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../complex_types/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
 
-Top level data div records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
+Top-level data division records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
 
 'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered and deallocated when that scope is exited.
 
 'Static' variables have a unique characteristic. There's exactly one instance of the variable that is across all invocations of their defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls.
 
-'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced computers had significantly less ram and local variables were flexible choice for large data structures. There is no reason to use them today.
+'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were flexible choice for large data structures. There is no reason to use them today.
 
 ### Common and Global Data Section (GDS)
 
-Both the COMMON statement and the GLOBAL data sections serve to establish shared data areas accessible by multiple routines within a program. However, they differ in how they manage and access the shared data.
+Both the COMMON statement and the GLOBAL data sections serve to establish shared data areas that are accessible by multiple routines within a program. However, they differ in how they manage and access the shared data.
 
-The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records accessible to other routines or the main routine. GLOBAL COMMON creates new data space, while EXTERNAL COMMON references data defined elsewhere.  
+The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records accessible to other routines or the main routine. GLOBAL COMMON creates new data space, while EXTERNAL COMMON references data defined elsewhere in GLOBAL COMMON statement.  
 
 The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed at the point of the GLOBAL COMMON declaration, and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.
 
@@ -126,7 +127,7 @@ endsubroutine
 > nfld2 = nfld2
 > ```
 
-You can see from the output that It doesnt matter what order the fields are declared in, the linker will bind them to the correctly named fields in the common. By contrast the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs. The size of each named section is determined by the size of the largest definition. Here's an example to demonstrate the binding differences from common with global data sections that dont have the same definitions.
+You can see from the output that it doesn't matter what order the fields are declared in, the linker will bind them to the correctly named fields in the common. By contrast the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs. The size of each named section is determined by the size of the largest definition. Here's an example to demonstrate the binding differences from common with global data sections that don't have the same definitions.
 
 ```dbl
 global data section my_section, init
@@ -182,11 +183,11 @@ end
 > another_2 =   another1
 > ```
 
-You can see from the output that the fields names inside the GDS dont matter to the linker. A GDS is just a section of memory to be overlaid with whatever definition you tell it to use.
+You can see from the output that the fields names inside the GDS don't matter to the linker. A GDS is just a section of memory to be overlaid with whatever definition you tell it to use.
 
 In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section.
 
-Often in the past, developers have chosen to use COMMON and GDS instead of parameters, either because they were told it was more performant or because it didnt require any refactoring when they wanted additional data inside their routines. But here's a list of reasons why you might want to avoid their usage wherever possible.
+Often in the past, developers chose to use COMMON and GDS instead of parameters, either because they were told it was more performant or because it didn't require any refactoring when they wanted additional data inside their routines. But here's a list of reasons why you might want to avoid their usage wherever possible:
 
 1.  **Encapsulation and modularity:** Routines that rely on parameters are self-contained and only interact with the rest of the program through their parameters and return values. This makes it easier to reason about their behavior, since you only have to consider the inputs and outputs, not any external state.
 
