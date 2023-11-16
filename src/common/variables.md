@@ -11,7 +11,7 @@ Historically, the separation between these two divisions was strict, but more re
 
 ## Records
 `**Added this since we now have a "Groups" heading`
-Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)?` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division so while you can nest groups within records you cannot nest records within records.
+Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)?` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records.
 
 #### Named vs Unnamed Records
 The existence of both named and unnamed records can be a little confusing for developers new to DBL. When should you use one over the other? Named records have two use cases. The first is code style, clarity. If you have a lot of fields, you might want to group them by purpose to make it easier to reason about them. The second and much more complex use is when you want to refer to all of the data`**"...refer to multiple fields with a single variable"?` as a single variable. That last sentence is `...This last use case is...` doing a lot of heavy lifting, so let's unpack it`**mixed metaphor?`. 
@@ -42,26 +42,28 @@ You can see from the above diagram that we're treating all of the data as a sing
 ## Groups
 `**This heading is needed now; otherwise the following text would be under the "Named vs Unnamed Records" heading` 
 
-'Groups'`...are another type of structured data container that can be used in the data division, but groups` allow for nested organization and fixed-size arrays for data hierarchies`****?`. Although groups are frequently employed as complex data types`[**Because groups are named, they lend themselves to this? So why are they named? Maybe because historically they were used for this despite the type checking issue.]`, the preferred approach for new code is to use a 'structure'. (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments`**"arguments"?`. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option`**"safer" is understandable, but why are we saying they're "more efficient"? `.
+'Groups'`...are another type of structured data container that can be used in the data division, but groups` allow for nested organization and fixed-size arrays for data hierarchies`****?`. `[**Mention that groups aren't top-level?]` Although groups are frequently employed as complex data types`[**Because groups are named, they lend themselves to this? So why are they named? Maybe because historically they were used for this despite the type checking issue.]`, the preferred approach for new code is to use a 'structure'. (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments`**"arguments"?`. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option`**"safer" is understandable, but why are we saying they're "more efficient"? `.
 
 `**The next four paragraphs apply only to records, so they'd be better placed if they preceded the "Named vs. unnamed" section. They could follow that section, but then they'd need their own heading.`
 Top-level data division records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
 
 'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered and deallocated when that scope is exited.
 
-'Static' variables have a unique characteristic. There's exactly one instance of the variable that is across all invocations of their defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls.
+'Static' variables have a unique characteristic. There's exactly one instance of the variable that is across all invocations of their defining routine. This behavior is similar to global variables`[**Haven't discussed (or mentioned) GDS or global common yet]`, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls.
 
-'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were flexible choice for large data structures. There is no reason to use them today.
+'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if the sysetem is running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were a flexible choice for large data structures. There is no reason to use them today.
 
-### Common and Global Data Section (GDS)
+### COMMON and Global Data Section (GDS)
 
-Both the COMMON statement and the GLOBAL data sections serve to establish shared data areas that are accessible by multiple routines within a program. However, they differ in how they manage and access the shared data.
+Both the COMMON statement and GLOBAL data sections serve to establish shared data areas that are accessible by multiple routines within a program. However, they differ in how they manage`**?` and access `**"expose"?` the shared data.
 
 The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records accessible to other routines or the main routine. GLOBAL COMMON creates new data space, while EXTERNAL COMMON references data defined in a GLOBAL COMMON statement in another routine.  
 
-The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed at the point of the GLOBAL COMMON declaration and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.
+The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed by the GLOBAL COMMON declaration and cannot be checked during the compilation of EXTERNAL COMMON statements`**So external common statements could have wrong types/sizes/etc., and the compiler wouldn't say anything?`. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.`[**********So can you use the global common name and/or a contained thing?]`
 
-In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. Here's an example that will illustrates how commons are bound at link time.
+In contrast, global data sections are accessed by the name of the global area rather than a record or field name. RECORD statements  within a GLOBAL-ENDGLOBAL blocks are used to define shared data in these sections`[**Don't understand the point of this sentence]`. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. `**Maybe this paragraph should start with the similarities to COMMON and then state differences. Also, mention that INIT is needed to establish initial data area? Mention that "global internal" limits access to current .NET assembly?]`
+
+Here's an example that illustrates how COMMONs are bound at link time:
 
 ```dbl
 global common
@@ -86,7 +88,7 @@ end
 
 
 subroutine common_binding_1
-    common
+    common        ******"EXTERNAL"? Mention somewhere that this is the default here; global is default in main routine?********
         fld1, a10
         fld2, a10
 
@@ -120,6 +122,8 @@ proc
 endsubroutine
 ```
 
+`**What if there's more than one global common that's unnamed? Probably field names would need to be unique.`
+
 > #### Output
 > ```
 > initial values set
@@ -139,7 +143,7 @@ endsubroutine
 > nfld2 = nfld2
 > ```
 
-You can see from the output that it doesn't matter what order the fields are declared in, the linker will bind them to the correctly named fields in the common. By contrast the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs. The size of each named section is determined by the size of the largest definition. Here's an example to demonstrate the binding differences from common with global data sections that don't have the same definitions.
+You can see from the output that it doesn't matter what order the fields are declared in. The linker will bind them to the correctly named fields in the common. By contrast the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs`**how was this abused?`. The size of each named section is determined by the size of the largest definition`**Not INIT version? Could the example below demonstrate this?`. Here's an example to demonstrate the binding differences from COMMON with global data sections that don't have the same definitions.
 
 ```dbl
 global data section my_section, init
@@ -169,11 +173,9 @@ subroutine gds_example_1
             another_1, a10
             another_2, a10
         endrecord
-
         record
             fred, a10
         endrecord
-        
     endglobal
 proc
     Console.WriteLine("values in a routine, bound differently")
@@ -192,14 +194,14 @@ end
 > values in a routine, bound differently
 > fred =   another2
 > another_1 = fred
-> another_2 =   another1
+> another_2 = another1   
 > ```
 
-You can see from the output that the fields names inside the GDS don't matter to the linker. A GDS is just a section of memory to be overlaid with whatever definition you tell it to use.
+You can see from the output that the fields names inside the GDS don't matter to the linker. A GDS is just a section of memory to be overlaid with whatever definition you tell it to use. `[***So by now it's looking like "GDS" refers specifically to the INIT version of the data area.]`
 
 In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section.
 
-Often in the past, developers chose to use COMMON and GDS instead of parameters, either because they were told it was more performant or because it didn't require any refactoring when they wanted additional data inside their routines. But here's a list of reasons why you might want to avoid their usage wherever possible:
+Often in the past, developers chose to use COMMON and global data sections instead of parameters, either because they were told they were more performant or because no refactoring was required when they wanted additional data in their routines. But here's a list of reasons why you might want to avoid using these instead of parameters:
 
 1.  **Encapsulation and modularity:** Routines that rely on parameters are self-contained and only interact with the rest of the program through their parameters and return values. This makes it easier to reason about their behavior, since you only have to consider the inputs and outputs, not any external state.
 
@@ -381,12 +383,12 @@ Using any of these paths will result in a helpful compiler error that will tell 
 >     -   [ ] Data division and procedure division
 >     -   [ ] Data division and memory division
 >     -   [ ] Procedure division and static division
-> 2.  What keyword allows for variable declarations within the procedure division in recent versions of DBL?
+> 2.  Which keyword allows for variable declarations within the procedure division in recent versions of DBL?
 >     -   [ ] Var
 >     -   [ ] Data
 >     -   [ ] Local
 >     -   [ ] Static
-> 3.  What are the storage specifiers available for records and groups in DBL?
+> 3.  What are the storage specifiers available for records and groups `[**Not groups. Just records, right?]` in DBL?
 >     -   [ ] Static, local, and global
 >     -   [ ] Stack, global, and local
 >     -   [ ] Stack, static, and local
@@ -401,9 +403,9 @@ Using any of these paths will result in a helpful compiler error that will tell 
 >     -   [ ] They are stored locally.
 >     -   [ ] They are stored on the stack.
 >     -   [ ] They are stored globally.
-> 7.  What data containers in DBL can hold multiple related data items of various types?
+> 7.  Which data containers in DBL can hold multiple related data items of various types?
 >     -   [ ] Functions
 >     -   [ ] Groups
 >     -   [ ] Records
 >     -   [ ] Variables
-> 8.  True or False: It's mandatory to put 'endrecord' at the end of a record declaration in DBL.
+> 8.  True or false: It's mandatory to put ENDRECORD at the end of a record declaration in DBL.
