@@ -1,15 +1,16 @@
 # Variables
+`ML is actively working on this (11/16), so comments/changes are provisional at this point`
 
 The structure of a DBL program`"structure of a DBL routine(?)"` is divided into two main divisions: the data division and the procedure division. The data division is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
-Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the 'data' keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to the language, as it allows for more readable and maintainable code.
+Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the 'data' keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
 
-Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)?` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division so while you can nest groups within records you cannot nest records within records.
+Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)?` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division so while you can nest groups within records you cannot nest records within records.
 
-#### Named vs Unnamed
-The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two use cases, the first is is code style, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second and much more complex use is when you want to refer to all of the data as a single variable. That last sentence is doing a lot of heavy lifting, so let's unpack it. 
+#### Named vs Unnamed Records
+The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two use cases. The first is is code style: if you have a lot of fields, you might want to group them by purpose to make it easier to reason about them. The second and much more complex use is when you want to refer to all of the data`**"to multiple fields with a single variable"?` as a single variable. That last sentence is doing a lot of heavy lifting, so let's unpack it. 
 
-`would a space before every closing ) or ] prevent the ) or ] from stepping on the previous character`
+`would a space before every closing ) or ] in the ascii art text prevent the ) or ] from stepping on the previous character?`
 ```svgbob
 +---------------------------------------------------+
 | EmployeeRecord                                    |
@@ -28,11 +29,16 @@ The existence of named or unnamed records can be a little confusing for develope
 | [0000name                          0000000000]    |
 +---------------------------------------------------+
 ```
+`**In this diagram, the bottom rectangle shows EmployeeRecord referred to as a single entity, but the arrow is pointing to the rectangle above that, which is showing the constituent variables, it seems. Or am I missing something?`
 
-You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code, and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data together.
+You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code, and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data.
 
-'Groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../complex_types/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
+## Groups
+`**This heading is needed now; otherwise the following text would be under the "Named vs Unnamed Records" heading` 
 
+'Groups'`...are another type of structured data container that can be used in the data division, but groups` allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types`**Because groups are named, they lend themselves to this use? So why are they named?`, the preferred approach for new code is to use a 'structure'. (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
+
+`**The next four paragraphs apply only to records, so they'd be better placed if they preceded the "Named vs. unnamed" section. They could follow that section, but then they'd need their own heading.`
 Top-level data division records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
 
 'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered and deallocated when that scope is exited.
@@ -45,11 +51,11 @@ Top-level data division records can be declared with different storage specifier
 
 Both the COMMON statement and the GLOBAL data sections serve to establish shared data areas that are accessible by multiple routines within a program. However, they differ in how they manage and access the shared data.
 
-The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records accessible to other routines or the main routine. GLOBAL COMMON creates new data space, while EXTERNAL COMMON references data defined elsewhere in GLOBAL COMMON statement.  
+The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records accessible to other routines or the main routine. GLOBAL COMMON creates new data space, while EXTERNAL COMMON references data defined in a GLOBAL COMMON statement in another routine.  
 
-The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed at the point of the GLOBAL COMMON declaration, and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.
+The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed at the point of the GLOBAL COMMON declaration and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.
 
-In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. Here's an example that will hopefully illustrate how commons are bound at link time.
+In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. Here's an example that will illustrates how commons are bound at link time.
 
 ```dbl
 global common
