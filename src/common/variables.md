@@ -202,7 +202,7 @@ end
 
 You can see from the output that the field names within the GDS don't matter to the linker. A GDS is just a section of memory to be overlaid with whatever data definitions you tell it to use. 
 
-In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or GDS is not contiguous with the data space of the COMMON or GDS.
+In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section.
 
 Often in the past, developers chose to use COMMON and global data sections instead of parameters, either because they were told they were more performant or because refactoring wasn't required when they included additional data in their routines. But here's a list of reasons why you might want to avoid using global data instead of parameters:
 
@@ -217,18 +217,18 @@ Often in the past, developers chose to use COMMON and global data sections inste
 5.  **Testing:** Routines that use parameters are easier to test, as you can easily provide different inputs for testing. With global variables, you need to carefully set up the global state before each test and clean it up afterwards, which can be error-prone.
 
 ### Data
+`**This section is a bit mixed up, so I haven't done much with it. Looks like maybe some rewritten paragraphs are mixed in with old versions, or something like that. I.e., it looks like this section is under construction.`
+In version 9 of DBL, DATA declarations were introduced, bringing with them significant improvements to the way variables are managed. Using DATA to declare variables close to where they are used not only bolsters code readability and maintainability, but it also discourages the problematic practice of reusing variables for different types or purposes.
 
-In version 9 of DBL, data declarations were introduced, bringing with them significant improvements to the way variables are managed. Declaring variables using data close to where they are used not only bolsters code readability and maintainability, but it also discourages the problematic practice of reusing variables for different types or purposes.
+The same variable being utilized in multiple roles can obscure its current state and purpose within the code, making it challenging to understand and maintain. Using DATA declarations improves readability by encouraging each variable to be used for a single, well-defined purpose within a specific context.
 
-The same variable being utilized in multiple roles can obscure its current state and purpose within the code, making it challenging to understand and maintain. Using data declarations improves readability by encouraging each variable to be used for a single, well-defined purpose within a specific context.
+By using data declarations to create variables for single, specific purposes within their immediate contexts, we can mitigate these issues`**what issues are we talking about here? Is this a rewrite of the above paragraph(s)?`. This practice enhances code clarity by localizing variables to their points of use, which in turn minimizes the risk of errors related to mismanaged variable types or states.
 
-By using data declarations to create variables for single, specific purposes within their immediate contexts, we can mitigate these issues. This practice enhances code clarity by localizing variables to their points of use, which in turn minimizes the risk of errors related to mismanaged variable types or states.
+Adopting this approach supports the creation of self-documenting code. Each variable declared with DATA inherently carries a meaningful name that accurately reflects its purpose within that specific part of the code. It's also worth noting that DATA variables are always stored on the stack. 
 
-Adopting this approach supports the creation of self-documenting code. Each variable declared with data inherently carries a meaningful name that accurately reflects its purpose within that specific part of the code. It's also worth noting that data variables are always stored on the stack. 
+The use of type inference can create a double-edged sword when it comes to refactoring. On one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, any variables that infer their type from this function won't need to be manually updated. This can speed up refactoring and reduce errors caused by incomplete changes.`**This is probably meant to follow the next paragraph, which introduces type inference.`
 
-the use of type inference can create a double-edged sword when it comes to refactoring. On one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, any variables that infer their type from this function won't need to be manually updated. This can speed up refactoring and reduce errors caused by incomplete changes.
-
-`data` declarations also support type inference using the syntax `data variable_name = some_expression`. The compiler to deduce the type of the variable based on the assigned expression, eliminating the need for explicit type declarations. This, in effect, can lead to more compact and, in some scenarios, more readable code.
+DATA declarations also support type inference using the syntax `data variable_name = some_expression`. The compiler to deduce the type of the variable based on the assigned expression, eliminating the need for explicit type declarations. This, in effect, can lead to more compact and, in some scenarios, more readable code.
 
 While type inference can result in less explicit code, thereby potentially causing confusion particularly in a team setting or when revisiting older code, this concern is largely mitigated by modern Integrated Development Environments (IDEs). They can often display the deduced type of the variable, thus reducing the downside of less explicit code. 
 
@@ -240,7 +240,7 @@ However, on the flip side, type inference can make refactoring more risky. Chang
 > If a routine return value is of type `a`, `d`, or `id`, the compiler will not be able to infer the data type for initial value expressions. In contrast, data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
 
 > #### Traditional DBL note
-> `Data` declarations must declared at the top of a `begin-end` block. This restriction does not exist in DBL running on .NET.
+> DATA declarations must declared at the top of a BEGIN-END block. This restriction does not exist for DBL running on .NET.
 
 
 TODO: note about goto/call out of scopes with local data declarations
@@ -271,8 +271,8 @@ proc
 > hello data
 > ```
 
-### Scope shadowing
-DBL follows variable shadowing rules similar to those in other languages, meaning an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. The follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, it's worth considering implementing them. Here's a short example to illustrate the concept:
+### Scope Shadowing
+DBL follows variable shadowing rules similar to those in other languages, meaning that an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. This follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler`**Redundant? Or is this saying something new?`. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, they're worth considering. Here's a short example to illustrate the concept:
 
 ```dbl
 record
@@ -295,7 +295,7 @@ proc
 > hello
 > ```
 
-## Paths and abbreviated paths
+## Paths and Abbreviated Paths
 You can declare the same field name multiple times within a group or named record structure. However, when accessing fields with the same name, ensure that the path used to reach the field is unique. This requirement is due to the compiler's need for specificity when navigating nested structures. Here is an example:
 
 ```dbl
@@ -326,7 +326,7 @@ main
             endgroup
         endgroup
 proc
-    ;;succeeds because its fully qualified
+    ;;These succeed because they're fully qualified:
     Console.WriteLine(contact.name)
     Console.WriteLine(contact.address.street)
     Console.WriteLine(customer[5].bldg.address.street)
@@ -334,18 +334,18 @@ proc
     Console.WriteLine(inhouse.accnt)
     Console.WriteLine(inhouse.name)
 
-    ;;succeeds though there is a more deeply nested alternative
+    ;;These succeed, though there are more deeply nested alternatives:
     Console.WriteLine(name)
     Console.WriteLine(customer[1].name)
 
-    ;;Fails
+    ;;These fail:
     Console.WriteLine(client.name)
     Console.WriteLine(address.street)
     Console.WriteLine(accnt)
 endmain
 ```
 
-In this data structure, the following paths are valid because they unambiguously lead to a single field:
+With the data structure above, the following paths are valid because they unambiguously lead to a single field:
 
 ```dbl,ignore,does_not_compile
 contact.name
@@ -356,7 +356,7 @@ inhouse.accnt
 inhouse.name
 ```
 
-The following paths are valid because they are actually a fully qualified path even though there are more deeply nested variables with the same name. These accesses would have failed prior to version 12.
+And the following paths are valid because they are actually fully-qualified paths, even though there are more deeply nested variables with the same name. These would have failed prior to version 12.
 
 ```dbl, ignore,does_not_compile
 customer[1].name
@@ -371,7 +371,7 @@ address.street
 accnt
 ```
 
-Using any of these paths will result in a helpful compiler error that will tell you what the other considered symbols were.
+Using any of these invalid paths will result in a helpful compiler error that will tell you what the matching symbols are.
 
 > #### Compiler Output
 > ```
