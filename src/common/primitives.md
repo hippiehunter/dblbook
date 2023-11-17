@@ -1,11 +1,11 @@
 # Primitive  Types
 `Matt's currently reviewing. Comments/changes are in flux`
 
-In DBL, weakly typed descriptor types`**do they know what descriptor types are at this point?` like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints.`**This sentence comes off as a tautology to me. How about something more like a definition? See (1) below.` This wasn't really done on purpose`...wasn't a conscious design decision`. It would be more accurate to say that it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically restricted `"prevented"` in strongly-typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well organized projects and a few compiler switches to be set. 
+In DBL, weakly typed descriptor types`**do they know what descriptor types are at this point? Maybe this file should start with discussion of types of types?` like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints.`**This sentence comes off as a tautology to me. How about something more like a definition? See (1) below.` This wasn't really done on purpose`...wasn't a conscious design decision`. It would be more accurate to say that it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically restricted `"prevented"` in strongly-typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well organized projects and a few compiler switches to be set. 
 
-`(1) How about something like, "In DBL, some descriptor types are weakly typed--that is, they are not bound by strict data types constraints."`
+`(1) How about something like, "In DBL, some descriptor types are weakly typed--that is, they are not bound by strict data types constraints." Any better or more of the same?`
 
-Consider the following example, where a routine expects an alpha parameter, but a caller instead passes a decimal. In a strongly typed language, this would result in a compile-time error. However, with the right compiler switches set, the compiler for Traditional DBL will allow a decimal to be passed in. At runtime there may be no ill effects, depending on the value. A negative number would result in an unexpected alpha, while the result of a positive number would look as if the caller of the routine had passed the correct type. 
+Consider the following example, where a routine expects an alpha parameter, but a caller instead passes a decimal. In a strongly typed language, this would result in a compile-time error. However, with the right set of compiler switches, the compiler for Traditional DBL will allow a decimal to be passed in. At runtime there may be no ill effects, depending on the value. A negative number would result in an unexpected alpha, while the result of a positive number would look as if the caller of the routine had passed the correct type. 
 
 ```dbl
 proc
@@ -196,7 +196,7 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] NULL
 >    - [ ] Undefined
 >    
-> 6. What type does short map to in Traditional DBL and DBL on .NET respectively?
+> 6. Which types do short map to in Traditional DBL and DBL on .NET respectively?
 >    - [ ] i2 and System.Int32
 >    - [ ] i2 and System.Int64
 >    - [ ] i2 and System.Int16
