@@ -2,16 +2,18 @@
 `ML is actively working on this (11/16), so comments/changes are provisional at this point`
 
 `**Where do we discuss constants? Not here, of course, maybe in "Literals"?.`
+
 `**Where do we discuss type conversion? In "Assignment" and "Objects". Maybe overflow is discussed there too.`
+
 `**Should "field" be defined or discussed, or is it really just the same thing as it is in other languages?`
 
-The structure of a DBL program`"structure of a DBL routine(?)"` is divided into two main divisions: the data division and the procedure division. The data division `..., which precedes the PROC statement in a DBL routine,...(?)` is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
+DBL routines have two main divisions: the data division and the procedure division. The data division `..., which precedes the PROC statement in a DBL routine,...(?)` is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
-Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the "data" `**should be using double quotes in text` keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
+Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the "data" `**Should be using double quotes in text` keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
 
 ## Records
-`**Added this heading since a "Groups" heading was added below`
-Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)?` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records. `**Move the endrecord-not-required-but-good-form statement with the first code example that includes it?`
+`**Added this heading because a "Groups" heading was added below`
+Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)? Sure would help with DATA` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records. `**Move the endrecord-not-required-but-good-form statement with the first code example that includes it?`
 
 #### Named vs Unnamed Records
 The existence of both named and unnamed records can be a little confusing for developers new to DBL. When should you use one over the other? Named records have two use cases. The first is code clarity. If you have a lot of fields, grouping them by purpose can make it easier to reason about them. The second and much more complex use is when you want to refer to all of the data as a single variable`"...refer to multiple fields with a single variable"?`. That last sentence is doing a lot of heavy lifting, so let's unpack it`**mixed metaphor - maybe something like "There is a lot to this last use case, so let's unpack it`. 
@@ -41,22 +43,22 @@ You can see from the above diagram that we're treating all of the EmployeeRecord
 
 ## Groups
 `**This heading is needed now; otherwise the following text would be under the "Named vs Unnamed Records" heading` 
-'Groups'`...are another type of structured data container that can be used in the data division. But groups` allow for nested organization and fixed-size arrays for data hierarchies`****?`. Although groups are frequently employed as complex data types`[**Because groups are named, they lend themselves to this? So why are they named? Maybe because historically they were used for this despite the type checking issue.]`, the preferred approach for new code is to use a 'structure'. (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments.`**"arguments" works for "even when" clause, but how about 1st part of sentence?`. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option`**"safer" is understandable, but why are we saying they're "more efficient"? `.
+'Groups' are another type of structured data container that can be used in the data division. But groups allow for nested organization and fixed-size arrays of aggregated data types`**?`. Although groups are frequently employed as complex data types`[**Because groups are named, they lend themselves to this? So why are they named? Maybe because historically they were used for this despite the type checking issue.]`, the preferred approach for new code is to use a 'structure'. (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments.`**"arguments" works for "even when" clause, but does it fit with the 1st part of sentence?`. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option`**"safer" is understandable, but why are we saying they're "more efficient"? `.
+
 `**Mention that groups aren't top-level?`
 
+`**Of the things discussed in this file, the next four paragraphs apply only to records, so they'd be better placed if they preceded the "Named vs. unnamed" section. They could instead follow that section, but then they'd need their own heading.`
+Top-level data division records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all variables under them. 
 
-`**The next four paragraphs apply only to records, so they'd be better placed if they preceded the "Named vs. unnamed" section. They could follow that section, but then they'd need their own heading.`
-Top-level data division records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all variables and nested groups under them. `**"variables and nested groups" doesn't quite work, I'm thinking, since "nested groups" are variables`
+"Stack" records and variables they contain behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered, and deallocated when that scope is exited. 
 
-'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered, and deallocated when that scope is exited. `"Stack" records and the variables they contain behave like...`
+"Static" records and variables they contain have a unique characteristic. There's exactly one instance of a static variable across all invocations of its defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls. 
 
-'Static' variables have a unique characteristic. There's exactly one instance of a static variable across all invocations of its defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls.  `"Static" records and the variables they contain have a unique...`
-
-'Local' variables behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were a flexible choice for large data structures. There is no reason to use them today. `"Local" records and the variables they contain behave...`
+"Local" records and variables they contain behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were a flexible choice for large data structures. There is no reason to use them today. 
 
 ### COMMON and Global Data Section (GDS)
 
-Both the COMMON statement and GLOBAL data sections serve to establish shared data areas that are accessible by other routines within a program. However, they differ in how they manage`**?` and access `"expose"?` the shared data.
+Both the COMMON statement and GLOBAL data sections serve to establish shared data areas that are accessible by other routines within a program. However, they differ in how they manage`**?` and expose the shared data.
 
 The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records that are accessible to other routines or the main routine. GLOBAL COMMON creates new data space`"...creates a new data area"?`, while EXTERNAL COMMON references data defined in a GLOBAL COMMON statement in another routine.  
 
@@ -373,7 +375,7 @@ accnt
 
 Using any of these invalid paths will result in a helpful compiler error that will tell you what the matching symbols are.
 
-> #### Compiler Output
+> #### Compiler output
 > ```
 > %DBL-E-AMBSYM, Ambiguous symbol client.name
 > 1>%DBL-I-ERTXT2,   MAIN$PROGRAM.client.customer.name
