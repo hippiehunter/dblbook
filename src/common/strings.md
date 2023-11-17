@@ -1,5 +1,5 @@
 # Strings
-The term "string" is a fundamental concept representing a sequence of characters. These characters can range from alphabets and numbers to symbols and whitespace. Strings are used in virtually all programming languages to handle and manipulate text data. In Synergy DBL, two types are primarily used for storing string data: alpha and the built-in class `System.String`.
+The term "string" is a fundamental concept representing a sequence of characters. These characters can range from alphabets and numbers to symbols and whitespace. Strings are used in virtually all programming languages to handle and manipulate text data. In DBL, two types are primarily used for storing string data: alpha and the built-in class `System.String`.
 
 To avoid confusion, it's important to understand that "strings" as a universal concept differ from `System.String` in terms of abstraction levels. While "strings" are a ubiquitous programming concept, `System.String` is a specific implementation Traditiona DBL and .NET. It provides a set of built-in methods to handle and manipulate text-based data.
 
@@ -51,7 +51,7 @@ The trimmed length for an otherwise blank alpha expression is 1 for %TRIM and 0 
 
 An important thing to note is that `System.String` is "immutable," meaning they can't be changed once created. Any operation that seems to modify a `System.String` is actually creating a new one. Also, since `System.String` is an object, it can't be included directly in a record or structure meant for writing to disk or network transmission. While it's possible to perform these operations, extra coding is required due to the object's non-fixed size at compile time.
 
-`System.String` can be treated as a collection of characters. In .NET these are a Fixed width 16bit character set commonly referred to as UTF-16 but the actual implementation is an earlier variant UCS-2. In Traditional DBL `System.String` is made up of 8bit characters. Because `System.String` is a collection, it means you can index into it or iterate over it using a foreach loop.
+`System.String` can be treated as a collection of characters. In .NET these are a Fixed width 16bit character set commonly referred to as UTF-16 but the actual implementation is an earlier variant UCS-2. In Traditional DBL `System.String` is made up of 8bit characters. Because `System.String` is a [collection](../collections/collections.md), it means you can index into it or iterate over it using a foreach loop.
 
 # Building strings
 

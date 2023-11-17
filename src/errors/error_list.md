@@ -1,6 +1,6 @@
 # Error List
 
-In a Synergy DBL program, an I/O error list is associated with a file I/O statement. It details how the program should handle specific I/O errors by redirecting program control to error-handling labels. Here's the general syntax structure:
+In a DBL program, an I/O error list is associated with a file I/O statement. It details how the program should handle specific I/O errors by redirecting program control to error-handling labels. Here's the general syntax structure:
 
 ```
 IO_statement(arguments)[error_list]

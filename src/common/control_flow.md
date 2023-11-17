@@ -274,7 +274,7 @@ proc
 The `WHILE condition [DO] statement` loop continues as long as the specified condition is true. Once the condition is no longer true, the loop will be exited.
 
 
-The `FOREACH loop_var IN collection [AS type]` loop iterates over each element in a collection, setting `loop_var` to each element in turn and executing the statement. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur.
+The `FOREACH loop_var IN collection [AS type]` loop iterates over each element in a collection, setting `loop_var` to each element in turn and executing the statement. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
 
 You can use `data` to declare the iteration variable directly inside the foreach loop, If the compiler cant infer the type of the variable you will need to specify it using the `AS type` syntax. Here's an example with an without an inline variable declaration.
 
@@ -308,7 +308,7 @@ proc
 > ```
 
 > #### Advanced features
-> You can use the `AS type` syntax to cast the loop variable to a different type. Explicitly defining the iteration variable's type in a FOREACH loop is useful when working with untyped collections, such as ArrayList. This allows you to leverage your knowledge of the actual type of the items in the collection:
+> You can use the `AS type` syntax to cast the loop variable to a different type. Explicitly defining the iteration variable's type in a FOREACH loop is useful when working with untyped collections, such as [ArrayList](../collections/array_list.md). This allows you to leverage your knowledge of the actual type of the items in the collection:
 > 
 > ```dbl,ignore,does_not_compile
 > foreach mydecimalvar in arraylist as @int

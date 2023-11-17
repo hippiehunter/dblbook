@@ -38,9 +38,9 @@
 ### Primatives
 1. What are the three forms of alpha types in DBL?
    - [ ] a, alpha, a10
-   - [ ] a, a*, asize
+   - [ ] a, a*, a{size}
    - [x] a, a10, a*
-   - [ ] a, a*, asize+
+   - [ ] a, a*, a{size}+
    
 2. What's the maximum length of alpha types in 32-bit Windows and Linux when running Traditional DBL?
    - [x] 65,535 characters

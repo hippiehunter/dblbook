@@ -1,7 +1,7 @@
 # Prototyping
 Prototyping is one of the phases of compiling a Traditional DBL project. It uses a separate utility called `dblproto` to process your source code and produce type information to be used by later phases of compiling your DBL code. By default DBL compile time type checking for system-supplied routines and classes. This means the compiler assesses each system-supplied routine used in a program against its prototype, ensuring the proper number and type of arguments, correct return type, and other specifics. 
 
-When working with a single compilation unit, you will always see the compiler performing type-checking. If you're not using MSBuild and building your project requires executing multiple DBL commands, you can use the Synergy Prototype utility (known as `dblproto`) to facilitate validation.
+When working with a single compilation unit, you will always see the compiler performing type-checking. If you're not using MSBuild and building your project requires executing multiple DBL commands, you can use the DBL Prototype utility (known as `dblproto`) to facilitate validation.
 
 When writing for .NET, compile time type checking is always in effect and is slightly more strict about what sorts of things can be implicitly converted. 
 
@@ -55,7 +55,7 @@ What happens when the Traditional DBL compiler doesn't know the type of an argum
 **What to do about parameter type errors in older code:**
 The `MISMATCH` modifier provides some flexibility in argument type matching during the compile-time checks. When applied to `n`, `n.`, `a`, or `d` parameter types, it permits an alpha type argument to be passed to a numeric type without triggering a prototype mismatch error. For both subroutines and functions, when `MISMATCH` is used with an `a` parameter type, it allows the passage of a decimal or implied-decimal argument to an alpha parameter.
 
-However, there are nuances to be aware of. When using `MISMATCH` with an `n` parameter, you must exercise caution due to differences in behavior between traditional Synergy and Synergy .NET. Specifically, in traditional Synergy, an alpha argument passed to a `MISMATCH n` is treated as decimal. In contrast, Synergy .NET retains the alpha type for the passed argument. This distinction can lead to varied outcomes. If your intention is to pass an alpha to a routine with an `n` argument, and you don't make use of `^DATATYPE` and `^A`, you should opt for `^D` rather than setting the routine to `MISMATCH n`.
+However, there are nuances to be aware of. When using `MISMATCH` with an `n` parameter, you must exercise caution due to differences in behavior between traditional DBL and DBL .NET. Specifically, in traditional DBL, an alpha argument passed to a `MISMATCH n` is treated as decimal. In contrast, DBL running on .NET retains the alpha type for the passed argument. This distinction can lead to varied outcomes. If your intention is to pass an alpha to a routine with an `n` argument, and you don't make use of `^DATATYPE` and `^A`, you should opt for `^D` rather than setting the routine to `MISMATCH n`.
 
 For situations where you're using a `MISMATCH a` argument but expecting to access a `d` parameter as an alpha, ensure you use `^DATATYPE` and cast with `^A`.
 
