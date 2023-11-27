@@ -1,14 +1,20 @@
 # Variables
+`ML is actively working on this (11/16), so comments/changes are provisional at this point`
 
-The structure of a DBL program is divided into two main divisions: the data division and the procedure division. The data division is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
+`**Should "field" be defined or discussed, or is it really just the same thing as it is in other languages?`
 
-Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the 'data' keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to the language, as it allows for more readable and maintainable code.
+DBL routines have two main divisions: the data division and the procedure division. The data division `..., which precedes the PROC statement in a DBL routine,...(?)` is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
-Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put endrecord at the end of a record but it is considered good form. Records are considered a top level declaration within the data division so while you can nest groups within records you cannot nest records within records.
+Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the "data" `**Should be using double quotes in text` keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
 
-#### Named vs Unnamed
-The existence of named or unnamed records can be a little confusing for developers new to DBL. So when should you use one over the other? Named records have two usecases, the first is is codestyle, if you have a ton of fields you might want to break them up by purpose to make it easier to reason about them. The second much more complex use is when you want to refer to all of the data as a single variable. That last sentance is doing a lot of heavy lifting so im going to try unpacking it. 
+## Records
+`**Added this heading because a "Groups" heading was added below`
+Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD `**keywords in all caps (like doc)? Sure would help with DATA` at the end of a record but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records. 
 
+#### Named vs Unnamed Records
+The existence of both named and unnamed records can be a little confusing for developers new to DBL. When should you use one over the other? Named records have two use cases. The first is code clarity. If you have a lot of fields, grouping them by purpose can make it easier to reason about them. The second and much more complex use is when you want to refer to all of the data with a single variable. There is a lot to this last use case, so let's unpack it. 
+
+`***ADD example with ENDRECORD`
 ```svgbob
 +---------------------------------------------------+
 | EmployeeRecord                                    |
@@ -27,28 +33,36 @@ The existence of named or unnamed records can be a little confusing for develope
 | [0000name                          0000000000]    |
 +---------------------------------------------------+
 ```
+`**The bottom rectangle shows EmployeeRecord referred to as a single entity, but the arrow is pointing to the rectangle above that, which is showing constituent variables, it seems, which doesn't match the label for the arrow.`
 
-You can see from the above diagram that we're treating all of the data as a single big alpha. This is very common in DBL code and it's one of the things that makes I/O very natural. You can write the entire record to disk or send it over the network without any serialization effort. This is not the case with unnamed records. Unnamed records are just a way to group related data together, they are not a type. You can't pass them to a routine or return them from a routine. They are just a way to group data together.
+You can see from the above diagram that we're treating all of the EmployeeRecord data as a single big alpha. This is very common in DBL code, and it's one of the things that makes I/O very natural in this language. You can write an entire record to disk or send it over the network without any serialization effort. With unnamed records, however, this is not the case. Unnamed records are just a way to group related data. They are not types. You can't pass them to a routine or return them from a routine. They just group data.
 
-'groups' allow for nested organization and fixed-size arrays for data hierarchies. Although groups are frequently employed as complex data types, the preferred approach for new code is to use a 'structure'. We'll get around to structures in the chapter on [complex types](../complex_types/structures.md). This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha arguments. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making 'structures' a safer and more efficient option.
 
-Top level data div records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all of the variables and nested groups under them.
+Top-level data division records can be declared with different storage specifiers: stack, static, or local. These specifiers determine the lifespan and accessibility of all variables under them. 
 
-'Stack' variables behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered and deallocated when that scope is exited.
+"Stack" records and variables they contain behave like local variables in most other programming languages. They are allocated when the scope they are declared in is entered, and deallocated when that scope is exited. 
 
-'Static' variables have a unique characteristic. There's exactly one instance of the variable that is across all invocations of their defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls.
+"Static" records and variables they contain have a unique characteristic. There's exactly one instance of a static variable across all invocations of its defining routine. This behavior is similar to global variables, but with the key difference that the scope of these variables is specifically limited to the routine that defines them. Once initialized, they retain their value until the program ends, allowing data to persist between calls. 
 
-'Local' variables, meanwhile, behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced computers had significantly less ram and local variables were flexible choice for large data structures. There is no reason to use them today.
+"Local" records and variables they contain behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were a flexible choice for large data structures. There is no reason to use them today. 
 
-### Common and Global Data Section (GDS)
+## Groups
+`**instance and definition`
+'Groups' allow for nested organization and fixed-size arrays. Although groups are frequently employed as composite data types, the preferred approach for new code is to use a 'structure'. (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha blobs. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option`because they're costlier to access than structures******`.
 
-Both the COMMON statement and the GLOBAL data sections serve to establish shared data areas accessible by multiple routines within a program. However, they differ in how they manage and access the shared data.
+### COMMON and Global Data Section (GDS)
 
-The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records accessible to other routines or the main routine. GLOBAL COMMON creates new data space, while EXTERNAL COMMON references data defined elsewhere.  
+Both the COMMON statement and GLOBAL data sections serve to establish shared data areas that are accessible by other routines within a program. However, they differ in how they link the shared data.
 
-The main distinguishing factor with COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed at the point of the GLOBAL COMMON declaration, and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named common variable, with the linking process determining the correct data address for each symbolic reference.
+The COMMON statement, with its two forms, GLOBAL COMMON and EXTERNAL COMMON, is used to define records that are accessible to other routines or the main routine. GLOBAL COMMON creates new data area, while EXTERNAL COMMON references data defined in a GLOBAL COMMON statement in another routine.  
 
-In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. Here's an example that will hopefully illustrate how commons are bound at link time.
+The main distinguishing factor for COMMON statements is that the data layout (types, sizes, sequence of fields, etc.) is fixed by the GLOBAL COMMON declaration and cannot be checked during the compilation of EXTERNAL COMMON statements. When these statements are compiled, the compiler creates a symbolic reference to the named field in the common, with the linking process determining the correct data address for each symbolic reference.
+
+In contrast, global data sections are defined by the name of the area rather than the record or field name. The RECORD statement within a GLOBAL-ENDGLOBAL block is used to define shared data in these sections. Each GLOBAL statement names a data area that is independent of and accessible to any routine, allowing a global data section to be defined in one place and referenced anywhere. `**Could this paragraph be rewritten as the following? "Global data sections are also defined in one routine and accessed from other routines, but a global data section is referenced by the name of the data section, rather than by data entities it contains (fields, etc.). Records are the top-level data definitions within GLOBAL-ENDGLOBAL blocks, so fields, groups, and other data entities in global data sections are all contained in records." **True and maybe better***` 
+
+`***Add para about init, external, global`
+
+Here is an example that illustrates how commons are bound at link time:
 
 ```dbl
 global common
@@ -73,7 +87,7 @@ end
 
 
 subroutine common_binding_1
-    common
+    common 
         fld1, a10
         fld2, a10
 
@@ -126,7 +140,7 @@ endsubroutine
 > nfld2 = nfld2
 > ```
 
-You can see from the output that It doesnt matter what order the fields are declared in, the linker will bind them to the correctly named fields in the common. By contrast the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs. The size of each named section is determined by the size of the largest definition. Here's an example to demonstrate the binding differences from common with global data sections that dont have the same definitions.
+You can see from the output that it doesn't matter what order the fields are declared in. The linker will bind them to the correctly named fields in the common statement. By contrast, the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs`**reinterpretable bucket?`. The size of each named section is determined by the size of the largest definition`**Not INIT version? Could the example below demonstrate this?`. Here's an example that shows how a global data section can be defined differently when it is accessed, which demonstrates the binding differences between COMMON and GDS:
 
 ```dbl
 global data section my_section, init
@@ -156,11 +170,9 @@ subroutine gds_example_1
             another_1, a10
             another_2, a10
         endrecord
-
         record
             fred, a10
         endrecord
-        
     endglobal
 proc
     Console.WriteLine("values in a routine, bound differently")
@@ -179,14 +191,14 @@ end
 > values in a routine, bound differently
 > fred =   another2
 > another_1 = fred
-> another_2 =   another1
+> another_2 = another1   
 > ```
 
-You can see from the output that the fields names inside the GDS dont matter to the linker. A GDS is just a section of memory to be overlaid with whatever definition you tell it to use.
+You can see from the output that the field names within the GDS don't matter to the linker. A GDS is just a section of memory to be overlaid with whatever data definitions you tell it to use. 
 
 In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section.
 
-Often in the past, developers have chosen to use COMMON and GDS instead of parameters, either because they were told it was more performant or because it didnt require any refactoring when they wanted additional data inside their routines. But here's a list of reasons why you might want to avoid their usage wherever possible.
+Often in the past, developers chose to use COMMON and global data sections instead of parameters, either because they were told they were more performant or because refactoring wasn't required when they included additional data in their routines. But here's a list of reasons why you might want to avoid using global data instead of parameters:
 
 1.  **Encapsulation and modularity:** Routines that rely on parameters are self-contained and only interact with the rest of the program through their parameters and return values. This makes it easier to reason about their behavior, since you only have to consider the inputs and outputs, not any external state.
 
@@ -199,18 +211,18 @@ Often in the past, developers have chosen to use COMMON and GDS instead of param
 5.  **Testing:** Routines that use parameters are easier to test, as you can easily provide different inputs for testing. With global variables, you need to carefully set up the global state before each test and clean it up afterwards, which can be error-prone.
 
 ### Data
+`**This section is a bit mixed up, so I haven't done much with it. Looks like maybe some rewritten paragraphs are mixed in with old versions, or something like that. I.e., it looks like this section is under construction.`
+In version 9 of DBL, DATA declarations were introduced, bringing with them significant improvements to the way variables are managed. Using DATA to declare variables close to where they are used not only bolsters code readability and maintainability, but it also discourages the problematic practice of reusing variables for different types or purposes.
 
-In version 9 of DBL, data declarations were introduced, bringing with them significant improvements to the way variables are managed. Declaring variables using data close to where they are used not only bolsters code readability and maintainability, but it also discourages the problematic practice of reusing variables for different types or purposes.
+The same variable being utilized in multiple roles can obscure its current state and purpose within the code, making it challenging to understand and maintain. Using DATA declarations improves readability by encouraging each variable to be used for a single, well-defined purpose within a specific context.
 
-The same variable being utilized in multiple roles can obscure its current state and purpose within the code, making it challenging to understand and maintain. Using data declarations improves readability by encouraging each variable to be used for a single, well-defined purpose within a specific context.
+By using data declarations to create variables for single, specific purposes within their immediate contexts, we can mitigate these issues`**what issues are we talking about here? Is this a rewrite of the above paragraph(s)?`. This practice enhances code clarity by localizing variables to their points of use, which in turn minimizes the risk of errors related to mismanaged variable types or states.
 
-By using data declarations to create variables for single, specific purposes within their immediate contexts, we can mitigate these issues. This practice enhances code clarity by localizing variables to their points of use, which in turn minimizes the risk of errors related to mismanaged variable types or states.
+Adopting this approach supports the creation of self-documenting code. Each variable declared with DATA inherently carries a meaningful name that accurately reflects its purpose within that specific part of the code. It's also worth noting that DATA variables are always stored on the stack. 
 
-Adopting this approach supports the creation of self-documenting code. Each variable declared with data inherently carries a meaningful name that accurately reflects its purpose within that specific part of the code. It's also worth noting that data variables are always stored on the stack. 
+The use of type inference can create a double-edged sword when it comes to refactoring. On one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, any variables that infer their type from this function won't need to be manually updated. This can speed up refactoring and reduce errors caused by incomplete changes.`**This is probably meant to follow the next paragraph, which introduces type inference.`
 
-the use of type inference can create a double-edged sword when it comes to refactoring. On one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, any variables that infer their type from this function won't need to be manually updated. This can speed up refactoring and reduce errors caused by incomplete changes.
-
-`data` declarations also support type inference using the syntax `data variable_name = some_expression`. The compiler to deduce the type of the variable based on the assigned expression, eliminating the need for explicit type declarations. This, in effect, can lead to more compact and, in some scenarios, more readable code.
+DATA declarations also support type inference using the syntax `data variable_name = some_expression`. The compiler to deduce the type of the variable based on the assigned expression, eliminating the need for explicit type declarations. This, in effect, can lead to more compact and, in some scenarios, more readable code.
 
 While type inference can result in less explicit code, thereby potentially causing confusion particularly in a team setting or when revisiting older code, this concern is largely mitigated by modern Integrated Development Environments (IDEs). They can often display the deduced type of the variable, thus reducing the downside of less explicit code. 
 
@@ -219,20 +231,20 @@ Type inference can greatly simplify refactoring. For instance, if you change the
 However, on the flip side, type inference can make refactoring more risky. Changing the expression assigned to a variable could unintentionally change the variable's type, potentially introducing bugs that are difficult to detect. This risk is particularly high if the variable is used in many places or in complex ways, as the impact of the type change could be widespread and unexpected.
 
 > #### Type inference restrictions
-> If a routine return value is of type 'a', 'd', or 'id', the compiler will not be able to infer the data type for initial value expressions. In contrast, data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
+> If a routine return value is of type `a`, `d`, or `id`, the compiler will not be able to infer the data type for initial value expressions. In contrast, data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
 
 > #### Traditional DBL note
-> `data` declarations must declared at the top of a `begin-end` scope, this restriction doesnt exist in DBL running on .NET
+> DATA declarations must declared at the top of a BEGIN-END block. This restriction does not exist for DBL running on .NET.
 
 
 TODO: note about goto/call out of scopes with local data declarations
 
-Here's an example showing the basics of data declarations.
+Here's an example showing the basics of data declarations:
 
 ```dbl
 proc
-    begin   ;this enclosing begin-end is only required in Traditional DBL
-            ;you can drop it on .NET
+    begin   ;This enclosing begin-end is only required in Traditional DBL.
+            ;You can drop it on .NET.
         data expression = true
         
         if(expression)
@@ -241,9 +253,9 @@ proc
             data just_typed, int
             just_typed = 5
             Console.WriteLine(explicitly_typed_inited)
-            ;;in Traditional DBL the following line would be an error if it wasnt commented
-            ;;See the note above about data declaration restrictions in Traditional DBL
+            ;;In Traditional DBL, the following line would be an error if it wasn't commented:
             ;;data another_declaration, a10, "hello data"
+            ;;See the note above about data declaration restrictions in Traditional DBL.
         end
     end
 ```
@@ -253,8 +265,8 @@ proc
 > hello data
 > ```
 
-### Scope shadowing
-DBL follows variable shadowing rules similar to those in other languages, meaning an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. The follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, it's worth considering implementing them. Here's a short example to illustrate the concept:
+### Scope Shadowing
+DBL follows variable shadowing rules similar to those in other languages, meaning that an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. This follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler`**Redundant? Or is this saying something new?`. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, they're worth considering. Here's a short example to illustrate the concept:
 
 ```dbl
 record
@@ -277,7 +289,7 @@ proc
 > hello
 > ```
 
-## Paths and abbreviated paths
+## Paths and Abbreviated Paths
 You can declare the same field name multiple times within a group or named record structure. However, when accessing fields with the same name, ensure that the path used to reach the field is unique. This requirement is due to the compiler's need for specificity when navigating nested structures. Here is an example:
 
 ```dbl
@@ -308,7 +320,7 @@ main
             endgroup
         endgroup
 proc
-    ;;succeeds because its fully qualified
+    ;;These succeed because they're fully qualified:
     Console.WriteLine(contact.name)
     Console.WriteLine(contact.address.street)
     Console.WriteLine(customer[5].bldg.address.street)
@@ -316,18 +328,18 @@ proc
     Console.WriteLine(inhouse.accnt)
     Console.WriteLine(inhouse.name)
 
-    ;;succeeds though there is a more deeply nested alternative
+    ;;These succeed, though there are more deeply nested alternatives:
     Console.WriteLine(name)
     Console.WriteLine(customer[1].name)
 
-    ;;Fails
+    ;;These fail:
     Console.WriteLine(client.name)
     Console.WriteLine(address.street)
     Console.WriteLine(accnt)
 endmain
 ```
 
-In this data structure, the following paths are valid because they unambiguously lead to a single field:
+With the data structure above, the following paths are valid because they unambiguously lead to a single field:
 
 ```dbl,ignore,does_not_compile
 contact.name
@@ -338,7 +350,7 @@ inhouse.accnt
 inhouse.name
 ```
 
-The following paths are valid because they are actually a fully qualified path even though there are more deeply nested variables with the same name. These accesses would have failed prior to version 12.
+And the following paths are valid because they are actually fully-qualified paths, even though there are more deeply nested variables with the same name. These would have failed prior to version 12.
 
 ```dbl, ignore,does_not_compile
 customer[1].name
@@ -353,9 +365,9 @@ address.street
 accnt
 ```
 
-Using any of these paths will result in a helpful compiler error that will tell you what the other considered symbols were.
+Using any of these invalid paths will result in a helpful compiler error that will tell you what the matching symbols are.
 
-> #### Compiler Output
+> #### Compiler output
 > ```
 > %DBL-E-AMBSYM, Ambiguous symbol client.name
 > 1>%DBL-I-ERTXT2,   MAIN$PROGRAM.client.customer.name
@@ -368,12 +380,12 @@ Using any of these paths will result in a helpful compiler error that will tell 
 >     -   [ ] Data division and procedure division
 >     -   [ ] Data division and memory division
 >     -   [ ] Procedure division and static division
-> 2.  What keyword allows for variable declarations within the procedure division in recent versions of DBL?
+> 2.  Which keyword allows for variable declarations within the procedure division in recent versions of DBL?
 >     -   [ ] Var
 >     -   [ ] Data
 >     -   [ ] Local
 >     -   [ ] Static
-> 3.  What are the storage specifiers available for records and groups in DBL?
+> 3.  What are the storage specifiers available for records and groups `[**Not groups. Just records, right?]` in DBL?
 >     -   [ ] Static, local, and global
 >     -   [ ] Stack, global, and local
 >     -   [ ] Stack, static, and local
@@ -388,9 +400,9 @@ Using any of these paths will result in a helpful compiler error that will tell 
 >     -   [ ] They are stored locally.
 >     -   [ ] They are stored on the stack.
 >     -   [ ] They are stored globally.
-> 7.  What data containers in DBL can hold multiple related data items of various types?
+> 7.  Which data containers in DBL can hold multiple related data items of various types?
 >     -   [ ] Functions
 >     -   [ ] Groups
 >     -   [ ] Records
 >     -   [ ] Variables
-> 8.  True or False: It's mandatory to put 'endrecord' at the end of a record declaration in DBL.
+> 8.  True or false: It's mandatory to put ENDRECORD at the end of a record declaration in DBL.
