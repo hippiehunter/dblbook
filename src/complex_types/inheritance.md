@@ -3,7 +3,7 @@ One of the earliest Object Oriented Programming (OOP) concepts taught is that of
 
 ### The Delegate Pattern via Base Class
 
-In the delegation pattern, instead of performing a task itself, an object delegates the task to a helper object. This can be achieved elegantly using polymorphism by defining an interface or a base class, and then creating delegate classes that implement the specific behavior.
+In the delegation pattern, instead of performing a task itself, an object delegates the task to a helper object. This can be achieved elegantly using polymorphism by defining an [interface](../beyond_types/interfaces.md) or a base class, and then creating delegate classes that implement the specific behavior.
 
 Consider a scenario: an application that needs to notify users of certain events. There are multiple notification methods - email, SMS, push notification, etc. There could be additional notification methods in the future and you don't really want to have a super method that handles every possible kind of notification. So you 
 ```dbl

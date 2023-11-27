@@ -44,11 +44,11 @@ DBL can also enforce a more rigid type system, as seen with the "string" type. H
 
 ### Alpha
 
-An alpha value (`a`, `a*`, `asize`) is a sequence of printable ASCII characters treated as a single information unit. 
+An alpha value (`a`, `a*`, `a{size}`) is a sequence of printable ASCII characters treated as a single information unit. 
 
 - `a`: An alpha parameter, return type, or method property.
 - `a*`: An alpha data field with size determined by its initial value.
-- `asize`: An alpha data field of specified size, default filled with spaces.
+- `a{size}`: An alpha data field of specified size, default filled with spaces. Ex. `a10` is a 10 character alpha.
 
 > #### Platform Limits
 > Alphas have the following max length restrictions on certain platforms. 
@@ -58,7 +58,7 @@ An alpha value (`a`, `a*`, `asize`) is a sequence of printable ASCII characters 
 
 ### Decimal and Implied-decimal
 
-Decimal (`d`, `d*`, `dsize`) and implied-decimal (`d.`, `dsize.precision`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
+Decimal (`d`, `d*`, `d{size}`) and implied-decimal (`d.`, `d{size}.{precision}`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
 
 In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule per operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
 
@@ -117,7 +117,7 @@ endsubroutine
 
 ### Packed and Implied-packed
 
-Data in packed or implied-packed form (`p`, `psize`, `p.`, or `psize.precision`) is stored as two digits per byte, plus an extra byte for the sign. This data type is uncommon and can usually be migrated to decimal and implied decimal without significant trouble.
+Data in packed or implied-packed form (`p`, `p{size}`, `p.`, or `p{size}.{precision}`) is stored as two digits per byte, plus an extra byte for the sign. This data type is uncommon and can usually be migrated to decimal and implied decimal without significant trouble.
 
 ### Boolean
 
@@ -159,9 +159,9 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type mappin
 > #### Quiz
 > 1. What are the three forms of alpha types in DBL?
 >    - [ ] a, alpha, a10
->    - [ ] a, a*, asize
+>    - [ ] a, a*, a{size}
 >    - [ ] a, a10, a*
->    - [ ] a, a*, asize+
+>    - [ ] a, a*, a{size}+
 >    
 > 2. What's the maximum length of alpha types in 32-bit Windows and Linux when running Traditional DBL?
 >    - [ ] 65,535 characters

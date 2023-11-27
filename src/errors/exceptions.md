@@ -226,3 +226,6 @@ During this unwinding process, the stack is effectively being "unwound" from the
 Error list is more efficient and can be easier to fully understand when working with synergy io statements
 onerror is nasty business and you should avoid or rework it when possible to do so safely.
 TODO: explain that all error handling can be converted to exceptions. Give a good example of onerror -> exception and error list -> exception
+
+## Defining Custom Exceptions
+TODO: Explain how to define custom exceptions and why you might want to do so.
