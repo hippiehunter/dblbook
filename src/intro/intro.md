@@ -21,20 +21,12 @@ Whether you're using DBL in its traditional form or harnessing the power of .NET
 
 ## Who This Book Is For
 
-This book assumes that you’ve written code in another programming language but
-doesn’t make any assumptions about which one. We’ve tried to make the material
-broadly accessible to those from a wide variety of programming backgrounds. We
-don’t spend a lot of time talking about what programming *is* or how to think
-about it. If you’re entirely new to programming, you would be better served by
-reading a book that specifically provides an introduction to programming.
+This book assumes that you’ve written code in another programming language but doesn’t make any assumptions about which one. We’ve tried to make the material broadly accessible to those from a wide variety of programming backgrounds. While we do not delve into the fundamentals of what programming is or the general philosophy behind it, we place significant emphasis on explaining the intricacies of real world DBL. This includes detailed discussions on when and why to use various features of the language, as well as shedding light on common patterns and practices prevalent in the DBL community. However, if you are entirely new to the world of programming, you might find more value in a resource specifically tailored as an introduction to programming concepts. This book aims to bridge your existing programming knowledge to the specificities and nuances of DBL.
 
 ## How to Use This Book
 
-In general, this book assumes that you’re reading it in sequence from front to
-back. Later chapters build on concepts in earlier chapters, and earlier
-chapters might not delve into details on a particular topic but will revisit
-the topic in a later chapter.
+In general, this book assumes that you’re reading it in sequence from front to back. Later chapters build on concepts in earlier chapters, and earlier chapters might not delve into details on a particular topic but will revisit the topic in a later chapter. Some chapters can be skipped if you're codebase doesn't use the features covered in that chapter. Examples of this are the ui and io chapters. A counter example would be chapter that covers newer .NET specific features. Those chapters should still be read even if your codebase doesn't currently use those features.
 
 ## Special Thanks
 
-This book is inspired by, generally structured as and sometimes copied from the [Rust Book](https://github.com/rust-lang/book)
+This book is inspired by, loosely structured as and sometimes copied from the [Rust Book](https://github.com/rust-lang/book)

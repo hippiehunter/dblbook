@@ -9,6 +9,7 @@ CRUD, an acronym for Create, Read, Update, and Delete, represents the essential 
 **Data Area**: If you're reading, creating or updating a record, you'll need a data area to hold the record. This is a variable that is defined as a structure or alpha that matches the size of the records in the file.
 **GETRFA**: Returns the record’s Global Record Format Address (GRFA). If you pass an argument with space for 6 bytes this will be filled with the RFA. If you pass an argument with space for 10 bytes it gains a 4 byte hash that can be used to implement optimistic locking. This feature will be covered in more detail later in this chapter. TODO: mention the stability that comes from static rfas and also the loss of them if you rebuild a file
 **error_list** argument allows specification of an I/O error list for robust error management. This feature ensures the program can handle exceptions like locked records or EOF conditions gracefully.
+
 ### Create
 `STORE(channel, data_area[, GETRFA:new_rfa][, LOCK:lock_spec]) [[error_list]]`
 
@@ -25,6 +26,13 @@ The `STORE` statement is a fundamental tool in DBL for adding new records to an 
 
 **Transactional Capability**:
 - The combination of the `LOCK` qualifier and the `GETRFA` argument in a `STORE` statement lends a degree of transactional capability to the operation. The lock ensures that the record remains unaltered during subsequent operations, while the RFA provides a reference to the specific record. This is not commonly seen in DBL applications, but it's worth noting that in case you find yourself in a situation where you need to implement some form of transactional capability.
+
+**Basic Example**:
+> These examples make use of `ISAMC` to create a new isam file with a single key. `ISAMC` will be explained later in more detail but for now we'll just use it without explanation
+
+```dbl
+
+```
 
 ### Read
 `READ(channel, data_area, key_spec[, KEYNUM:key_num][, LOCK:lock_spec][, MATCH:match_spec][, POSITION:position_spec][, RFA:rfa_spec][, WAIT:wait_spec]) [[error_list]]`
@@ -79,7 +87,7 @@ Individual keys in an ISAM file can be marked as immutable, meaning they cannot 
 
 **Immutable as Identifiers**: One primary reason to enforce immutable keys is to preserve the integrity of unique identifiers. In many database designs, certain key fields serve as definitive identifiers for records – akin to a Social Security number for an individual. Allowing these key values to change can lead to complications in tracking and referencing records, potentially causing data integrity issues. For example, if a key field used in foreign key relationships were allowed to change, it could create orphaned records or referential integrity problems.
 
-**Avoiding Complex Updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
+**Avoiding Designs With Complex Updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
 
 ### Delete
 
@@ -103,7 +111,9 @@ Hard delete is the complete removal of a record from the database. Once a record
 `DELETE(channel) [[error_list]]`
 
 **Basics of `DELETE`**:
-The `DELETE` statement is used to remove a record from a file. `DELETE` requires an open channel in update mode (U:I) and a record that has been previously read and locked.
+The `DELETE` statement is used to remove a record from a file. `DELETE` requires an open channel in update mode (U:I) positioned to a record that has been previously locked. If you need to delete a record in a hard delete system the order of operations is as follows:
+1. `READ` or `FIND` the record with automatic locking or manual locking enabled
+2. Call `DELETE` on the same channel as the `READ` or `FIND` operation
 
 **Considerations**:
 1. **Space Efficiency**: Hard deletes free up space in the database, making them suitable for applications where data storage is a concern.
@@ -117,11 +127,42 @@ A system might be designed to use soft deletes for several reasons:
 2. **Data Analysis and Reporting**: Having historical data, including records marked as deleted, can be valuable for trend analysis and reporting. Soft deletes allow you to maintain and query this historical data.
 3. **System Integrity**: In systems with intricate data relationships, soft deletes help maintain the integrity of the system by ensuring that deleting one record does not inadvertently impact related data.
 
+## Beyond CRUD
+
+### Sequential Access
+
+Sequential access in databases, exemplified by the `READS` statement in DBL, is a method where records are processed in an order determined by a key. This approach is particularly advantageous for certain tasks over reading individual records one at a time for several reasons:
+
+1. **Efficiency in Processing Ordered Data**: When data needs to be processed in the order it's stored (such as chronological logs or sorted lists), sequential access allows for a streamlined and efficient traversal. It eliminates the overhead associated with locating each record individually based on specific criteria or keys.
+
+2. **Optimized for Large Volume Data Handling**: Sequential access is ideal for operations involving large datasets where each record needs to be examined or processed. By accessing records in sequence, it reduces the computational cost and complexity compared to individually querying records, especially in scenarios like data analysis, report generation, or batch processing.
+
+3. **Simplicity and Reduced Complexity**: Implementing sequential access in applications simplifies the code, as it follows the natural order of records in the file. This contrasts with the more complex logic required for random or individual record access, where each read operation might require a separate query or key specification.
+
+`READS(channel, data_area[, DIRECTION:dir_spec][, GETRFA:new_rfa][, LOCK:lock_spec][, WAIT:wait_spec]) [[error_list]]`
+
+**Basics of READS**:
+- The `READS` statement is designed to retrieve the next sequential record from a file, based on the collating sequence of the index of reference. This means that it reads records in either ascending or descending order, depending on the key's ordering.
+
+**Navigating Through Records**:
+- `READS` is particularly adept at navigating through records in a file, moving logically from one record to the next. It maintains a context of 'next record', established through operations like `READ`, `FIND`.
+- `READS` does not perform any filtering or matching it simply reads the next record in the file based on the order of the key that was used to position it. If you want to stop reading records after the criteria is no longer matching you'll need to do that checking manually against the data area or use the Select class.
+**Directional Reading**:
+- With the `DIRECTION` qualifier, `READS` offers the ability traverse records in reverse order. In the distant past before this functionality, keys needed to be declared reverse order in order to support this access pattern, so you may still see files where there are two keys that differ only by the declared order.
+
+### Error Handling and Record Locking
+
+**Handling EOF and Errors**:
+- When `READS` encounters the end (or beginning, in case of reverse reading) of the file, it triggers an “End of file” error (`$ERR_EOF`). This error sets the current record position to undefined, so it's important to handle it appropriately. This can be done by checking for the `$ERR_EOF` error and taking appropriate action, such as exiting the loop or performing cleanup operations.
+
+**Record Locking**:
+- In update mode, `READS` automatically locks the retrieved record, ensuring that the data remains consistent during any subsequent update operations. TODO: rewrite This automatic locking is crucial in scenarios where data integrity is paramount, particularly in multi-user environments.
+
+### Best Practices and Considerations
+Consider using Select instead of READS for sequential access especially if you need to filter the records you're reading. Select is covered in more detail later in this chapter.
 
 Purge
-reads
 find
-    match qualifiers
 rfa vs grfa
 locking
     automatic

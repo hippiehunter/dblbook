@@ -13,6 +13,12 @@ The `OPEN` statement in DBL is used to initiate an I/O operation. It associates 
 
 `OPEN(channel, mode_spec, file_spec) [error_list]`
 
+### Logicals
+TODO: Write something about the usage of logicals in the `OPEN` statement. DAT: bla.ism
+
+### Case Sensitivity and extensions
+TODO: Write something about default extensions and case sensitivity on linux platforms
+
 ### Dynamic Channel Allocation
 - **Automatic Assignment:** DBL provides a feature when opening a file or terminal, if the channel variable is set to zero, the runtime automatically assigns the next available channel number. This channel number is then updated in the variable. This is the only thread-safe way to allocate channels. Usage of `%syn_freechn` is strongly discouraged, due to the very subtle, difficult to track down, catastrophic bugs that will be introduced by using it.
 - **Search Order:** The runtime searches for a free channel starting from the highest number (1024 or 8096) and moves downwards.
