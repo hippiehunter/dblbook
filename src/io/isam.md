@@ -159,14 +159,170 @@ Sequential access in databases, exemplified by the `READS` statement in DBL, is 
 - In update mode, `READS` automatically locks the retrieved record, ensuring that the data remains consistent during any subsequent update operations. TODO: rewrite This automatic locking is crucial in scenarios where data integrity is paramount, particularly in multi-user environments.
 
 ### Best Practices and Considerations
-Consider using Select instead of READS for sequential access especially if you need to filter the records you're reading. Select is covered in more detail later in this chapter.
+Consider using Select instead of READS for sequential access especially if you need to filter the records you're reading. Select is covered in more detail later in this chapter. TODO: there are more best practices for READS to cover here
 
-Purge
-find
-rfa vs grfa
-locking
-    automatic
-    manual
-    open for input
-    TLOCK
-    Optimistic
+## Repositioning, Checking for Existence, or Targeted Locking
+The `FIND` statement is designed to position the pointer to a specific record in a file, setting the stage for its subsequent retrieval. Unlike the `READ` statement, which fetches the record's data immediately, `FIND` simply locates the record, allowing the next `READS` statement on the same channel to retrieve it.
+
+FIND(channel[, record][, key_spec][, GETRFA:new_rfa][, KEYNUM:krf_spec]
+&   [, LOCK:lock_spec][, MATCH:match_spec][, POSITION:pos_spec]
+&   [, RFA:match_rfa][, WAIT:wait_spec]) [[error_list]]
+
+**Key Parameters**:
+- **Record**: Don't use this argument.
+- **Key_spec**: This works the same as `READ` and is used to specify the key to use for locating the record.
+  
+**Special Qualifiers**:
+These special qualifiers all work the same as `READ` and are used to control the behavior of the `FIND` operation.
+- **KEYNUM**
+- **LOCK**
+- **MATCH**
+- **POSITION**
+- **RFA**
+- **WAIT**
+
+**Positioning vs. Retrieving**:
+- While `READ` retrieves and locks the record in one operation, `FIND` only attempts to position the pointer to the record. 
+
+**Use Cases for FIND**:
+- `FIND` will set the context for a future `READS` operation. This has been used in applications to slightly simplify the `READS` loop to avoid the specialized initial step of dealing with the first record.
+- `FIND` is useful if you need to check for the existence of a record without retrieving it. This can be useful for checking for duplicates or for checking for the existence of a record before creating it.
+- `FIND` is also useful if you need to lock a record without retrieving it. This can be useful for optimistic locking or for locking a record before overwriting it.
+
+**Locking Behavior**:
+- By default, `FIND` does not lock the located record unless explicitly specified with the `LOCK` qualifier or enabled through compiler options. This contrasts with `READ`, which automatically locks the retrieved record if used on a channel opened for update.
+
+## Keyed Lookups
+
+Keyed lookups in ISAM files are a fundamental aspect of database operations in DBL, offering a distinct approach compared to non-ordered keyed lookups, such as those in a hash table. Understanding these differences, as well as the concept of partial keyed reads, is crucial for database developers. Here are a few paragraphs explaining these concepts:
+
+### Keyed Lookups in ISAM Files
+
+**Ordered Nature of ISAM Lookups**:
+- ISAM files in DBL utilize ordered keys for data retrieval, meaning the records are sorted based on the key values. This ordered structure enables efficient range queries and sequential access based on key order. For example, you can quickly locate a record with a specific key or navigate through records in a sorted manner.
+
+**Comparison with Hash Table Lookups**:
+- Unlike ISAM files, hash tables are typically unordered. A hash table provides fast access to records based on a hash key, but it doesn't maintain any order among these keys. While hash tables excel in scenarios where you need to quickly access a record by a unique key, they don't support range queries or ordered traversals as ISAM files do.
+
+**Efficiency Considerations**:
+- In scenarios where the order of records is important, ISAM files are more efficient than hash tables. The ability to perform range scans and ordered retrievals makes ISAM files preferable for applications where such operations are frequent.
+
+### Partial Keyed Reads in ISAM
+
+**Understanding Partial Keyed Reads**:
+- Partial keyed reads in ISAM files allow for searches based on a portion of the key, starting from the leftmost part. This means you can perform lookups using only the beginning segment of the key, and the search will return records that match this partial key.
+
+**Left-to-Right Application in Keyspace**:
+- The key structure in ISAM files is significant when it comes to partial keyed reads. The search considers the key's structure from left to right. For instance, if you have a composite key made of two fields, say, region and department, a partial key search with just the region will return all records within that region, regardless of the department.
+
+**Use Case Scenarios**:
+- This feature is particularly useful in scenarios where data is hierarchically structured. For instance, if you're dealing with geographical data, you might want to retrieve all records within a certain area without specifying finer details initially. Partial keyed reads allow for this level of query flexibility.
+
+```svgbob
++---------------------------------------------------+
+| EmployeeRecord                                    |
++-------------------+-------------------------------+
+| id (4 bytes)      | [0000]                        |
+| dept (4 bytes)    | [dept] (2 chars)              |
+| region (4 bytes)  | [region] (4 chars)            |
+| manager (4 bytes) | [0001] (4 bytes of id)        |
++-------------------+-------------------------------+
+
++---------------------+
+| Ordered By id       |
++---------------------+
+| [0000EXECWEST0000]  |
+| [0001HR  WEST0001]  |
+| [0002DEV EAST0001]  |
+| [0003HR  CENT0001]  |
+| [0004HR  MNT 0001]  |
+| [0005HRI MNT 0004]  |
+| [0006HR  MNT 0003]  |
++---------------------+
+
++---------------------+
+| Ordered By dept     |
++---------------------+
+| [0002DEV EAST0001]  |
+| [0000EXECWEST0000]  |
+| [0004HR  MNT 0001]  |
+| [0001HR  WEST0001]  |
+| [0003HR  CENT0001]  |
+| [0006HR  MNT 0003]  |
+| [0005HRI MNT 0004]  |
++---------------------+
+
++---------------------+
+| Ordered By region   |
++---------------------+
+| [0003HR  CENT0001]  |
+| [0002DEV EAST0001]  |
+| [0004HR  MNT 0001]  |
+| [0006HR  MNT 0003]  |
+| [0005HRI MNT 0004]  |
+| [0000EXECWEST0000]  |
+| [0001HR  WEST0001]  |
++---------------------+
+
++-------------------------+
+| Ordered By manager + id |
++-------------------------+
+| [0000EXECWEST0000]      |
+| [0001HR  WEST0001]      |
+| [0002DEV EAST0001]      |
+| [0003HR  CENT0001]      |
+| [0004HR  MNT 0001]      |
+| [0006HR  MNT 0003]      |
+| [0005HRI MNT 0004]      |
++-------------------------+
+```
+
+In this diagram:
+- Each `EmployeeRecord` is represented with different key orderings: by `id`, `dept`, `region`, and `manager`.
+- The records are sorted based on each key ordering, demonstrating how the positioning of the key fields affects the sorting and access pattern.
+- The sorting order shows how queries and partial key reads would be efficient for different key combinations, illustrating the significance of key ordering in database design and querying.
+- The sort order of a composite key (manager + id) shows that if you partially key read on the manager field, you'll get all the records for that manager in order by id.
+- Region as defined here must be a non unique key because there are multiple records with the same region. This is a common pattern in ISAM files where you have a unique key and then a non unique key that is used for range queries. This is also true for dept but not for id or (manager + id).
+- `FIND` and `READ` can specify a partial key value in order to position on the first matching record in a sequence. `READS` will advance to the next record in the file based on the ordering of the key, but it will not filter out records that don't match the partial key value.
+
+### Context-Driven Key Design
+
+**Analyzing User Needs**:
+- When designing keys, it’s essential to consider the user's perspective and the tasks they need to accomplish. For instance, if there’s a user role focused on managing inventory in a specific warehouse, it would be beneficial to key inventory records by warehouse ID. This approach allows for rapid access and management of all items within a given warehouse.
+
+**Example**:
+- In an inventory management system, if users frequently access all items in a specific warehouse, designing a composite key like `[WarehouseID, ItemID]` would optimize data retrieval for these users.
+
+### Key Design for Data Relationships
+
+**Facilitating Efficient Joins**:
+- Often, one of the main reasons for accessing a particular dataset is to join it with another. In such cases, it’s vital to design keys that can easily and accurately match the related records. The key should include fields that are present in the driving record of the join operation.
+
+**Example**:
+- Suppose you have a 'Orders' table and a 'Customers' table. If orders are frequently retrieved based on customer information, having a `CustomerID` in both tables as part of their keys allows for efficient joins between these tables.
+
+**Considerations for Composite Keys in Joins**:
+- When using composite keys, ensure that the key components align with the fields used in join conditions. The order of elements in a composite key can impact the efficiency of the join operation, especially in ISAM databases where key order dictates access patterns.
+
+## Optimistic Concurrency
+Optimistic concurrency control is a method used in database management where transactions are processed without locking resources initially, but with a check at the end of the transaction to ensure no conflicting modifications have been made by other transactions.
+
+**How GRFA Facilitates Optimistic Concurrency**:
+1. **Record Identification**: When a record is read, its GRFA can be retrieved. This GRFA acts as a locator to get back to that record at a later time.
+2. **Concurrent Modifications**: While a transaction is processing a record, other transactions might also access and modify the same record. 
+3. **Final Validation**: At the point of updating or committing the transaction, the current GRFA of the record is compared with the GRFA obtained at the start. If the hash part of the GRFA has changed, it indicates that the record has been modified by another transaction since it was read.
+4. **Conflict Resolution**: In case of a mismatch in GRFA values, the transaction knows that a conflicting modification has occurred. The system can then take appropriate actions, such as retrying the transaction, aborting it, or triggering a conflict resolution mechanism.
+
+### Practical Implications
+
+**Advantages**:
+- This approach reduces the need for locking, thereby enhancing performance in environments with high concurrency. It allows multiple transactions to proceed in parallel without waiting for locks.
+- It provides a mechanism to ensure data integrity without the overhead of locking resources for the duration of the transaction.
+
+**Considerations**:
+- While optimistic concurrency control increases throughput, it requires careful handling of conflict scenarios. Applications must be designed to handle cases where transactions are rolled back or retried due to GRFA mismatches.
+- It's most effective in scenarios where read operations are frequent, but actual conflicts are relatively rare.
+- Harmony Core uses this mechanism along with transactional rollback capability to ensure data integrity in concurrent environments.
+
+**GRFA Stability**:
+- The RFA part will be stable as long as the file is not rebuilt. The hash part will be stable as long as the record is not modified. If the record is modified the hash will change. If the file is rebuilt the RFA will change.
