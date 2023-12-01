@@ -92,4 +92,4 @@ Navigate (`cd`) to this subdirectory (`bin/Debug/net6.0`), and you can run the b
 HelloMSBuild.exe
 ```
 
-You should see your custom "Hello World" message displayed in the console just as before. We'll tend to prefer the dotnet cli in this book, but it's good to know what's going on under the hood. Next, we'll try to build the project using the traditional Synergy DBL build tools.
+You should see your custom "Hello World" message displayed in the console just as before. We'll tend to prefer the dotnet cli in this book, but it's good to know what's going on under the hood. Next, we'll move on to something a little more interesting than "Hello World" - a guessing game!
