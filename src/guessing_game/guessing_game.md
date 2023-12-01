@@ -19,8 +19,8 @@ To set up a new .NET project, go to the *projects* directory that you created in
 Chapter 1 and make a new project using dotnet, like so:
 
 ```console
-$ dotnet new synergy_console -n guessing_game
+$ dotnet new SynNetApp -n guessing_game
 $ cd guessing_game
 ```
 
-The first command, `dotnet new`, takes the template name (`synergy_console`) as the first argument and takes the name of the project (`guessing_game`) as the second argument. The second command changes to the new project’s directory.
+The first command, `dotnet new`, takes the template name (`SynNetApp`) as the first argument and takes the name of the project (`guessing_game`) as the second argument. The second command changes to the new project’s directory.
