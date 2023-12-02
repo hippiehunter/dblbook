@@ -25,7 +25,7 @@ Next, you need to download the Synergy/DE (SDE) installers, these provide comman
 
 #### Step 3: Install Synergy/DE
 
-Now, install the Synergy/DE on your machine. Run the downloaded installers for both 64-bit and 32-bit SDE. Follow the on-screen instructions and pay close attention to step 4 below to complete the installations.
+Now, install the Synergy/DE on your machine. Run the downloaded installers first the 64-bit (104) and then the 32-bit (101) SDE. Follow the on-screen instructions and pay close attention to step 4 below to complete the installations.
 
 #### Step 4: Configure Licensing
 

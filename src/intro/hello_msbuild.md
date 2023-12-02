@@ -42,6 +42,83 @@ Take a moment to explore the newly created project structure. You should see two
 - `Program.dbl`: contains the entry point of the application. This is where the application starts executing.
 - `HelloMSBuild.synproj`: contains the project definition in an MSBuild-compatible XML format. This file defines the project's name, source files, options and dependencies.
 
+
+Lets dig into the created HelloMSBuild.synproj file. It should look something like this:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+    		<TargetFramework Condition="'$(TargetFrameworkOverride)' == ''">net6.0</TargetFramework>
+    		<TargetFramework Condition="'$(TargetFrameworkOverride)' != ''">$(TargetFrameworkOverride)</TargetFramework>
+		<DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>
+    		<EnableDefaultItems>false</EnableDefaultItems>
+  	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="Program.dbl" />
+  	</ItemGroup>
+
+	<ItemGroup>
+    		<PackageReference Include="Synergex.SynergyDE.Build" Version="23.*" />
+    		<PackageReference Include="Synergex.SynergyDE.synrnt" Version="12.*" />
+	</ItemGroup>
+
+</Project>
+```
+
+### Root Element and SDK Reference
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="restore;Build">
+```
+
+- `<Project>`: This is the root element of the MSBuild file, which contains all the configuration data.
+- `Sdk="Microsoft.NET.Sdk"`: Specifies that this project uses the .NET SDK. This SDK provides a set of standard targets, properties, and items.
+- `DefaultTargets="restore;Build"`: This attribute sets the default targets to be executed when MSBuild runs this file. In this case, it will first run the `restore` target (to restore NuGet packages) and then the `Build` target.
+
+##### PropertyGroup
+
+```xml
+<PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework Condition="'$(TargetFrameworkOverride)' == ''">net6.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFrameworkOverride)' != ''">$(TargetFrameworkOverride)</TargetFramework>
+    <DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>
+    <EnableDefaultItems>false</EnableDefaultItems>
+</PropertyGroup>
+```
+
+- `<PropertyGroup>`: Defines a group of properties for the project.
+- `<OutputType>Exe</OutputType>`: Specifies the output type of the project, which in this case is an executable file.
+- `<TargetFramework>`: Sets the target framework for the project. This project targets .NET 6.0 by default, but it can be overridden with a different framework version if `TargetFrameworkOverride` is specified.
+- `<DefaultLanguageSourceExtension>.dbl</DefaultLanguageSourceExtension>`: Sets the default source file extension for the language used in this project, which is `.dbl`.
+- `<EnableDefaultItems>false</EnableDefaultItems>`: Disables the default behavior of including certain files in the build based on conventions. This may change in the future but currently there are issues with automatic includes for DBL files.
+
+##### ItemGroup for Compile
+
+```xml
+<ItemGroup>
+    <Compile Include="Program.dbl" />
+</ItemGroup>
+```
+
+- `<ItemGroup>`: This element is used to define a group of items. Items represent inputs into the build system.
+- `<Compile Include="Program.dbl" />`: This line includes `Program.dbl` in the compilation process. It's specifying that `Program.dbl` is a file to be compiled.
+
+##### ItemGroup for PackageReferences
+
+```xml
+<ItemGroup>
+    <PackageReference Include="Synergex.SynergyDE.Build" Version="23.*" />
+    <PackageReference Include="Synergex.SynergyDE.synrnt" Version="12.*" />
+</ItemGroup>
+```
+
+- Another `<ItemGroup>` section, this time for NuGet package references.
+- `<PackageReference Include="Synergex.SynergyDE.Build" Version="23.*" />`: This line adds a NuGet package reference to `Synergex.SynergyDE.Build`, a package that brings along the DBL compiler, with a version wildcard for major version 23.
+- `<PackageReference Include="Synergex.SynergyDE.synrnt" Version="12.*" />`: Similarly, this adds a reference to `Synergex.SynergyDE.synrnt`, the runtime support package, with a version wildcard for major version 12.
+
 #### Step 6: Customize the Hello World Message
 
 Open `Program.dbl` in your favorite text editor. You'll see a line of code that looks something like this:
