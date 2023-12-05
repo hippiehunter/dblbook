@@ -14,7 +14,7 @@ Headline style for the heading at the top of files (i.e., a single #), and then,
 
 **Code in text.** (frequently referred to as "inline code") should be enclosed in backticks--e.g., This is an assignment in Synergy: `name="Zeno"`. 
 
-**Code blocks.** Enclosed in triple-backtick lines, and the first of these should end in dbl. For example:
+**Code blocks.** Enclosed in triple-backtick lines, and the first of these should end in dbl if we'll want it to compile in the future. For example, the following starts with ```dbl:
 
 ```dbl
 public class MyClass, void
@@ -24,8 +24,16 @@ proc
     name = "Zeno"
 endclass
 ```
+If a code examples isn't intended to be compiled as show, it should be marked with dbl,ignore,does_not_compile. For example, the following starts with ```dbl,ignore,does_not_compile:
 
-**Tokens in code.** If something in a code sample is to be replaced by a value, enclose it in curly quotes—e.g., `a{size}`.
+```dbl,ignore,does_not_compile
+for variable = value, value2, ... do
+begin
+    ; statement
+end
+```
+
+**Tokens in code.** If something in a code sample is to be replaced by a value, enclose it in curly quotes—e.g., `a{size}`. When possible, there should be a snippet example that shows the replacement: "...`a{size}` (e.g., `a10` for an alpha with a length of 10)."
 
 ## Keywords
 Keywords should be in all caps (e.g., USING-RANGE). Don’t use backticks unless the keyword is in code.
