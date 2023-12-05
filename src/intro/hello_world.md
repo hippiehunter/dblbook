@@ -32,14 +32,14 @@ proc
 Let’s take a closer look at the code you entered. The first line of the code, `proc`, is an implicit main declaration. It tells DBL that you’re defining a main routine, which is your entry point and a collection of statements that performs a task. The second line, `Console.WriteLine("Hello World")`, is an expression that prints the string Hello, world! to the screen. The `Console` part of the expression indicates that you want to use the `WriteLine` method defined in the `Console` class. You’ll learn more about classes, methods, and how to define your own methods later in this book. In the later examples we'll sometimes use implicit main, and sometimes fully declare it. For now this is shorter, your codebase likely has it both ways and you can use either. 
 
 #### Compiling, Linking, and Running the Program are separate steps
-Before running a Rust program, you must compile and link it using the DBL compiler and linker. First up we'll compile by entering the `dbl` command and passing it the name of your source file, like this:
+Before running a DBL program, you must compile and link it using the DBL compiler and linker. First up we'll compile by entering the `dbl` command and passing it the name of your source file, like this:
 
 ```bash
 dbl HelloWorld.dbl
 ```
 
 #### Link Your Application for Traditional DBL
-The compile step above will produce an `.o` file. This is an object file that contains the compiled code for your application. You'll need to link this object file produce a runnable `.dbr` file. You can do this by executing:
+The compile step above will produce an `.obj` file. This is an object file that contains the compiled code for your application. You'll need to link this object file produce a runnable `.dbr` file. You can do this by executing:
 
 ```bash
 dblink HelloWorld
