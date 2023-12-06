@@ -211,39 +211,50 @@ Often in the past, developers chose to use COMMON and global data sections inste
 5.  **Testing:** Routines that use parameters are easier to test, as you can easily provide different inputs for testing. With global variables, you need to carefully set up the global state before each test and clean it up afterwards, which can be error-prone.
 
 ### Data
-`**This section is a bit mixed up, so I haven't done much with it. Looks like maybe some rewritten paragraphs are mixed in with old versions, or something like that. I.e., it looks like this section is under construction.`
-In version 9 of DBL, DATA declarations were introduced, bringing with them significant improvements to the way variables are managed. Using DATA to declare variables close to where they are used not only bolsters code readability and maintainability, but it also discourages the problematic practice of reusing variables for different types or purposes.
+In version 9 of DBL, the DATA keyword was introduced, bringing with it significant improvements in the way variables are managed. DATA enables you to declare a variable in the procedure division of a routine, so you can define a the variable where you use it. Here is a DBL .NET example:
 
-The same variable being utilized in multiple roles can obscure its current state and purpose within the code, making it challenging to understand and maintain. Using DATA declarations improves readability by encouraging each variable to be used for a single, well-defined purpose within a specific context.
+```dbl
+proc
+    data my__int, int
+    if (expression)
+        my_int = 10
+```
 
-By using data declarations to create variables for single, specific purposes within their immediate contexts, we can mitigate these issues`**what issues are we talking about here? Is this a rewrite of the above paragraph(s)?`. This practice enhances code clarity by localizing variables to their points of use, which in turn minimizes the risk of errors related to mismanaged variable types or states.
+With Traditional DBL, DATA declarations must be declared at the top of a BEGIN-END block, before any other statements. (This restriction does not apply to DBL running on .NET.)
 
-Adopting this approach supports the creation of self-documenting code. Each variable declared with DATA inherently carries a meaningful name that accurately reflects its purpose within that specific part of the code. It's also worth noting that DATA variables are always stored on the stack. 
+```dbl
+proc
+    ...
+    begin
+        data my_int, int
+        if (expression)
+            my_int = 10
+        ...
+    end
+```
 
-The use of type inference can create a double-edged sword when it comes to refactoring. On one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, any variables that infer their type from this function won't need to be manually updated. This can speed up refactoring and reduce errors caused by incomplete changes.`**This is probably meant to follow the next paragraph, which introduces type inference.`
+It's worth noting that these variables are stored on the stack, so the scope of a DATA variable is limited to the BEGIN-END block it's defined in or to the routine. 
 
-DATA declarations also support type inference using the syntax `data variable_name = some_expression`. The compiler to deduce the type of the variable based on the assigned expression, eliminating the need for explicit type declarations. This, in effect, can lead to more compact and, in some scenarios, more readable code.
+DATA declarations bolster code readability and maintainability by making it convenient for variables to be used for a single, well-defined purpose in a specific context. This makes it less likely that variables will be reused for different data types or for different purposes—a practice that can obscure a variable’s state and role in the code, making it challenging to understand and maintain. 
 
-While type inference can result in less explicit code, thereby potentially causing confusion particularly in a team setting or when revisiting older code, this concern is largely mitigated by modern Integrated Development Environments (IDEs). They can often display the deduced type of the variable, thus reducing the downside of less explicit code. 
+Additionally, variables declared where they are used are more likely to have meaningful names that accurately reflect their purpose within their routines, which supports the creation of self-documenting code.
 
-Type inference can greatly simplify refactoring. For instance, if you change the type of a function's return value, any variables that infer their type from this function won't need to be manually updated. This can speed up refactoring and reduce errors caused by incomplete changes.
+#### Type Inference and DATA Declarations
+DATA declarations support type inference with the syntax `data variable_name = some_expression`. With this syntax, the compiler deduces the type of a variable based on the assigned expression, eliminating the need for an explicit type declaration. Type inference can lead to more compact and, in some scenarios, more readable code. However, it can also result in less explicit code that can cause confusion, particularly in a team setting or when revisiting older code. This risk, however, is largely mitigated by modern Integrated Development Environments (IDEs), which often show you the deduced type of the variable. 
 
-However, on the flip side, type inference can make refactoring more risky. Changing the expression assigned to a variable could unintentionally change the variable's type, potentially introducing bugs that are difficult to detect. This risk is particularly high if the variable is used in many places or in complex ways, as the impact of the type change could be widespread and unexpected.
+There are also pros and cons when it comes to refactoring. On the one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, you won’t need to update variables that infer their type from this function. This can expedite refactoring and reduce errors caused by incomplete changes. On the flip side, changing the expression assigned to a variable could unintentionally change the variable's type, potentially introducing bugs that are difficult to detect. This risk is particularly high if the variable is used in many places or in complex ways, as the impact of the type change could be widespread and unexpected.
 
-> #### Type inference restrictions
-> If a routine return value is of type `a`, `d`, or `id`, the compiler will not be able to infer the data type for initial value expressions. In contrast, data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
-
-> #### Traditional DBL note
-> DATA declarations must declared at the top of a BEGIN-END block. This restriction does not exist for DBL running on .NET.
-
+> #### Type Inference Restrictions
+> If a routine return value is of type `a`, `d`, or `id`, the compiler will not be able to infer the data type for initial value expressions. Data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
 
 TODO: note about goto/call out of scopes with local data declarations
 
+#### DATA Example
 Here's an example showing the basics of data declarations:
 
 ```dbl
 proc
-    begin   ;This enclosing begin-end is only required in Traditional DBL.
+    begin   ;This enclosing BEGIN-END is only required in Traditional DBL.
             ;You can drop it on .NET.
         data expression = true
         
@@ -253,12 +264,13 @@ proc
             data just_typed, int
             just_typed = 5
             Console.WriteLine(explicitly_typed_inited)
-            ;;In Traditional DBL, the following line would be an error if it wasn't commented:
+            ;;In Traditional DBL, the following line would cause an error if it wasn't commented:
             ;;data another_declaration, a10, "hello data"
-            ;;See the note above about data declaration restrictions in Traditional DBL.
         end
     end
 ```
+
+`**mention DISPOSABLE or BYREF?`
 
 > #### Output
 > ```
