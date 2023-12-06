@@ -59,7 +59,7 @@ if (%function(arguments))
 xcall subroutine(arg1, %function(arguments), arg3)
 ```
 
-Functions in DBL can be invoked in a unique manner where the return value is used as an additional argument. For example, a function call that appears as retval = %myRoutine(arg1, arg2) is interpreted by the compiler as xcall myRoutine(retval, arg1, arg2).
+Functions in DBL can be invoked in a unique manner where the return value is used as an additional argument. For example, a function call that appears as `retval = %myRoutine(arg1, arg2)` can also be invoked using `xcall myRoutine(retval, arg1, arg2)`.
 
 Functions are declared using the function statement, followed by data and procedure divisions. The `freturn` statement is used to terminate the function and return control to the caller.
 
@@ -69,8 +69,8 @@ Modifiers like LOCAL, STACK, and STATIC can specify the default state of unquali
 
 The REENTRANT modifier allows a function to be called recursively it also changes the default for unqualified RECORD statements to STACK. This is reflected in the following statement:
 
-```dbl
-function fred ,REENTRANT
+```dbl,ignore,does_not_compile
+function fred ,reentrant
 
 ```
 

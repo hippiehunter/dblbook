@@ -29,6 +29,8 @@ In an assignment statement like `decimal_var = decimal_var * 3`, the current val
 
 DBL typically rounds results when storing from an implied-decimal source expression. To truncate results, use the `%TRUNCATE` function or set the `TRUNCATE` option on `MAIN`, `FUNCTION`, and `SUBROUTINE` statements, or set system option `#11`.
 
+> TODO: init and clear
+
 Data Type Assignments
 ---------------------
 

@@ -1,5 +1,5 @@
 # Libraries
-This section is something of a description of how things work, what tools are available to you and a choose your own adventure game. You very likely have or have had at your workplace a script driven manual traditional dbl build system that contains `.dbo`, `.olb` and `.elb` files in some form. Outside of developers that need to deploy to OpenVMS you can make use of MSBuild to reproduce this script based environment to allow your IDE or CI/CD pipeline to build your projects.
+This section is something of a description of how things work, what tools are available to you and a choose your own adventure game. You very likely have or have had at your workplace a script driven manual traditional dbl build system that contains `.dbo`, `.olb` and `.elb` files in some form. Outside of developers that need to deploy to OpenVMS or AIX you can make use of MSBuild to reproduce this script based environment to allow your IDE or CI/CD pipeline to build your projects.
 
 ## Traditional DBL (Manual)
 
@@ -28,11 +28,7 @@ This section is something of a description of how things work, what tools are av
 3.  **Efficient Distribution:** Updates to an application can be distributed by just replacing the executable library, eliminating the need for relinking.
 4.  **DBL Linker Creation:** Developers can either convert existing object libraries into executable libraries or directly compile object files into an executable library.
 
-*Modern Perspective:* The distinction between object libraries and executable libraries might feel odd for developers familiar with dynamic (shared) libraries in languages like C or C++. However, the principle is somewhat similar to using shared libraries in other programming environments.
-
-* * * * *
-
-*General Annotation:* This document seems to stem from a time when manual linking and object file management were more prevalent in development workflows. Modern development environments often abstract these details, offering automated building, linking, and deployment. Developers new to the DBL might find the distinction between object and executable libraries somewhat arcane, but understanding the historical context can provide insight into the evolution of programming practices.
+*Modern Perspective:* The distinction between object libraries and executable libraries might feel odd for developers familiar with dynamic (shared) libraries in languages like C or C++. However, the principle is somewhat similar to using shared libraries in other programming environments. Modern development environments often abstract these details, offering automated building, linking, and deployment. Developers new to the DBL might find the distinction between object and executable libraries somewhat arcane, but understanding the historical context can provide insight into the evolution of your codebase. Next, we'll look at how to use MSBuild to automate complex build processes, manage dependencies more efficiently, and integrate seamlessly with various development tools, providing a more scalable and maintainable approach to building software.
 
 ## Traditional DBL (MSBuild)
 ## .NET

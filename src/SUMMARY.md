@@ -26,6 +26,7 @@
   - [Executables](./organization/executables.md)
   - [Libraries](./organization/libraries.md)
   - [Prototyping](./organization/prototyping.md)
+  - [Projects](./organization/projects.md)
 - [Complex Types](./complex_types/complex_types.md)
   - [Repository](./complex_types/repository.md)
   - [Repository Schema](./complex_types/sdl.md)
