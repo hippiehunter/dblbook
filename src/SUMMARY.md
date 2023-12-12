@@ -18,6 +18,7 @@
   - [Math](./common/math.md)
   - [Comparison](./common/comparison.md)
   - [Control Flow](./common/control_flow.md)
+  - [Combining Comparisons](./common/combined_comparisons.md)
   - [Routines](./common/routines.md)
   - [Quiz Answers](./common/quiz_answers.md)
   - [Project](./common/project.md)
