@@ -1,10 +1,9 @@
 # Control Flow
 
 ### IF-THEN-ELSE
-`**Add some sort of intro, or do we not do intros?`
 IF is the most basic statement that allows for conditional control flow in a DBL program. The IF statement checks a specified condition (a statement that evaluates to a Boolean value), and if the condition is true, it executes an associated statement or block of code (a BEGIN-END block).
 
-Here's a basic example: `**Why BEGIN and END? With simple statements we can omit these, right, and perhaps we should have at least one example that shows IF without BEGIN-END.`
+Here's a basic example: `**Why BEGIN and END? With simple statements we can omit these, right, and perhaps we should have at least one example that shows IF without BEGIN-END. But really there's a bigger issue here. Throughout this chapter we talk about "the statement" that will be executed for the if/loop/etc., but really it could be a statement or a block of statements in each case I suspect. It might be a bit wordy to say "the statement of block of statements" whenever we're talking about "the statement", so maybe "the statements"? E.g., "If the ELSE-IF condition evaluates to true, its corresponding statements are executed." Maybe this wouldn't be too awkward. But of course this sort of change isn't necessary if readers will understand "the statement" as meaning a statement or a BEGIN-END block of statements. `
 
 ```dbl,ignore,does_not_compile
 if x > y
