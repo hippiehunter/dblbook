@@ -236,11 +236,12 @@ It's important to consider several factors when deciding which mechanism to use 
 
 ## Loops
 
-Loops are foundational constructs used to automate and repeat tasks a certain number of times, or until a specific condition is met. FOR loops are typically used in cases where the exact number of iterations is known beforehand, whereas WHILE and WHILE-DO loops are more suitable when iterations depend on certain conditions. FOREACH is used to improve readability when operating over a collection or dynamic array. 
+Loops are foundational constructs used to automate and repeat tasks a certain number of times, or until a specific condition is met. FOR loops are typically used in cases where the exact number of iterations is known beforehand, whereas WHILE and WHILE-DO loops are more suitable when iterations depend on certain conditions. FOREACH is used to improve readability when operating over a collection or dynamic array. `**If FOR-DO can't iterate over a collection (and I haven't seen anything yet to indicat it can), this last statement doesn't work--i.e., it's not "used to improve readability when operating over a collection or dynamic array"; it's simply "used to iterate over a collection." It'd be the only mechanism for this, right? Also, it doesn't seem that the phrase "collection or dynamic array" quite covers it. The FOREACH doc lists a number of things it can iterate over.`
 
-There are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative that can be more intuitive for certain tasks, such as traversing tree-like data structures. However, recursion may lead to higher memory usage and potential stack overflow errors if not used correctly. Furthermore, earlier, less-structured looping mechanisms, such as the GOTO statement, have been used to jump to different points in the code. While GOTO provides a great degree of freedom, it often leads to "spaghetti code," which is hard to read and maintain due to its lack of structure. We'll discuss GOTO and other unconditional statements in [Unconditional control flow](#unconditional-control-flow) below.
+There are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative that can be more intuitive for certain tasks, such as traversing tree-like data structures. However, recursion may lead to higher memory usage and potential stack overflow errors if not used correctly. Furthermore, earlier, less structured looping mechanisms, such as the GOTO statement, can be used to jump to different points in the code. Some of these less structured mechanisms can be useful, but GOTO, which provides a great degree of freedom, often leads to "spaghetti code," which is hard to read and maintain due to its lack of structure. We'll discuss GOTO and other unconditional statements in [Unconditional control flow](#unconditional-control-flow) below.
 
-The **FOR-FROM-THRU** loop (`FOR variable FROM initial THRU final [BY incr]`) executes a statement as long as the the value of *variable* is within the specified range. The variable's value is incremented after each iteration. The default increment value is 1, but you can specify an increment value by using `BY incr`.
+### FOR-FROM-THRU
+The FOR-FROM-THRU loop (`FOR variable FROM initial THRU final [BY incr]`) executes a statement as long as the the value of *variable* is within the specified range. The variable's value is incremented after each iteration. The default increment value is 1, but you can specify an increment value by using `BY incr`.
 
 ```dbl
 record
@@ -273,11 +274,11 @@ proc
 > 7
 > ```
 
-The **WHILE** loop (`WHILE condition [DO] statement`) continues as long as the specified condition is true. Once the condition is no longer true, the loop will be exited. DO is optional and has no effect on the loop. But if it is there, the statement to be executed must be on the same line as WHILE. `**example?`
+### WHILE
+The WHILE loop (`WHILE condition [DO] statement`) continues as long as the specified condition is true. Once the condition is no longer true, the loop will be exited. DO is optional and has no effect on the loop. But if it is there, the statement to be executed must be on the same line as WHILE. `**example?`
 
-The **FOREACH-IN** loop (`FOREACH loop_var IN collection [AS type]`) iterates over each element in a collection, setting *loop_var* to each element in turn and executing the statement. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
-
-The **FOREACH** loop (`FOREACH loop_var IN collection [AS type]`) iterates over each element in a collection, setting *loop_var* to each element in turn and executing the statement. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
+### FOREACH-IN
+The FOREACH-IN loop (`FOREACH loop_var IN collection [AS type]`) iterates over each element in a collection, setting the loop variable (*loop_var*) to each element in turn and executing the statement`**Should we list what types of "collections" this can iterate over?`. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
 
 You can use DATA to declare the iteration variable directly inside a FOREACH loop. If the compiler can't infer the type of the variable, you will need to specify it using the "AS *type*" syntax, which is discussed below. Here's an example with and without an inline variable declaration:
 
@@ -310,24 +311,24 @@ proc
 > loops
 > ```
 
-> #### Advanced FOREACH-IN features
-> You can use the "AS *type*" syntax to cast the loop variable to a different type. Explicitly defining the iteration variable's type in a FOREACH-IN loop is useful when working with untyped collections, such as [ArrayList](../collections/array_list.md). This allows you to leverage your knowledge of the actual type of the items in the collection. 
-> 
-> ```dbl,ignore,does_not_compile
-> foreach mydecimalvar in arraylist as @int
-> begin
->     ; statement
-> end
-> ```
->
-> Similarly, if the collection contains elements of type `structfield`, and the loop variable is of type `a`, you could cast the loop variable to the structure's type: `**seeing the declaration for structure_name would be helpful`
->
-> ```dbl,ignore,does_not_compile
-> foreach avar in arraylist as @structure_name
-> begin
->    ; statement
-> end
-> ```
+ #### Advanced FOREACH-IN features
+You can use the "AS *type*" syntax to cast the loop variable to a different type. Explicitly defining the iteration variable's type in a FOREACH-IN loop is useful when working with untyped collections, such as [ArrayList](../collections/array_list.md). This allows you to leverage your knowledge of the actual type of the items in the collection. 
+ 
+```dbl,ignore,does_not_compile
+foreach mydecimalvar in arraylist as @int
+begin
+    ; statement
+end
+```
+
+Similarly, if the collection contains elements of type `structfield`, and the loop variable is of type `a`, you could cast the loop variable to the structure's type: `**seeing the declaration for structure_name would be helpful`
+
+```dbl,ignore,does_not_compile
+foreach avar in arraylist as @structure_name
+begin
+   ; statement
+end
+```
 
 ### Less common loops
 While you will likely encounter the following loop types in your codebase, there are few, if any, non-historical reasons to write these loops into new code.
@@ -378,17 +379,16 @@ begin
 end
 ```
 
-
 ## Unconditional control flow
 Unconditional control flow refers to DBL statements that alter the sequential execution of code without evaluating conditions. These instructions, such as`**"such as"? Or is this the full list?` GOTO, EXIT, EXITLOOP, and NEXTLOOP, jump to a specific point in the code or terminate loops prematurely, regardless of any loop conditions. Because these statements don't have their own conditions, they are almost always paired with an IF.  
 
-- **EXIT** (`EXIT[label]`) - The EXIT statement transfers control to the END statement of the current BEGIN-END block. If there are nested BEGIN-END blocks, you can use an optional label with EXIT to specify which block you want to exit. The label corresponds to a label on a BEGIN statement. `**example?`
+The **EXIT** statement (`EXIT[label]`) transfers control to the END statement of the current BEGIN-END block. If there are nested BEGIN-END blocks, you can use an optional label with EXIT to specify which block you want to exit. The label corresponds to a label on a BEGIN statement. `**example?`
 
-- **GOTO** (`GOTO label` or `GOTO(label[, ...]), selector`) - The GOTO statement redirects execution control to a specific label. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the GOTO. You may see the computed GOTO form in your codebase, but it's best to use one of the more structured control flow options such as USING. `**Example of the version with the selector? Or do we not want to supply an example for GOTO since no one should use it?`
+The **GOTO** statement (`GOTO label` or `GOTO(label[, ...]), selector`) redirects execution control to a specific label. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the GOTO. You may see the computed GOTO form in your codebase, but it's best to use one of the more structured control flow options such as USING. `**Example of the version with the selector? Or do we not want to supply an example for GOTO since no one should use it?`
 
-- **EXITLOOP** - This statement is used to break out of a loop prematurely. When EXITLOOP is executed, it terminates the current loop (DO-FOREVER, FOR, REPEAT, WHILE, etc.), and control is transferred to the statement immediately after the loop. `**example?`
+The **EXITLOOP** statement is used to break out of a loop prematurely. When EXITLOOP is executed, it terminates the current loop (DO-FOREVER, FOR, REPEAT, WHILE, etc.), and control is transferred to the statement immediately after the loop. `**example?`
 
-- **NEXTLOOP** - Use NEXTLOOP when you want to terminate the current iteration of a loop, but not all remaining iterations. After executing NEXTLOOP, control goes to the next iteration of the current loop (DO, FOR, REPEAT, WHILE, etc.). `**example?`
+Use **NEXTLOOP** when you want to terminate the current iteration of a loop, but not all remaining iterations. After executing NEXTLOOP, control goes to the next iteration of the current loop (DO, FOR, REPEAT, WHILE, etc.). `**example?`
 
 As a best practice, limit or eliminate the use of GOTO, as it can make code difficult to read and maintain. Structured control flow with loops, conditionals, and routine calls is preferable. EXIT and EXITLOOP, however, can be very useful for managing control flow, especially when you need to leave a loop or block due to an error condition or when a certain condition is met. NEXTLOOP is also a handy tool when you want to skip the current iteration and continue with the next one.
 
