@@ -333,6 +333,7 @@ end
 ### Less common loops
 While you will likely encounter the following loop types in your codebase, there are few, if any, non-historical reasons to write these loops into new code.
 
+`**This and the next section have quasi-subsections with inline bold quasi-headings. Might be better just to make fourth-level headings. Actual headings might be easier to find, but then again, they might not be different enough from third-level headings, which would make the structure difficult to see.`
 The **DO FOREVER** (`DO FOREVER statement`) loop endlessly executes a statement until broken through an EXITLOOP statement, a GOTO statement, or error catching.
 
 ```dbl
@@ -382,11 +383,11 @@ end
 ```
 
 ## Unconditional control flow
-Unconditional control flow refers to DBL statements that alter the sequential execution of code without evaluating conditions. These instructions, such as`**"such as"? Or is this the full list?` GOTO, EXIT, EXITLOOP, and NEXTLOOP, jump to a specific point in the code or terminate loops prematurely, regardless of any loop conditions. Because these statements don't have their own conditions, they are almost always paired with an IF.  
+Unconditional control flow refers to DBL statements that alter the sequential execution of code without evaluating conditions. These instructions, such as`**"such as"? Or is this the full list? maybe error processing (and recursion?) counts in this regard, so this is not a full list and "such as" makes sense.` GOTO, EXIT, EXITLOOP, and NEXTLOOP, jump to a specific point in the code or terminate loops prematurely, regardless of any loop conditions. Because these statements don't have their own conditions, they are almost always paired with an IF.  
 
-The **EXIT** statement (`EXIT[label]`) transfers control to the END statement of the current BEGIN-END block. If there are nested BEGIN-END blocks, you can use an optional label with EXIT to specify which block you want to exit. The label corresponds to a label on a BEGIN statement. `**example?`
+The **EXIT** statement (`EXIT[label]`) transfers control to the END statement of the current BEGIN-END block. If there are nested BEGIN-END blocks, you can optionally use a label to specify which block you want to exit. The label corresponds to a label on a BEGIN statement. `**example?`
 
-The **GOTO** statement (`GOTO label` or `GOTO(label[, ...]), selector`) redirects execution control to a specific label. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the GOTO. You may see the computed GOTO form in your codebase, but it's best to use one of the more structured control flow options such as USING. `**Example of the version with the selector? Or do we not want to supply an example for GOTO since no one should use it?`
+The **GOTO** statement (`GOTO label` or `GOTO(label[, ...]), selector`) redirects execution control to a specific label. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the GOTO. You may see the computed GOTO form in your codebase, but it's best to use one of the more structured control flow options such as USING. `**Example of the version with the selector? Or do we not want to supply an example for GOTO since no one should use it? Also, doesn't the second form need to be "GOTO(label, label2[, ...]), selector" to be meaningful?`
 
 The **EXITLOOP** statement is used to break out of a loop prematurely. When EXITLOOP is executed, it terminates the current loop (DO FOREVER, FOR, REPEAT, WHILE, etc.), and control is transferred to the statement immediately after the loop. `**example?`
 
