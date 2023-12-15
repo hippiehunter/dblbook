@@ -123,7 +123,7 @@ proc
     case num of
     begincase
     1-5:  Console.WriteLine("The number is between 1 and 5")
-    6-9:  Console.WriteLine("YThe number is between 6 and 9")
+    6-9:  Console.WriteLine("The number is between 6 and 9")
     10-15:  Console.WriteLine("The number is between 10 and 15")
     endcase
 
@@ -236,11 +236,11 @@ It's important to consider several factors when deciding which mechanism to use 
 
 ## Loops
 
-Loops are foundational constructs used to automate and repeat tasks a certain number of times, or until a specific condition is met. FOR loops are typically used in cases where the exact number of iterations is known beforehand, whereas WHILE and WHILE-DO loops are more suitable when iterations depend on certain conditions. And FOREACH is used to improve readability when operating over a collection or dynamic array. 
+Loops are foundational constructs used to automate and repeat tasks a certain number of times, or until a specific condition is met. FOR loops are typically used in cases where the exact number of iterations is known beforehand, whereas WHILE and WHILE-DO loops are more suitable when iterations depend on certain conditions. FOREACH is used to improve readability when operating over a collection or dynamic array. 
 
-There are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative that can be more intuitive for certain tasks, such as traversing tree-like data structures. However, recursion may lead to higher memory usage and potential stack overflow errors if not used correctly. Furthermore, earlier, less-structured looping mechanisms, such as the `goto` statement, were used to jump to different points in the code. While goto provides a great degree of freedom, it often leads to "spaghetti code," which is hard to read and maintain due to its lack of structure.
+There are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative that can be more intuitive for certain tasks, such as traversing tree-like data structures. However, recursion may lead to higher memory usage and potential stack overflow errors if not used correctly. Furthermore, earlier, less-structured looping mechanisms, such as the GOTO statement, have been used to jump to different points in the code. While GOTO provides a great degree of freedom, it often leads to "spaghetti code," which is hard to read and maintain due to its lack of structure. We'll discuss GOTO and other unconditional statements in [Unconditional control flow](#unconditional-control-flow) below.
 
-The **FOR-FROM-THRU** loop (`FOR variable FROM initial THRU final [BY incr]`) executes a statement as long as the the value of *variable* is within the specified range. The variable's value is incremented after each iteration. The default increment value is 1, but you can specify a in increment value by using `BY incr`.
+The **FOR-FROM-THRU** loop (`FOR variable FROM initial THRU final [BY incr]`) executes a statement as long as the the value of *variable* is within the specified range. The variable's value is incremented after each iteration. The default increment value is 1, but you can specify an increment value by using `BY incr`.
 
 ```dbl
 record
@@ -379,12 +379,12 @@ end
 ```
 
 
-## Unconditional Control Flow
+## Unconditional control flow
 Unconditional control flow refers to DBL statements that alter the sequential execution of code without evaluating conditions. These instructions, such as`**"such as"? Or is this the full list?` GOTO, EXIT, EXITLOOP, and NEXTLOOP, jump to a specific point in the code or terminate loops prematurely, regardless of any loop conditions. Because these statements don't have their own conditions, they are almost always paired with an IF.  
 
-- **EXIT [label]** - The EXIT statement transfers control to the END statement of the current BEGIN-END block. If there are nested BEGIN-END blocks, you can use an optional label with EXIT to specify which block you want to exit. The label corresponds to a label on a BEGIN statement. `**example?`
+- **EXIT** (`EXIT[label]`) - The EXIT statement transfers control to the END statement of the current BEGIN-END block. If there are nested BEGIN-END blocks, you can use an optional label with EXIT to specify which block you want to exit. The label corresponds to a label on a BEGIN statement. `**example?`
 
-- **GOTO** (`GOTO label` or `GOTO(label[, ...]), selector`) - The GOTO statement redirects execution control to a specific label. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the GOTO. You may see the computed GOTO form in your codebase, but it's best to use one of the more structured control flow options such as USING.
+- **GOTO** (`GOTO label` or `GOTO(label[, ...]), selector`) - The GOTO statement redirects execution control to a specific label. You can specify a single label directly or use a list of labels with a selector. The selector is an expression that selects an element from the list of labels (1 for the first label, 2 for the second, and so on). If the value of the selector is less than 1 or more than the number of labels, execution continues with the statement following the GOTO. You may see the computed GOTO form in your codebase, but it's best to use one of the more structured control flow options such as USING. `**Example of the version with the selector? Or do we not want to supply an example for GOTO since no one should use it?`
 
 - **EXITLOOP** - This statement is used to break out of a loop prematurely. When EXITLOOP is executed, it terminates the current loop (DO-FOREVER, FOR, REPEAT, WHILE, etc.), and control is transferred to the statement immediately after the loop. `**example?`
 
