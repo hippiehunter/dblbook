@@ -191,7 +191,7 @@ proc
 
 The USING-RANGE statement is similar to USING but adds a range for the control expression. This allows you to define a range of values within which the control expression is evaluated, enabling you to supply separate default statements for values that fall within the range (by using the %INRANGE label) and values that are outside the range (by using the %OUTRANGE label). The USING-RANGE statement builds a dispatch table at compile time and is typically faster than the USING statement. `**mention that "in traditional Synergy, implied values used by control, low, high, and match_value are always rounded or truncated in the USING-RANGE statement"?`
 
-In the following example, the range 1-12 is specified for the USING-RANGE statement, so any value from 1 through 12 is considered in range and will invoke the (%INRANGE) statement if there is no more specific match. In the example, however, there is a more specific match, (3), so the `monthName = "March"` statement is executed. If `month` had instead been set to 10, the %INRANGE statement would be executed (resulting "shrug"). But if `month` had been set to 13, the %OUTRANGE statement would be executed, and the output would be "wild month".
+In the following example, the range 1-12 is specified for the USING-RANGE statement, so any value from 1 through 12 is considered in range and will invoke the (%INRANGE) statement if there is no more specific match. In the example, however, there is a more specific match (3) so the `monthName = "March"` statement is executed. If `month` had instead been set to 10, the %INRANGE statement would be executed (resulting in "shrug"). But if `month` had been set to 13, the %OUTRANGE statement would be executed, and the output would be "wild month".
 
 
 ```dbl
