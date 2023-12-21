@@ -4,7 +4,6 @@ language = "en"
 multilingual = false
 src = "src"
 title = "DBL Book"
-
 [preprocessor.svgbob2]
 # font_size = "14"
 # font_family = "monospace"

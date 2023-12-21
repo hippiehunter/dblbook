@@ -55,4 +55,4 @@ After installation, it’s a good practice to verify that everything is set up c
    
 #### Conclusion
 
-You have now successfully set up the DBL programming environment on your Windows machine using Visual Studio 2022. Now we can move on to creating our first DBL program.
+You have now successfully set up the DBL programming environment on your Windows machine using Visual Studio 2022. In the future when someone says to get a "DBL command prompt" or to ensure DBL environment variables have been configured in your command prompt, you can just run `"%SYNERGYDE64\dbl\dblvars64.bat"`, that will bring in the environment variables required in order to build/run DBL code in 64bit. If you need the 32bit version instead you can just switch the 64 parts in that command and run `"%SYNERGYDE32\dbl\dblvars32.bat"`. Now we can move on to creating our first DBL program.
