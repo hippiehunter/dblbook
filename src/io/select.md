@@ -17,9 +17,9 @@ The `Select` class in DBL is a powerful and versatile tool for data retrieval, m
 6. **Sparse Class**: Offers performance optimization, particularly for networked data access with xfServer. It allows partial record retrieval, reducing data transfer over the network.
 
 ## An example
-For starters, we're going to need some data. Go grab the `employee.txt` and `employee.par` file from the `data` folder in the companion repository. This is a simple text file with some employee data in it and a par file to tell `fconvert` some info about our record. We're going to use this to create a simple ISAM file. To do this, we're going to use the `fconvert` utility. This is a command line utility that comes with Synergy/DE. It's used for creating and manipulating ISAM files. To create our file, make sure you're in a dbl command prompt then we're going to run the following command:
+For starters, we're going to need some data. Go grab the `employee.txt` and `employee.xdl` file from the `data` folder in the companion repository. This is a simple text file with some employee data in it and a par file to tell `fconvert` some info about our record. We're going to use this to create a simple ISAM file. To do this, we're going to use the `fconvert` utility. This is a command line utility that comes with Synergy/DE. It's used for creating and manipulating ISAM files. To create our file, make sure you're in a dbl command prompt then we're going to run the following command:
 ```console
-fconvert -i1 employees.txt -oi employee -d employee.par
+fconvert -i1 employees.txt -oi employee -d employee.xdl
 ```
 
 It shouldn't output anything to the screen if it worked correctly, but if you look in your project directory you should see a new file named `employee.ism`. This is our ISAM file. Now that we have our data, lets write a program to read it. Create a new file named `select.dbl` in your project directory and add the following code:
@@ -253,10 +253,10 @@ The approach described above results in one query for the driving table plus one
 - **Reduced Queries**: This method significantly reduces the number of queries sent to the database, alleviating the performance issues associated with the N + 1 query problem.
 - **Optimized Data Retrieval**: `Select` with Join optimizes data retrieval, making it particularly beneficial for applications that require data from multiple related tables.
 
-In order to run this next example you will need to grab the `department.txt` and `department.par` files from the `data` directory in the companion repository. These are the same as the `employee.txt` and `employee.par` files we used earlier, but for the departments table. We're going to use these to create a second ISAM file. Same as before, make sure you're in a dbl command prompt then we're going to run the following command:
+In order to run this next example you will need to grab the `department.txt` and `department.xdl` files from the `data` directory in the companion repository. These are the same as the `employee.txt` and `employee.xdl` files we used earlier, but for the departments table. We're going to use these to create a second ISAM file. Same as before, make sure you're in a dbl command prompt then we're going to run the following command:
 
 ```console
-fconvert -i1 departments.txt -oi department -d department.par
+fconvert -i1 departments.txt -oi department -d department.xdl
 ```
 
 Now lets write a program to read both of these files at the same time. Create a new file named `join.dbl` in your project directory and add the following code:
@@ -316,7 +316,7 @@ proc
 endmain
 ```
 
-The condition (employee.Department == department.DepartmentID) dictates how the rows from the two tables are matched. It essentially says, "Link each employee to their respective department by matching the department ID in the employee record with the department ID in the department record." Only those employee records that have a corresponding department entry will be included in the result set. When using Select Join, the record that is being matched must use a key. In this case the `department.par` file specifies `DepartmentID` as a key. If you were writing this query in SQL it would look something like this:
+The condition (employee.Department == department.DepartmentID) dictates how the rows from the two tables are matched. It essentially says, "Link each employee to their respective department by matching the department ID in the employee record with the department ID in the department record." Only those employee records that have a corresponding department entry will be included in the result set. When using Select Join, the record that is being matched must use a key. In this case the `department.xdl` file specifies `DepartmentID` as a key. If you were writing this query in SQL it would look something like this:
 
 ```sql
 SELECT *
@@ -337,7 +337,7 @@ The Select class offers two types of joins: `InnerJoin` and `LeftJoin`. Let's ta
 
 ### LeftJoin (Left Outer Join)
 
-- **Definition**: A `LeftJoin` returns all rows from the left (first) file and the matched rows from the right (second) table. If there is no match, NULL values are returned for columns from the right table.
+- **Definition**: A `LeftJoin` returns all rows from the left (first) file and the matched rows from the right (second) table. If there is no match, `rowObj.Fill(table2)` returns `false`.
 - **Behavior**: Includes all rows from the left file, regardless of whether they have matches in the right file.
 - **Use Case**: Use `LeftJoin` when you want all records from the left file and only the matched records from the right file. For unmatched entries in the left file, the `rowObj.Fill(table2)` call will return `false`.
 
