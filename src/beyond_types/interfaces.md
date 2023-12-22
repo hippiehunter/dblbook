@@ -132,22 +132,24 @@ Here, `MultiFunctionDevice` implements both `IPrinter` and `IScanner` interfaces
 **Implementing Interfaces with Default Implementations** (for .NET 6+):
 
 ```dbl
-public interface IVehicle
-    method Drive, void
-    proc
-        Console.WriteLine("Vehicle is driving")
-    endmethod
-    method Refuel, void
-    endmethod
-endinterface
+namespace Example
+    public interface IVehicle
+        method Drive, void
+        proc
+            Console.WriteLine("Vehicle is driving")
+        endmethod
+        method Refuel, void
+        endmethod
+    endinterface
 
-public class ElectricCar implements IVehicle
-    ;; Implements Refuel only; uses default Drive implementation
-    public method Refuel, void
-    proc
-        Console.WriteLine("Charging battery")
-    endmethod
-endclass
+    public class ElectricCar implements IVehicle
+        ;; Implements Refuel only; uses default Drive implementation
+        public method Refuel, void
+        proc
+            Console.WriteLine("Charging battery")
+        endmethod
+    endclass
+endnamespace
 ```
 
 `ElectricCar` implements `Refuel` and inherits the default `Drive` method from `IVehicle`.
