@@ -3,9 +3,9 @@
 
 ## Getting started
 - [Getting Started](./intro/getting_started.md)
-    - [Installation](./intro/install.md)
-    - [Hello World](./intro/hello_world.md)
-    - [Hello MSBuild](./intro/hello_msbuild.md)
+  - [Installation](./intro/install.md)
+  - [Hello World](./intro/hello_world.md)
+  - [Hello MSBuild](./intro/hello_msbuild.md)
 - [Programming a Guessing Game](./guessing_game/guessing_game.md)
 
 - [Common Programming Concepts](./common/common_programming_concepts.md)
