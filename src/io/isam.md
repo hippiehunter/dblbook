@@ -7,17 +7,18 @@ CRUD, an acronym for Create, Read, Update, and Delete, represents the essential 
 ### Common concepts
 - **Channel**: All of these operations require an open channel to the ISAM file. This channel is used to identify the file and to track the state of the file. For example, the current position in the file and any locks that have been taken. 
 - **Data Area**: If you're reading, creating or updating a record, you'll need a data area to hold the record. This is a variable that is defined as a structure or alpha that matches the size of the records in the file.
-- **GETRFA**: Returns the record’s Global Record Format Address (GRFA). If you pass an argument with space for 6 bytes this will be filled with the RFA. If you pass an argument with space for 10 bytes it gains a 4 byte hash that can be used to implement optimistic locking. This feature will be covered in more detail later in this chapter. TODO: mention the stability that comes from static rfas and also the loss of them if you rebuild a file
+- **GETRFA**: Returns the record’s Global Record File Address (GRFA). If you pass an argument with space for 6 bytes this will be filled with the RFA. If you pass an argument with space for 10 bytes it gains a 4 byte hash that can be used to implement optimistic locking. This feature will be covered in more detail later in this chapter. TODO: mention the stability that comes from static rfas and also the loss of them if you rebuild a file
 - **error_list** argument allows specification of an I/O error list for robust error management. This feature ensures the program can handle exceptions like locked records or EOF conditions gracefully.
 
 ### Create
+***
 `STORE(channel, data_area[, GETRFA:new_rfa][, LOCK:lock_spec]) [[error_list]]`
 
 **Basics of STORE**:
-The `STORE` statement is a fundamental tool in DBL for adding new records to an ISAM file. It's specifically designed for instances where data needs to be created and stored persistently. The statement requires an open channel in update mode (U:I) and a data area that contains the record to be added.
+The `STORE` statement adds new records to an ISAM file. The statement requires an open channel in update mode (U:I) and a data area that contains the record to be added.
 
 **Optional Qualifiers**:
-- **GETRFA**: This optional argument is used to return the Record Format Address (RFA) of the newly added record, which can be essential for subsequent operations like updates or deletions.
+- **GETRFA**: This optional argument is used to return the Record File Address (RFA) of the newly added record, which can be essential for subsequent operations like updates or deletions.
 - **LOCK**: While automatic locking is not supported for `STORE`, this optional qualifier can be used to apply a manual lock to the newly inserted record. 
 
 **Functional Insights**:
@@ -35,6 +36,7 @@ The `STORE` statement is a fundamental tool in DBL for adding new records to an 
 ```
 
 ### Read
+***
 `READ(channel, data_area, key_spec[, KEYNUM:key_num][, LOCK:lock_spec][, MATCH:match_spec][, POSITION:position_spec][, RFA:rfa_spec][, WAIT:wait_spec]) [[error_list]]`
 
 **Basics of `READ`**:
@@ -49,7 +51,7 @@ The `READ` statement is used to read a specified record from a file that's open 
 - **LOCK**: Optional. Determines the locking behavior for the record being read.
 - **MATCH**: Optional. Defines how the specified key is matched, crucial for precise data retrieval.
 - **POSITION**: Optional. Allows you to position to the first or last record in the file rather than doing a key lookup.
-- **RFA**: Optional. The RFA (Record Format Address) argument in the READ statement specifies the exact address of a record to be read directly from the file, facilitating targeted data retrieval. The size of the RFA argument changes its behavior: a 6-byte RFA represents just the locator, pinpointing the record's location, while a 10-byte RFA includes both the locator and a hash value. The hash serves as a data integrity check; if the record at the specified address doesn't match the hash, indicating that the data has been altered or is no longer valid, an $ERR_RECNOT error is triggered.
+- **RFA**: Optional. The RFA argument in the READ statement specifies the exact address of a record to be read directly from the file, facilitating targeted data retrieval. The size of the RFA argument changes its behavior: a 6-byte RFA represents just the locator, pinpointing the record's location, while a 10-byte RFA includes both the locator and a hash value. The hash serves as a data integrity check; if the record at the specified address doesn't match the hash, indicating that the data has been altered or is no longer valid, an $ERR_RECNOT error is triggered.
 - **WAIT**: Optional. Specifies how long the program should wait for a record to become available if it's locked. This is more efficient than calling `READ` in a loop with a sleep statement because the call will block until the record is available rather than waiting the entire sleep duration and then checking again.
 
 **Functional Insights**:
@@ -58,7 +60,7 @@ The `READ` statement is used to read a specified record from a file that's open 
   - **Q_GEQ (0)**: Finds a record with a key value greater than or equal to the specified key. If an exact match isn't found, it reads the next higher record, potentially raising a `$ERR_KEYNOT` error if no exact match is found, or an “End of file” error if no higher record exists.
   - **Q_EQ (1)**: Searches for a record that exactly matches the specified key value. If there's no exact match, it triggers a `$ERR_RNF` error.
   - **Q_GTR (2)**: Looks for a record with a key value greater than the specified key. It only raises an `$ERR_EOF` error if it reaches the end of the file without finding a matching record.
-  - **Q_RFA (3)**: Locates a record using the Record Format Address (RFA) specified in the RFA qualifier.
+  - **Q_RFA (3)**: Locates a record using the Record File Address (RFA) specified in the RFA qualifier.
   - **Q_GEN (4)**: Finds a record whose key value is equal to or the next in sequence after the specified key. An `$ERR_EOF` error occurs if no such records are found.
   - **Q_SEQ (5)**: Retrieves the next sequential record after the current one, regardless of the key specification. It raises an “End of file” error only if it reaches the end of the file.
 
@@ -72,12 +74,13 @@ In terms of error control, appropriate use of the WAIT argument can prevent your
 However, developers need to be cautious to avoid potential infinite loops or excessively long wait times. This is particularly important in high-throughput systems where waiting for extended periods could significantly impact performance. One approach is to implement a retry logic with a maximum number of attempts or a cumulative maximum wait time. After these thresholds are reached, the application can either log an error, alert the user, or take alternative action. This strategy ensures that the application retries sufficiently to handle temporary locks, but not indefinitely, thus maintaining a balance between robust error handling and application responsiveness.
 
 ### Update
+***
 `WRITE(channel, data_area[, GETRFA:new_rfa]) [[error_list]]`
 **Primary Functionality**:
 - The `WRITE` statement in DBL is used to update a record in a file. When you execute a `WRITE` operation on a channel that is open in output, append, or update mode, the specified record is updated with the contents of the data area.
 
 **Special Qualifiers**:
-- `GETRFA`: Optional, returns the Record Format Address (RFA) after the write operation, useful in files with data compression, variable-length records or when trying to get the new hash for the updated record.
+- `GETRFA`: Optional, returns the RFA after the write operation, useful in files with data compression, variable-length records or when trying to get the new hash for the updated record.
 
 **Constraints**:
 - For ISAM files, there are specific constraints: the record being modified must be the one most recently retrieved and locked. Modifying unmodifiable keys or primary keys directly with `WRITE` is not allowed and will result in errors. If the data area exceeds the maximum record size, an “Invalid record size” error occurs.
@@ -90,6 +93,7 @@ Individual keys in an ISAM file can be marked as immutable, meaning they cannot 
 **Avoiding Designs With Complex Updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
 
 ### Delete
+***
 
 #### Soft Delete vs Hard Delete
 Delete is a pretty fundamental operation in DBL applications, but your codebase has probably already decided how it's going to handle deletes. We're going to cover both approaches here to help you better understand the tradeoffs that your applications designers originally made. 
@@ -194,7 +198,7 @@ These special qualifiers all work the same as `READ` and are used to control the
 
 ## Keyed Lookups
 
-Keyed lookups in ISAM files are a fundamental aspect of database operations in DBL, offering a distinct approach compared to non-ordered keyed lookups, such as those in a hash table. Understanding these differences, as well as the concept of partial keyed reads, is crucial for database developers. Here are a few paragraphs explaining these concepts:
+Keyed lookups in ISAM files are a fundamental aspect of database operations in DBL, offering a distinct approach compared to non-ordered keyed lookups, such as those in a hash table. Understanding these differences, as well as the concept of partial keyed reads, is crucial for database developers. 
 
 ### Keyed Lookups in ISAM Files
 
@@ -284,6 +288,8 @@ In this diagram:
 - The sort order of a composite key (manager + id) shows that if you partially key read on the manager field, you'll get all the records for that manager in order by id.
 - Region as defined here must be a non unique key because there are multiple records with the same region. This is a common pattern in ISAM files where you have a unique key and then a non unique key that is used for range queries. This is also true for dept but not for id or (manager + id).
 - `FIND` and `READ` can specify a partial key value in order to position on the first matching record in a sequence. `READS` will advance to the next record in the file based on the ordering of the key, but it will not filter out records that don't match the partial key value.
+
+If you wanted to access records by the keys in the diagram above, you would specify the `KEYNUM:` argument to `READ` or `FIND`. The mapping of the keynum argument to the key in the file is literally the ordering you specified to ISAMC or the order of declaration in your XDL file. It's a good idea to use a variable to hold this mapping so that you can change the order of the keys in the file without having to change all of your code.
 
 ### Context-Driven Key Design
 
