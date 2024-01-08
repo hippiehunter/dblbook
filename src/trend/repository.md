@@ -31,14 +31,14 @@ endstructure
 You'll notice that these structures all have the `ItemId` field in common. This is going to be how we keep track of which items are which. We'll use this field to join the data together later on. We'll also be using the `ItemId` to look up the item name in the `InventoryItem` structure. This is a common pattern that you'll see a lot of in the wild. It's a good idea to keep this in mind when you're designing your own data structures. Now lets take a look at the SDL for these structures.
 
 ```sdl
-STRUCTURE InventoryItem DBL
+STRUCTURE InventoryItem DBL ISAM
     DESCRIPTION "Inventory item details"
     FIELD ItemId TYPE ALPHA SIZE 10
     FIELD Name TYPE ALPHA SIZE 40
     FIELD Quantity TYPE INTEGER SIZE 4
 END
 
-STRUCTURE Order DBL
+STRUCTURE Order DBL ISAM
     DESCRIPTION "Order details"
     FIELD OrderId TYPE ALPHA SIZE 10
     FIELD ItemId TYPE ALPHA SIZE 10
@@ -46,7 +46,7 @@ STRUCTURE Order DBL
     FIELD OrderDate TYPE DECIMAL SIZE 8
 END
 
-STRUCTURE Trend DBL
+STRUCTURE Trend DBL ISAM
     DESCRIPTION "Trend analysis data"
     FIELD ItemId TYPE ALPHA SIZE 10
     FIELD ItemCount TYPE INTEGER SIZE 4
@@ -54,7 +54,7 @@ STRUCTURE Trend DBL
     FIELD HistoricCount TYPE INTEGER SIZE 4
 END
 
-STRUCTURE Restock DBL
+STRUCTURE Restock DBL ISAM
     DESCRIPTION "Restock information"
     FIELD ItemId TYPE ALPHA SIZE 10
     FIELD Quantity TYPE INTEGER SIZE 4

@@ -133,3 +133,41 @@ The RESILIENT and FULLRESILIENT options in DBL offer enhanced safety for file op
 - **Balancing Trade-offs**: It’s essential to balance the trade-offs between data safety and application performance. In many cases, a thorough testing and analysis phase might be required to understand the impact of these options on the overall system performance and data integrity.
 
 In summary, RESILIENT and FULLRESILIENT offer different levels of safety for data operations in DBL. While RESILIENT ensures synchronization between data and index files, FULLRESILIENT goes a step further by writing changes immediately to the disk. The choice between them should be guided by the specific data integrity requirements and performance expectations of the application.
+
+## Validating the data in your ISAM files against your Repository
+Ensuring the integrity of the data stored in your ISAM files is an important part of maintaining a healthy DBL application. We're going to dig into some of the specifics of what that means and how to do it.
+
+**Ensuring Data Integrity**: The repository holds metadata that defines the structure of database files, including field types, lengths, and key definitions. Validating ISAM files against this metadata ensures that the data in these files adheres to the expected structure. At some point in the past, an application error may have allowed invalid data to be written to the ISAM file. Regular validation helps identify and correct these issues.
+
+**Consistency Across Applications**: In environments where multiple applications or services interact with the same ISAM files, it's important that they all have a consistent understanding of the file structures. Validating against a repository ensures that any application relying on these files will interpret and manipulate the data correctly, preventing issues caused by mismatched data formats or structures. Using the data from your ISAM files directly in xfODBC or a HarmonyCore Web Service can surface this invalid data as crashes, or unexpected results.
+
+**Facilitating Database Updates and Migration**: When upgrading or migrating databases, it's essential to ensure that the existing data is compatible with new structures or formats. Validation against a repository can identify areas that require transformation or adjustment, facilitating a smoother migration or upgrade process.
+
+**Simplifying Troubleshooting**: In case of database-related issues, having validated and consistent data simplifies the troubleshooting process. It's easier to isolate problems when you can rule out data structure inconsistencies as the cause.
+
+### Using fcompare to validate your ISAM files
+The `fcompare` utility can compare ISAM file definitions with repository file definitions, ensuring that the structure and content of your ISAM files is in sync with the metadata defined in your repository. Here’s the basic workflow for using `fcompare`:
+
+**Setting Up the Repository Files**: First, determine the repository main and text files you want to use for the comparison. These files contain the metadata against which the ISAM file will be checked. You can specify these files using the `-r` option followed by the paths to the `rpsmain` and `rpstext` files.
+
+**Specifying the ISAM File to Check**: Use the `-f` option to specify the name of the ISAM file you want to compare. This name should correspond to a specific repository file definition. `fcompare` will check all structures assigned to this file.
+
+**Enabling Data Verification**: If you want to perform a thorough validation that includes checking the data within the ISAM file, use the `-dv` option. This mode ensures that date and decimal fields in your ISAM file contain valid values, based on their field types.
+
+**Logging the Output**: To capture the results of the comparison, you can specify a log file using the `-l` option. This is useful for recording discrepancies and later analysis.
+
+**Choosing the Level of Detail in Messages**: You can control the level of detail in the messages `fcompare` generates. Use `-i` for error, warning, and informational messages, or `-v` for just error and warning messages. It’s recommended to use the verbose option `-v` for detailed insights, especially if discrepancies are expected.
+
+**Executing the Command**: Once you’ve set the appropriate options, run the `fcompare` command with the chosen parameters. For example:
+
+```
+fcompare -r path_to_rpsmain:path_to_rpstext -f file_def_name -dv -l log_file -v
+```
+
+Replace `path_to_rpsmain`, `path_to_rpstext`, `file_def_name`, and `log_file` with your actual file paths and names.
+
+**Interpreting the Results**: After running the command, review the output in the console or the specified log file. `fcompare` will list discrepancies between the ISAM file and the repository definitions. These could be differences in field types, lengths, key definitions, etc. Errors indicate necessary fixes to align the ISAM file with the repository, while warnings suggest potential performance issues.
+
+**Resolving Discrepancies**: If `fcompare` identifies any discrepancies, you'll need to update either the ISAM file or the repository definitions to resolve these differences. The specific changes will depend on the nature of the discrepancies found.
+
+TODO: Specific example with bad isam data, an XDL and a repository file.

@@ -14,19 +14,17 @@ CRUD, an acronym for Create, Read, Update, and Delete, represents the essential 
 ***
 `STORE(channel, data_area[, GETRFA:new_rfa][, LOCK:lock_spec]) [[error_list]]`
 
-**Basics of STORE**:
 The `STORE` statement adds new records to an ISAM file. The statement requires an open channel in update mode (U:I) and a data area that contains the record to be added.
 
 **Optional Qualifiers**:
 - **GETRFA**: This optional argument is used to return the Record File Address (RFA) of the newly added record, which can be essential for subsequent operations like updates or deletions.
 - **LOCK**: While automatic locking is not supported for `STORE`, this optional qualifier can be used to apply a manual lock to the newly inserted record. 
 
-**Functional Insights**:
-- When executing a `STORE`, DBL checks for key constraints. For instance, if the ISAM file is set to disallow duplicate keys, attempting to store a record with a duplicate key will trigger a `$ERR_NODUPS` error.
-- Additionally, the `STORE` operation involves updating the relevant indexes and inserting the data into the file. It's important to note that if the data area exceeds the maximum record size defined for the ISAM file, an “Invalid record size” error (`$ERR_IRCSIZ`) is raised, and the operation is halted.
+
+When executing a `STORE`, DBL checks for key constraints. For instance, if the ISAM file is set to disallow duplicate keys, attempting to store a record with a duplicate key will trigger a `$ERR_NODUPS` error. It's important to note that if the data area exceeds the maximum record size defined for the ISAM file, an "Invalid record size" error (`$ERR_IRCSIZ`) is raised, and the operation is halted.
 
 **Transactional Capability**:
-- The combination of the `LOCK` qualifier and the `GETRFA` argument in a `STORE` statement lends a degree of transactional capability to the operation. The lock ensures that the record remains unaltered during subsequent operations, while the RFA provides a reference to the specific record. This is not commonly seen in DBL applications, but it's worth noting that in case you find yourself in a situation where you need to implement some form of transactional capability.
+The combination of the `LOCK` qualifier and the `GETRFA` argument in a `STORE` statement lends a degree of transactional capability to the operation. The lock ensures that the record remains unaltered during subsequent operations, while the RFA provides a reference to the specific record. This is not commonly seen in DBL applications, but it's worth noting that in case you find yourself in a situation where you need to implement some form of transactional capability.
 
 **Basic Example**:
 > These examples make use of `ISAMC` to create a new isam file with a single key. `ISAMC` will be explained later in more detail but for now we'll just use it without explanation
@@ -37,9 +35,12 @@ The `STORE` statement adds new records to an ISAM file. The statement requires a
 
 ### Read
 ***
-`READ(channel, data_area, key_spec[, KEYNUM:key_num][, LOCK:lock_spec][, MATCH:match_spec][, POSITION:position_spec][, RFA:rfa_spec][, WAIT:wait_spec]) [[error_list]]`
+```
+READ(channel, data_area, key_spec[, KEYNUM:key_num][, LOCK:lock_spec]
+  [, MATCH:match_spec][, POSITION:position_spec][, RFA:rfa_spec]
+  [, WAIT:wait_spec]) [[error_list]]
+```
 
-**Basics of `READ`**:
 The `READ` statement is used to read a specified record from a file that's open on a given channel. It's vital for accessing data in ISAM files, where the channel must be opened in input, output, append, or update mode.
 - **Key Arguments**:
   - `channel`: Specifies the channel on which the file is open.
@@ -76,19 +77,18 @@ However, developers need to be cautious to avoid potential infinite loops or exc
 ### Update
 ***
 `WRITE(channel, data_area[, GETRFA:new_rfa]) [[error_list]]`
-**Primary Functionality**:
-- The `WRITE` statement in DBL is used to update a record in a file. When you execute a `WRITE` operation on a channel that is open in output, append, or update mode, the specified record is updated with the contents of the data area.
 
-**Special Qualifiers**:
-- `GETRFA`: Optional, returns the RFA after the write operation, useful in files with data compression, variable-length records or when trying to get the new hash for the updated record.
+The `WRITE` statement in DBL is used to update a record in a file. When you execute a `WRITE` operation on a channel that is open in output, append, or update mode, the specified record is updated with the contents of the data area.
+
+`GETRFA` is Optional, it returns the RFA after the write operation, useful in files with data compression, variable-length records or when trying to get the new hash for the updated record.
 
 **Constraints**:
-- For ISAM files, there are specific constraints: the record being modified must be the one most recently retrieved and locked. Modifying unmodifiable keys or primary keys directly with `WRITE` is not allowed and will result in errors. If the data area exceeds the maximum record size, an “Invalid record size” error occurs.
+The record being modified must be the one most recently retrieved and locked. Modifying unmodifiable keys or primary keys directly with `WRITE` is not allowed and will result in errors. If the data area exceeds the maximum record size, an “Invalid record size” error occurs.
 
 #### Immutable Keys
 Individual keys in an ISAM file can be marked as immutable, meaning they cannot be updated. This constraint is enforced when calling `WRITE` on a record with an immutable key. Immutable keys are a choice in database design that can play a role in maintaining data integrity, ensuring consistency, and simplifying database management.
 
-**Immutable as Identifiers**: One primary reason to enforce immutable keys is to preserve the integrity of unique identifiers. In many database designs, certain key fields serve as definitive identifiers for records – akin to a Social Security number for an individual. Allowing these key values to change can lead to complications in tracking and referencing records, potentially causing data integrity issues. For example, if a key field used in foreign key relationships were allowed to change, it could create orphaned records or referential integrity problems.
+**Immutable as Identifiers**: One primary reason to enforce immutable keys is to preserve the integrity of unique identifiers. In many database designs, certain key fields serve as definitive identifiers for records akin to a Social Security number for an individual. Allowing these key values to change can lead to complications in tracking and referencing records, potentially causing data integrity issues. For example, if a key field used in foreign key relationships were allowed to change, it could create orphaned records or referential integrity problems.
 
 **Avoiding Designs With Complex Updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
 
@@ -114,7 +114,6 @@ Hard delete is the complete removal of a record from the database. Once a record
 
 `DELETE(channel) [[error_list]]`
 
-**Basics of `DELETE`**:
 The `DELETE` statement is used to remove a record from a file. `DELETE` requires an open channel in update mode (U:I) positioned to a record that has been previously locked. If you need to delete a record in a hard delete system the order of operations is as follows:
 1. `READ` or `FIND` the record with automatic locking or manual locking enabled
 2. Call `DELETE` on the same channel as the `READ` or `FIND` operation
@@ -143,7 +142,10 @@ Sequential access in databases, exemplified by the `READS` statement in DBL, is 
 
 3. **Simplicity and Reduced Complexity**: Implementing sequential access in applications simplifies the code, as it follows the natural order of records in the file. This contrasts with the more complex logic required for random or individual record access, where each read operation might require a separate query or key specification.
 
-`READS(channel, data_area[, DIRECTION:dir_spec][, GETRFA:new_rfa][, LOCK:lock_spec][, WAIT:wait_spec]) [[error_list]]`
+```
+READS(channel, data_area[, DIRECTION:dir_spec][, GETRFA:new_rfa][, LOCK:lock_spec]
+  [, WAIT:wait_spec]) [[error_list]]
+```
 
 **Basics of READS**:
 - The `READS` statement is designed to retrieve the next sequential record from a file, based on the collating sequence of the index of reference. This means that it reads records in either ascending or descending order, depending on the key's ordering.
@@ -168,9 +170,11 @@ Consider using Select instead of READS for sequential access especially if you n
 ## Repositioning, Checking for Existence, or Targeted Locking
 The `FIND` statement is designed to position the pointer to a specific record in a file, setting the stage for its subsequent retrieval. Unlike the `READ` statement, which fetches the record's data immediately, `FIND` simply locates the record, allowing the next `READS` statement on the same channel to retrieve it.
 
+```
 FIND(channel[, record][, key_spec][, GETRFA:new_rfa][, KEYNUM:krf_spec]
 &   [, LOCK:lock_spec][, MATCH:match_spec][, POSITION:pos_spec]
 &   [, RFA:match_rfa][, WAIT:wait_spec]) [[error_list]]
+```
 
 **Key Parameters**:
 - **Record**: Don't use this argument.
