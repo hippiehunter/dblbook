@@ -225,3 +225,4 @@ Balance: 500.00
 Balance after withdrawal: 300.00
 ```
 
+Ok, the building blocks for accounts are in place. In the next section we're going to look at how to handle transfers between accounts.

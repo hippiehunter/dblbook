@@ -84,5 +84,6 @@
   - [Generics](./beyond_types/generics.md)
   - [Lambdas](./beyond_types/lambdas.md)
   - [Extension Methods](./beyond_types/extension_methods.md)
+  - [Partial Things](./beyond_types/partial_things.md)
   - [Functional Style](./beyond_types/functional.md)
   - [Existing Code](./beyond_types/existing_code.md)
