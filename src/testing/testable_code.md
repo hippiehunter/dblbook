@@ -70,13 +70,15 @@ The caller communicates with the original function through a combination of zero
 In a bridge function, the main idea is to connect global state to a more modular, parameterized function. The bridge function handles the passing of global state as parameters.
 
 ```svgbob
-.--------------.
-| Global State | <-.
-'--------------'   |
-                   v
-.--------.   .-----------------.   .------------------------. 
-| Caller |-> | Bridge Function |─> | Parameterized Function |
-'--------'   '-----------------'   '------------------------'
+          .--------------.
+          | Global State | <-.
+          '--------------'   |
+              ^              |
+              |              |
+              v              v
+.-------------------.   .-----------------.   .------------------------. 
+| Unmodified Caller |-> | Bridge Function |─> | Parameterized Function |
+'-------------------'   '-----------------'   '------------------------'
 
 ```
 
@@ -84,15 +86,15 @@ In a bridge function, the main idea is to connect global state to a more modular
 An adapter function is used to adapt the interface of one function to another. It takes parameters from the caller, modifies the global state and then calls your original parameterless function.
 
 ```svgbob
-                .--------------.
-                | Global State | <---.
-                '--------------'     |
-                 ^                   |
-                 |                   |
-                 v                   v
-.--------.   .------------------.   .-------------------. 
-| Caller |-> | Adapter Function |─> | Original Function |
-'--------'   '------------------'   '-------------------'
+                              .--------------.
+                              | Global State | <---.
+                              '--------------'     |
+                               ^                   |
+                               |                   |
+                               v                   v
+.-----------------.   .------------------.   .-------------------. 
+| Modified Caller |-> | Adapter Function |─> | Original Function |
+'-----------------'   '------------------'   '-------------------'
 ```
 
 Both adapter functions and bridge functions fall under the category of wrappers. They wrap around the original function, providing a controlled interface to it. The difference is that a bridge function is a wrapper that takes global state as parameters, whereas an adapter function is a wrapper that takes parameters from the caller and modifies global state.
@@ -166,6 +168,8 @@ subroutine another_routine_p
         tmp, i4
 proc
     tmp = fld1 + fld2
+    
+    ;;if tmp is an odd number
     if((tmp .band. 1) == 1)
         fld1 = fld1 + 1
 
@@ -236,3 +240,24 @@ endsubroutine
 ```
 
 This version is functionally equivalent to the original but now it takes parameters and uses them to pass in and out the global state. If you need to start big and a little dirtier, using adapter functions is a good way to go. You can wrap the entire function and then start breaking it down into smaller pieces. This is a good strategy if you're trying to get a large codebase under test quickly. You will of course need to watch out for any unknown side effects for routines called by the function you're wrapping. In our example we had already learned that fld1 was being modified by another routine so we knew we needed to pass it in and out of our wrapper function. If we hadn't known that, we would have had to discover it by testing the function and then refactoring it to use parameters.
+
+## Dependency Injection (.NET)
+Dependency Injection (DI) is a design pattern that changes how dependencies are managed within your codebase. It's a technique where dependencies (such as services, objects, or functions) are 'injected' into a component (like a class or function) from the outside, rather than being created inside the component. 
+
+Without DI, components often create instances of their own dependencies. This tight coupling makes it hard to modify or test individual components, as changes in one dependency can ripple through the entire system. Moreover, testing such components in isolation becomes challenging, as they rely on the actual implementation of their dependencies.
+
+Dependency Injection addresses these issues by decoupling components from their dependencies. Instead of a component initializing its dependencies, they are provided to it, often through constructors, setters, or specific DI frameworks. This decoupling means components don't need to know where their dependencies come from or how they are implemented. They just need to know that the dependencies adhere to a certain interface or contract.
+
+The impact on testability is substantial:
+
+**Easier Unit Testing**: With DI, you can easily provide mock implementations of dependencies when unit testing a component. This allows for testing the component in isolation, without worrying about the intricacies of its dependencies.
+
+**Reduced Test Complexity**: Since dependencies can be replaced with simpler, controlled versions (like stubs or mocks), the complexity of setting up test environments is significantly reduced. This simplifies writing, understanding, and maintaining tests.
+
+**Increased Code Reusability**: DI encourages writing more modular code. Modules or components that are designed to be independent from their dependencies are inherently more reusable in different contexts.
+
+**Flexibility and Scalability**: Changing or upgrading dependencies becomes easier and safer. Since components are not tightly bound to specific implementations, swapping or modifying dependencies has minimal impact on the components themselves.
+
+**Design for Testability**: DI fosters a design mindset where developers think about testability from the outset. Designing components with DI in mind leads to cleaner interfaces and more focused component responsibilities.
+
+Later on in this chapter we'll discuss using fakes for .NET and Traditional DBL, as an alternative to injecting mocks with DI. 

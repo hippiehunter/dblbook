@@ -1,6 +1,4 @@
 # Lambdas
-### Introduction to Lambdas in DBL: Understanding Captured Variables and Code as Data
-
 Lambdas, a concept that might initially seem daunting, are a powerful feature in modern programming languages like DBL. They allow you to write more concise and flexible code. To understand lambdas, it's crucial to grasp two key concepts: "captured variables" and "code as data."
 
 #### What Are Lambdas?
@@ -221,8 +219,6 @@ In imperative programming, code execution is generally linear and procedural. Yo
 2. **Passing Lambda Around**: The lambda can be passed as an argument, stored in a variable, etc. During this phase, the lambda is still not executed.
 
 3. **Triggering Lambda Execution**: The lambda is eventually executed at a point where its behavior is needed. This could be in a different part of the code, often in response to an event or when processing a collection of data.
-
-#### ASCII Art Visualization
 
 Consider a simple scenario where a lambda is passed to a function and then executed:
 
