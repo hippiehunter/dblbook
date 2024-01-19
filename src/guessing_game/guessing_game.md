@@ -1,31 +1,31 @@
 # Programming a Guessing Game
 
 Let’s jump into DBL by working through a hands-on project together! This
-chapter introduces you to a few common concepts by showing you how to use
-them in a real program. You’ll learn about variables, main functions, terminal I/O, and more! In the following chapters, we’ll explore
-these ideas in more detail. In this chapter, you’ll just practice the
-fundamentals.
-
-We’ll implement a classic beginner programming problem: a guessing game. Here’s
-how it works: the program will generate a random integer between 1 and 100. It
-will then prompt the player to enter a guess. After a guess is entered, the
-program will indicate whether the guess is too low or too high. If the guess is
+chapter introduces a few common concepts by showing you how to use
+them in a real program. You’ll learn about variables, main functions, terminal
+I/O, and more. In subsequent chapters, we’ll explore these ideas in more 
+detail. In this chapter, you’ll practice the fundamentals by implementing a 
+classic beginner programming project: a guessing game. Here’s
+how it works: The program will generate a random integer between 1 and 100. It
+will then prompt the player to enter a guess. When an incorrect guess is entered, the
+program will indicate whether the guess is too low or too high. When the guess is
 correct, the game will print a congratulatory message and exit.
 
-## Setting Up a New Project
+## Setting up a new project
 
 To set up a new .NET project, go to the *projects* directory that you created in
 Chapter 1 and make a new project using dotnet, like so:
 
+`** Why is the following ```console, rather than ```bash?`
 ```console
-$ dotnet new SynNetApp -n GuessingGame
-$ cd GuessingGame
+dotnet new SynNETApp -n GuessingGame
+cd GuessingGame
 ```
 
-The first command, `dotnet new`, takes the template name (`SynNetApp`) as the first argument and takes the name of the project (`GuessingGame`) as the second argument. The second command changes to the new project’s directory.
+The first command, `dotnet new`, takes the template name (`SynNETApp`) as the first argument and takes the name of the project (`GuessingGame`) as the second argument. The second command changes to the new project’s directory.
 
-As you saw in the intro, `dotnet new` generates a "Hello world" program for
-you. Check out the *Program.dbl* file:
+As you saw in the intro, `dotnet new SynNETApp` generates a "Hello world" program for
+you. Take a look at the *Program.dbl*`**Why italicized? Should this be the style?` file:
 
 ```dbl
 import System
@@ -40,16 +40,18 @@ Now let’s compile this “Hello World” program and run it in the same step
 using the `dotnet run` command:
 
 ```console
-Hello World
+dotnet run Program.dbl
 ```
 
-The `run` command comes in handy when you need to rapidly iterate on a project,
-as we’ll do in this game, quickly testing each iteration before moving on to
+You should see the message "Hello World" below the `run` command.
+
+The `run` command comes in handy when you need to rapidly iterate on a project
+(as we’ll do in this game), quickly testing each iteration before moving on to
 the next one.
 
-Reopen the *Program.dbl* file. You’ll be writing all the code in this file.
+Open the *Program.dbl* file. You’ll be writing all the code in this file.
 
-## Processing a Guess
+## Processing a guess
 
 The first part of the guessing game program will ask for user input, process
 that input, and check that the input is in the expected form. To start, we’ll
@@ -70,62 +72,76 @@ proc
     Console.WriteLine("You guessed: " + guess)
 endmain
 ```
-Let's break down each part of the code:
 
-### Code Breakdown
+### Code breakdown
+
+Let's break down each part of the code, starting with the first line:
 
 ```dbl
 import System
 ```
 
-`import System` tells the compiler to make the contents of the `System` namespace implicitly available in this source file. For our use case `System` provides access to fundamental classes for managing input and output (I/O), basic data types, and other essential services. This is necessary to use the `Console` class in the program.
+This first line tells the compiler to make the contents of the `System` namespace implicitly available in this source file`**does this import our System namespace, .NET's, or both?`. For our use case, `System` provides access to fundamental classes for managing input and output (I/O), basic data types, and other essential services. This is necessary to use the `Console` class in the program.
+
+The next two lines are
 
 ```dbl
 main
 proc
 ```
 
-`main` indicates the starting point of the program. In DBL, `main` is a special keyword used to define the entry point of the application. As you've seen in the hello world example, you can skip the `main` keyword and just start with a `proc`. In this example we're using a fully declared main. `proc` signals the transition from the data division to the procedure division. The procedure division contains the statements that perform the tasks of the program.
+In the first of these lines, `main` indicates the starting point of the program. In DBL, `main` is a special keyword used to define the entry point of the application. As you've seen in the "Hello World" example, you can skip the `main` keyword and just start with a `proc`. In this example, we're using a fully declared main`**Why? Any reason?`. The next line, `proc`, signals the transition from the data division to the procedure division of the main routine. The procedure division contains the statements that perform the tasks of the program.
+
+The first line under `proc` is this:
 
 ```dbl
 stty(0) ; Enable .NET console input
 ```
 
-DBL has multiple ways to read input from the console. The `stty` statement is used to enable the .NET console input. This is necessary to use the `Console.ReadLine()` method in the program and it's mutually exclusive with other console input methods.
+DBL has multiple ways to read input from the console. The `stty(0)` statement is used to enable the .NET console input. The `0` setting for `stty` is necessary to use the `Console.ReadLine()` method in the program and it's mutually exclusive with other console input methods`**e.g., the DBL ACCEPT or READS statements?`.
+
+
+The next line outputs the string "Guess the number!" to the console:
 
 ```dbl
 Console.WriteLine("Guess the number!")
 ```
 
-`Console.WriteLine("Guess the number!")` outputs the string "Guess the number!" to the console. `Console.WriteLine` is a method from the `Console` class that writes a line of text to the standard output stream (in this case, the console).
+`Console.WriteLine` is a method from the .NET `Console` class that writes a line of text to the standard output stream (in this case, the console).
+
+Similar to the previous line, this line at the end of the procedure section outputs the text to prompt the user for a guess:
 
 ```dbl
 Console.WriteLine("Please input your guess.")
 ```
 
-Similar to the previous line, this outputs "Please input your guess." to the console. It's a prompt for the user to enter their guess.
-
 ##### Storing values with variables
+
+The next line declares a variable named `guess`.
 
 ```dbl
 data guess = Console.ReadLine()
 ```
 
-`data guess` declares a variable named `guess`. It has not specified the type of the variable, so it will be inferred from the value assigned to it. In this case it will be a `String`. The `=` followed by a call to `Console.ReadLine()` reads the next line of characters from the standard input stream (the console input in this case) then stores the result in the variable `guess`.
+This statement does not specified the type of the variable, so the type will be determined based on the value assigned to it. In this case it will be a `String`. The `=` followed by a call to `Console.ReadLine()` reads the next line of characters from the standard input stream (the console input in this case), and then stores the result in the variable `guess`.
+
+Then, the next line outputs a concatenated string to the console:
 
 ```dbl
 Console.WriteLine("You guessed: " + guess)
 ```
 
-This line outputs a concatenated string to the console. It combines "You guessed: " with the value stored in `guess`, displaying the user's input back to them.
+This combines "You guessed: " with the value stored in `guess`, displaying the user's input back to them on the console.
+
+Finally, the `endmain` is optional and it marks the end of the `main` procedure:
 
 ```dbl
 endmain
 ```
 
-The `endmain` is optional and it marks the end of the `main` procedure.
 
-### Testing the First Part
+
+### Testing the first part
 
 Let’s test the first part of the guessing game. Run it using `dotnet run`:
 
@@ -139,9 +155,11 @@ You guessed: 5
 
 At this point, the first part of the game is done: we’re getting input from the keyboard and then printing it.
 
-## Generating a Secret Number
+## Generating a secret number
 
-Next, we need to generate a secret number that the user will try to guess. The secret number should be different every time so the game is fun to play more than once. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built in random number facility, `RANDM` but it's not a super ergonomic function so we're going to use the `Random` class from the `System` namespace. Lets start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
+Next, we need to generate a secret number that the user will try to guess. The secret number should be different every time so the game is fun to play more than once. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built in random number facility, `RANDM` but it's not a super ergonomic`**word choice` function so we're going to use the Random class from the `System` namespace in .NET. Let's start using Random to generate a random number between 1 and 100. 
+
+Replace the contents of *Program.dbl* with the following:
 
 ```dbl
 import System
@@ -163,7 +181,7 @@ proc
 endmain
 ```
 
-First we've added a variable named random and assigned it a new instance of the `Random` class. This is a class that provides a convenient way to generate random numbers. Next we've added a variable named `randomNumber` and assigned it the result of calling the `Next` method on the `random` variable. The `Next` method takes two arguments, the first is the inclusive lower bound of the random number and the second is the exclusive upper bound. In this case we're passing 1 and 101, so the random number will be between 1 and 100. Finally we've added a line to convert our secret number to be a string then output it to the console.
+Notice that we've added a variable named `random` and assigned it a new instance of the Random class, which provides a convenient way to generate random numbers. We've also added a variable named `randomNumber` and assigned it the result of calling the Next method on the `random` variable. The Next method takes two arguments: the first is the inclusive lower bound of the random number, and the second is the exclusive upper bound. In this case, we're passing 1 and 101, so the random number will be between 1 and 100. Finally, we've added a line to convert our secret number to be a string and then output it to the console.
 
 Try running the program a few times:
 
@@ -177,7 +195,7 @@ The secret number was 37
 
 You should get different random numbers, and they should all be numbers between 1 and 100. Great job!
 
-## Comparing the Guess to the Secret Number
+## Comparing the guess to the secret number
 
 Now that we have user input and a random number, we can compare them.
 
@@ -276,7 +294,7 @@ dd
 Please type a number!
 ```
 
-## Allowing Multiple Guesses with Looping
+## Allowing multiple guesses with looping
 
 Now that we have the basic game working, we can make it more interesting by allowing multiple guesses. To do this, we’ll use a repeat loop. The repeat loop continues until `exitloop` is executed. Replace the contents of *Program.dbl* with the following:
 
