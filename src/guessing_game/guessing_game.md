@@ -3,7 +3,7 @@
 Let’s jump into DBL by working through a hands-on project together! This
 chapter introduces a few common concepts by showing you how to use
 them in a real program. You’ll learn about variables, main functions, terminal
-I/O, and more`**more complete list?`. In subsequent chapters, we’ll explore these ideas in more 
+I/O, and more. In subsequent chapters, we’ll explore these ideas in more 
 detail. In this chapter, you’ll practice the fundamentals by implementing a 
 classic beginner programming project: a guessing game. Here’s
 how it works: The program will generate a random integer between 1 and 100. It
@@ -83,7 +83,7 @@ Let's break down each part of the code, starting with the first line:
 import System
 ```
 
-This first line tells the compiler to make the contents of the `System` namespace implicitly available in this source file`**does this import our System namespace, .NET's, or both?`. For our use case, `System` provides access to fundamental classes for managing input and output (I/O), basic data types, and other essential services. This line is necessary to use the `Console` class in the program.
+This first line tells the compiler to make the contents of the `System` namespace implicitly available in this source file. For our use case, `System` provides access to fundamental classes for managing input and output (I/O), basic data types, and other essential services. This line is necessary to use the `Console` class in the program.
 
 The next two lines are
 
@@ -92,7 +92,7 @@ main
 proc
 ```
 
-The first of these lines (`main`) indicates the starting point of the program. In DBL, "main" is a special keyword used to define the entry point of the application. As you've seen in the "Hello World" example, you can skip the "main" keyword and just start with proc. In this example, however, we're using a fully declared main`**Why? Any reason?`. The next line, `proc`, signals the transition from the data division to the procedure division of the main routine. The procedure division contains the statements that perform the tasks of the program.
+The first of these lines (`main`) indicates the starting point of the program. In DBL, "main" is a special keyword used to define the entry point of the application. As you've seen in the "Hello World" example, you can skip the "main" keyword and just start with proc. In this example, however, we're using a fully declared main. The next line, `proc`, signals the transition from the data division to the procedure division of the main routine. The procedure division contains the statements that perform the tasks of the program.
 
 The first line under `proc` is this:
 
