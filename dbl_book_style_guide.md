@@ -42,3 +42,7 @@ Keywords should be in all caps (e.g., USING-RANGE). Don’t use backticks unless
 ## Product names
 
 **Traditional DBL.** "Traditional DBL" is considered a product name and should have initial caps.
+
+`**Decisions to discuss:
+"Traditional" capitalization`
+
