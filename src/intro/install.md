@@ -19,7 +19,7 @@ To start, you need to install Visual Studio 2022 on a Windows machine. This is r
 
 Next, you need to download the Synergy/DE (SDE) installers. These provide command line tools for developing, compiling, linking, running, and licensing your DBL applications.
 
-1. **Visit Synergex Resource Center**: Go to [https://resources.synergex.com/SiteDownloads](https://resources.synergex.com/SiteDownloads).
+1. **Visit the Synergex Resource Center**: Go to [https://resources.synergex.com/SiteDownloads](https://resources.synergex.com/SiteDownloads).
 
 2. **Log in**: Use your Resource Center account to log in. If you don’t have an account, you’ll need to contact Synergex to get one.
 
@@ -54,11 +54,11 @@ Now install Synergy/DE Integration for Visual Studio (SDI) by running the SDI 32
 
 ## Step 6: Verify the installation
 
-After installation, it’s a good practice to verify that everything is set up correctly. 
+After installation, it’s good practice to verify that everything is set up correctly. 
 
 1. **Verify licensing**: Open a command prompt and run `"%SYNERGYDE64%\dbl\dblvars64.bat" && lmu`. This should display the licensing information for your machine.
    
 ## Conclusion
 
-You have now successfully set up the DBL programming environment on your Windows machine using Visual Studio 2022. In the future when someone says to get a "DBL command prompt" or to ensure DBL environment variables have been configured in your command prompt, you can just run `"%SYNERGYDE64\dbl\dblvars64.bat"`, that will bring in the environment variables required in order to build/run DBL code in 64bit. If you need the 32bit version instead you can just switch the 64 parts in that command and run `"%SYNERGYDE32\dbl\dblvars32.bat"`. Now we can move on to creating our first DBL program.
+You have now successfully set up the DBL programming environment on your Windows machine using Visual Studio 2022. In the future when someone says to go to a DBL command prompt or ensure DBL environment variables have been configured in your command prompt, you can just run `"%SYNERGYDE64\dbl\dblvars64.bat"`, which will bring in the environment variables required to build/run DBL code in 64-bit. If you need the 32-bit version instead, you can just replace the "64" parts in that command with "32" and run `"%SYNERGYDE32\dbl\dblvars32.bat"`. Now we can move on to creating our first DBL program.
 

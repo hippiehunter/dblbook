@@ -1,6 +1,6 @@
 # Hello World
 
-`**Might want to same something brief about how they're now ready to write DBL code, create a program, etc. (E.g., "Now that you've installed Visual Studio, Synergy/DE, and SDI, you're ready to create your first program in DBL" or something like the intro in hello_msbuild.md.) This will give the next sentence ("You'll start by...") and the section the context it needs.`
+`**Might want to say something brief about how they're now ready to write DBL code, create a program, etc. (E.g., "Now that you've installed Visual Studio, Synergy/DE, and SDI, you're ready to create your first program in DBL" or something like the intro in hello_msbuild.md.) This will give the next sentence ("You'll start by...") and the section the context it needs.`
 
 ## Creating a project directory
 
@@ -50,7 +50,7 @@ dbl HelloWorld.dbl
 `**Seems that here we might want to point out that "dbl" runs the Traditional DBL compiler. We haven't mentioned up front that we'll be creating a Traditional DBL program, so this section has to also introduce that, or we could mention this earlier in this file.`
 
 ## Link your application for Traditional DBL
-The compile step above will produce an `.obj` file. This is an object file that contains the compiled code for your application. You'll need to link this object file produce a runnable `.dbr` file. You can do this by executing:
+The compile step above will produce an `.obj` file. This is an object file that contains the compiled code for your application. You'll need to link this object file to produce a runnable `.dbr` file. You can do this by executing
 
 ```bash
 dblink HelloWorld
