@@ -148,7 +148,7 @@ Console.WriteLine("Hello from the DBL book!")
 
 ## Step 7: Run your application
 
-Finally, it's time to run your application. Go back to your command line interface and execute:
+Finally, it's time to run your application. Go back to your command line interface and execute
 
 ```bash
 dotnet run
@@ -159,7 +159,7 @@ This command will compile and execute your application. You should see your cust
 Congratulations! You've successfully created and run a new .NET application using the synNETApp template. Let's scrape away `**"Let's set aside...` the very helpful dotnet CLI and try the build and run steps manually.
 
 ## Step 8: Build your application with MSBuild
-So far you've seen dotnet CLI act as a wrapper around MSBuild. Now let's try to build the project using MSBuild directly. From the command line, run:
+So far you've seen dotnet CLI act as a wrapper around MSBuild. Now let's try to build the project using MSBuild directly. From the command line, run
 
 ```bash
 msbuild HelloMSBuild.synproj
