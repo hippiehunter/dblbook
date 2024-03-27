@@ -2,7 +2,7 @@
 
 Let’s jump into DBL by working through a hands-on project together! This chapter introduces you to a few common concepts by showing you how to use them in a real program. You’ll learn about variables, main functions, terminal I/O, and more. In the following chapters, we’ll explore these ideas in more detail. In this chapter, you’ll just practice the fundamentals.
 
-We’ll implement a classic beginner programming problem: a guessing game. Here’s how it works: the program will generate a random integer between 1 and 100. It will then prompt the player to enter a guess. After a guess is entered, the program will indicate whether the guess is too low or too high. If the guess is correct, the game will print a congratulatory message and exit.
+We’ll implement a classic beginner programming problem, a guessing game. Here’s how it works: the program will generate a random integer between 1 and 100. It will then prompt the player to enter a guess. After a guess is entered, the program will indicate whether the guess is too low or too high. If the guess is correct, the game will print a congratulatory message and exit.
 
 ## Setting Up a New Project
 
@@ -13,7 +13,7 @@ $ dotnet new SynNetApp -n GuessingGame
 $ cd GuessingGame
 ```
 
-The first command, `dotnet new`, takes the template name (`SynNetApp`) as the first argument and takes the name of the project (`GuessingGame`) as the second argument. The second command changes to the new project’s directory.
+The first command, `dotnet new`, takes the template name (`SynNetApp`) as the first argument and the name of the project (`GuessingGame`) as the second argument. The second command changes to the new project’s directory.
 
 As you saw in the intro, `dotnet new` generates a "Hello World" program for you. `**Which intro are we referring to? Do we mean "Getting Started"?` Check out the *Program.dbl* file:
 
@@ -63,7 +63,7 @@ Let's break down each part of the code:
 import System
 ```
 
-`import System` tells the compiler to make the contents of the `System` namespace implicitly available in this source file. For our use case `System` provides access to fundamental classes for managing input and output (I/O), basic data types, and other essential services. This is necessary to use the `Console` class in the program.
+`import System` tells the compiler to make the contents of the `System` namespace implicitly available in this source file. For our use case, `System` provides access to fundamental classes for managing input and output (I/O), basic data types, and other essential services. This access is necessary to use the `Console` class in the program.
 
 ```dbl
 main
@@ -76,7 +76,7 @@ proc
 stty(0) ; Enable .NET console input
 ```
 
-DBL has multiple ways to read input from the console. The `stty` statement is used to enable the .NET console input. This is necessary to use the `Console.ReadLine()` method in the program, and it's mutually exclusive with other console input methods.
+DBL has multiple ways to read input from the console. The `stty` statement is used to enable the .NET console input. This is necessary for using the `Console.ReadLine()` method in the program, and it's mutually exclusive with other console input methods.
 
 ```dbl
 Console.WriteLine("Guess the number!")
@@ -126,7 +126,7 @@ At this point, the first part of the game is done: we’re getting input from th
 
 ## Generating a Secret Number
 
-Next, we need to generate a secret number that the user will try to guess. The secret number should be different every time so the game is fun to play more than once. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, `RANDM`, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace. Lets start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
+Next, we need to generate a secret number that the user will try to guess. To make the game fun to play more than once, the number should be different every time. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, `randm`, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace instead. Let's start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
 
 ```dbl
 import System
@@ -148,7 +148,7 @@ proc
 endmain
 ```
 
-First we've added a variable named random and assigned it a new instance of the `Random` class. This is a class that provides a convenient way to generate random numbers. Next we've added a variable named `randomNumber` and assigned it the result of calling the `Next` method on the `random` variable. The `Next` method takes two arguments; the first is the inclusive lower bound of the random number, and the second is the exclusive upper bound. In this case, we're passing 1 and 101, so the random number will be between 1 and 100. Finally, we've added a line to convert our secret number to be a string, then output it to the console.
+First, we've added a variable named `random` and assigned it a new instance of the `Random` class. This is a class that provides a convenient way to generate random numbers. Next we've added a variable named `randomNumber` and assigned it the result of calling the `Next` method on the `random` variable. The `Next` method takes two arguments; the first is the inclusive lower bound of the random number, and the second is the exclusive upper bound. In this case, we're passing 1 and 101, so the random number will be between 1 and 100. Finally, we've added a line to convert our secret number to be a string, then output it to the console.
 
 Try running the program a few times:
 
@@ -191,7 +191,7 @@ proc
 endmain
 ```
 
-First up, we're calling `integer` and passing it the string we read off the console in order to convert it from a `String` to an `int`. In that same line, we've added a new variable `guessNumber`, declared that it's an int, and assigned its initial value. Next up we have a block of if-else statements. The `if` statement checks if `guessNumber` is greater than `randomNumber`. If it is, it prints "Too big!". The `else if` statement checks if `guessNumber` is less than `randomNumber`. If it is, it prints "Too small!". Finally, the `else` statement is a catch-all that prints "Correct!" if `guessNumber` is neither greater than nor less than `randomNumber`. If we hadn't converted `guess` to an `int`, the compiler wouldn't allow us to compare with `randomNumber` because they would be different types.
+First, we're calling `integer` and passing it the string we read off the console in order to convert it from a `String` to an `int`. In that same line, we've added a new variable, `guessNumber`, declared that it's an int, and assigned its initial value. Next, we have a block of if-else statements. The `if` statement checks if `guessNumber` is greater than `randomNumber`. If it is, it prints "Too big!". The `else if` statement checks if `guessNumber` is less than `randomNumber`. If it is, it prints "Too small!". Finally, the `else` statement is a catch-all that prints "Correct!" if `guessNumber` is neither greater than nor less than `randomNumber`. If we hadn't converted `guess` to an `int`, the compiler wouldn't allow us to compare with `randomNumber` because they would be different types.
 
 If you run the program now you'll see something like the following:
 
@@ -203,7 +203,7 @@ Please input your guess.
 Too small!
 ```
 
-You might be tempted to try inputting something other than a number to see what happens. Go ahead and try it. You'll see something like the following:
+You might be tempted to try inputting something other than a number to see what happens. Go ahead and try it. You'll see something like this:
 
 ```console
 dotnet run
@@ -251,7 +251,7 @@ proc
 endmain
 ```
 
-We've added a `try` block around the code that converts the `guess` to an `int` and compares it to the `randomNumber`. We've also added a `catch` block that catches the `BadDigitException` and prints a more user friendly message. We could have also used `Int.TryParse` from .NET but this way you can see some explicit error handling. Now if you run the program and enter something other than a number you'll see something like the following:
+We've added a `try` block around the code that converts the `guess` to an `int` and compares it to the `randomNumber`. We've also added a `catch` block that catches the `BadDigitException` and prints a more user friendly message. We could also have used `Int.TryParse` from .NET, but this way you can see some explicit error handling. If you run the program now and enter something other than a number, you'll see something like this:
 
 ```console
 dotnet run
@@ -304,7 +304,7 @@ proc
 endmain
 ```
 
-We've added a `repeat` block around the entire chunk of code that gets the user's guess and compares it to the `randomNumber`. We've also made the `else` block into a compound statement so we can execute both the `Console.WriteLine` and the `exitloop`. Now if you run the program you'll see something like the following:
+We've added a `repeat` block around the entire chunk of code that gets the user's guess and compares it to `randomNumber`. We've also made the `else` block into a compound statement so we can execute both `Console.WriteLine` and `exitloop`. Now if you run the program you'll see something like the following:
 
 ```console
 dotnet run
@@ -326,7 +326,7 @@ Please input your guess.
 Correct!
 ```
 
-And there you have it! A fully functioning guessing game. You can play it as many times as you want and it will generate a new random number each time. You can also try to guess the number as many times as you want.
+And there you have it! A fully functioning guessing game. You can play it as many times as you want, and it will generate a new random number each time. You can also try to guess the number as many times as you want.
 
 ## Summary
-This project was a hands on way to introduce you to some of the fundamentals of DBL. You learned about variables, looping, error handling and conditional statements. In the next chapter we'll dive deeper into common programming concepts.
+This project was a hands-on way to introduce you to some of the fundamentals of DBL. You learned about variables, looping, error handling, and conditional statements. In the next chapter, we'll dive deeper into common programming concepts.
