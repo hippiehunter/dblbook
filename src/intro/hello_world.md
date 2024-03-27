@@ -8,7 +8,7 @@
 
 You’ll start by making a directory to store your DBL code. It doesn’t matter where your code lives, but for the exercises and projects in this book, we suggest making a "projects" directory in your home directory and keeping all your projects there.
 
-Open a terminal, move to your home directory, and enter the following commands to make a "projects" directory and a directory within that for the project you'll create for your first DBL program, “Hello, world!”
+Open a terminal, move to your home directory, and enter the following commands to make a "projects" directory and a directory within that for the project you'll create for your first DBL program, “Hello World!”
 
 ```bash
 mkdir "%USERPROFILE%\projects"
@@ -19,7 +19,7 @@ cd HelloWorld
 
 ## Add Traditional DBL tools to PATH
 
-Whether you want to build and run 32-bit applications or 64-bit applications, you'll need to run one of the following commands  at a Windows command prompt to add the appropriate Synergy DBL runtime to your PATH. If you want to build and run 32-bit applications, run `"%SYNERGYDE32%\dbl\dblvars32.bat"`. If you want to build and run 64-bit applications, run `"%SYNERGYDE64%\dbl\dblvars64.bat"`.
+Whether you want to build and run 32-bit applications or 64-bit applications, you'll need to run one of the following commands at a Windows command prompt to add the appropriate Synergy DBL runtime to your PATH. If you want to build and run 32-bit applications, run `"%SYNERGYDE32%\dbl\dblvars32.bat"`. If you want to build and run 64-bit applications, run `"%SYNERGYDE64%\dbl\dblvars64.bat"`.
 
 ## Write the "Hello World" program
 
