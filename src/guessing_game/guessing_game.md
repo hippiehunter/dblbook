@@ -126,7 +126,7 @@ At this point, the first part of the game is done: we’re getting input from th
 
 ## Generating a Secret Number
 
-Next, we need to generate a secret number that the user will try to guess. To make the game fun to play more than once, the number should be different every time. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, `randm`, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace instead. Let's start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
+Next, we need to generate a secret number that the user will try to guess. To make the game fun to play more than once, the number should be different every time. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, `RANDM`, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace instead. Let's start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
 
 ```dbl
 import System
