@@ -326,7 +326,7 @@ Please input your guess.
 Correct!
 ```
 
-And there you have it! A fully functioning guessing game. You can play it as many times as you want, and it will generate a new random number each time. You can also try to guess the number as many times as you want.
+And there you have it! A fully functioning guessing game. You can play it as many times as you want, and it will generate a new random number each time. You can also try to guess the number as many times as you'd like.
 
 ## Summary
 This project was a hands-on way to introduce you to some of the fundamentals of DBL. You learned about variables, looping, error handling, and conditional statements. In the next chapter, we'll dive deeper into common programming concepts.
