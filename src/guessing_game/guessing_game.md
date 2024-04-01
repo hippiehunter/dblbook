@@ -4,13 +4,16 @@ Let’s jump into DBL by working through a hands-on project together! This chapt
 
 We’ll implement a classic beginner programming problem, a guessing game. Here’s how it works: the program will generate a random integer between 1 and 100. It will then prompt the player to enter a guess. After a guess is entered, the program will indicate whether the guess is too low or too high. If the guess is correct, the game will print a congratulatory message and exit.
 
-## Setting Up a New Project
+## Setting up a new project
+
+To set up a new .NET project, go to the project directory that you created in
+[chapter 1](../intro/hello_world.md#creating-a-project-directory), and make a new console app project by using the .NET CLI, like so:
 
 To set up a new .NET project, go to the *projects* directory that you created in Chapter 1 and make a new project using dotnet, like this:
 
 ```console
-$ dotnet new SynNetApp -n GuessingGame
-$ cd GuessingGame
+dotnet new SynNETApp -n GuessingGame
+cd GuessingGame
 ```
 
 The first command, `dotnet new`, takes the template name (`SynNetApp`) as the first argument and the name of the project (`GuessingGame`) as the second argument. The second command changes to the new project’s directory.
@@ -29,15 +32,14 @@ endmain
 Now let’s compile this “Hello World” program and run it in the same step using the `dotnet run` command:
 
 ```console
-Hello World
+dotnet run Program.dbl
 ```
 
 The `run` command comes in handy when you need to rapidly iterate on a project, as we’ll do in this game, quickly testing each iteration before moving on to the next one.
 
-Reopen the *Program.dbl* file. You’ll be writing all the code in this file.
+Open the Program.dbl file. You’ll be writing all the code for your program in this file.
 
-## Processing a Guess
-
+## Processing a guess
 The first part of the guessing game program will ask for user input, process that input, and check whether the input is in the expected form. To start, we’ll allow the player to input a guess. Replace the contents of *Program.dbl* with the following:
     
 ```dbl
@@ -55,9 +57,10 @@ proc
     Console.WriteLine("You guessed: " + guess)
 endmain
 ```
-Let's break down each part of the code:
 
-### Code Breakdown
+### Code breakdown
+
+Let's break down each part of the code, starting with the first line:
 
 ```dbl
 import System
@@ -82,7 +85,9 @@ DBL has multiple ways to read input from the console. The `stty` statement is us
 Console.WriteLine("Guess the number!")
 ```
 
-`Console.WriteLine("Guess the number!")` outputs the string "Guess the number!" to the console. `Console.WriteLine` is a method from the `Console` class that writes a line of text to the standard output stream (in this case, the console).
+`Console.WriteLine` is a method from the .NET `Console` class that writes a line of text to the standard output stream, which is the console in this case.
+
+The following line outputs the text to prompt the user for a guess:
 
 ```dbl
 Console.WriteLine("Please input your guess.")
@@ -90,7 +95,7 @@ Console.WriteLine("Please input your guess.")
 
 Similar to the previous line, this line outputs "Please input your guess." to the console. It's a prompt for the user to enter their guess.
 
-##### Storing values with variables
+The next line declares a variable named `guess`:
 
 ```dbl
 data guess = Console.ReadLine()
@@ -102,7 +107,9 @@ data guess = Console.ReadLine()
 Console.WriteLine("You guessed: " + guess)
 ```
 
-This line outputs a concatenated string to the console. It combines "You guessed: " with the value stored in `guess`, displaying the user's input back to them.
+This combines "You guessed: " with the value stored in `guess`, displaying the user's input on the console.
+
+Finally, the `endmain`, which is optional, marks the end of the `main` procedure:
 
 ```dbl
 endmain
@@ -122,9 +129,9 @@ Please input your guess.
 You guessed: 5
 ```
 
-At this point, the first part of the game is done: we’re getting input from the keyboard and then printing it.
+At this point, the first part of the game is complete. We’re getting input from the keyboard and then printing it.
 
-## Generating a Secret Number
+## Generating a secret number
 
 Next, we need to generate a secret number that the user will try to guess. To make the game fun to play more than once, the number should be different every time. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, `RANDM`, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace instead. Let's start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
 
@@ -162,9 +169,9 @@ The secret number was 37
 
 You should get different random numbers, and they should all be numbers between 1 and 100. Great job!
 
-## Comparing the Guess to the Secret Number
+## Comparing the guess to the secret number
 
-Now that we have user input and a random number, we can compare them.
+Now that we have user input and a random number, we can compare them. Replace the contents of Program.dbl with the following:
 
 ```dbl
 import System
@@ -193,7 +200,7 @@ endmain
 
 First, we're calling `integer` and passing it the string we read off the console in order to convert it from a `String` to an `int`. In that same line, we've added a new variable, `guessNumber`, declared that it's an int, and assigned its initial value. Next, we have a block of if-else statements. The `if` statement checks if `guessNumber` is greater than `randomNumber`. If it is, it prints "Too big!". The `else if` statement checks if `guessNumber` is less than `randomNumber`. If it is, it prints "Too small!". Finally, the `else` statement is a catch-all that prints "Correct!" if `guessNumber` is neither greater than nor less than `randomNumber`. If we hadn't converted `guess` to an `int`, the compiler wouldn't allow us to compare with `randomNumber` because they would be different types.
 
-If you run the program now you'll see something like the following:
+If you run the program now, you'll see something like the following:
 
 ```console
 dotnet run
@@ -261,9 +268,11 @@ dd
 Please type a number!
 ```
 
-## Allowing Multiple Guesses with Looping
+## Allowing multiple guesses with looping
 
-Now that we have the basic game working, we can make it more interesting by allowing multiple guesses. To do this, we’ll use a repeat loop. The repeat loop continues until `exitloop` is executed. Replace the contents of *Program.dbl* with the following:
+Now that we have the basic game working, we can make it more interesting by allowing multiple guesses. To do this, we’ll use a repeat loop. The repeat loop continues until `exitloop` is executed. 
+
+Replace the contents of Program.dbl with the following:
 
 ```dbl
 import System
