@@ -4,4 +4,4 @@ Let’s start your DBL journey! There’s a lot to learn, but every journey star
 
 * Installing Synergy/DE (the DBL development tools) on Windows
 * Writing a program that prints "Hello World"
-* Using MSBuild for .NET and Traditional DBL applications 
+* Using MSBuild for a .NET DBL application 

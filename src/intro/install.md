@@ -1,19 +1,16 @@
 # Installation
 
-`**Brief intro statement here?`
+We'll start our DBL journey by installing development tools on a 64-bit Windows machine. 
 
 ## Step 1: Install Visual Studio 2022
 
-To start, you need to install Visual Studio 2022 on a Windows machine. This is required for the MSBuild-based .NET Framework and Traditional DBL build systems. When developing for .NET 6+, this is not required but is still recommended for a better development experience.
-
-`**you'll also need certain versions of .NET Framework, so mention that here, or point readers to requirements doc?`
+To start, you need to install Visual Studio 2022. This is required for the MSBuild-based .NET Framework and Traditional DBL build systems. When developing for .NET 6+, this is not required but is still recommended for a better development experience.
 
 1. **Download Visual Studio 2022**: Visit the [official Visual Studio download page](https://visualstudio.microsoft.com/downloads/) and download the installer for Visual Studio 2022.
 
 2. **Run the installer**: Open the downloaded installer and proceed with the installation.
 
 3. **Choose workloads**: During the installation process, select the **.NET desktop development** workload. This workload includes necessary tools and libraries for DBL development.
-`**How about ".NET Cross-Platform Development"? The SDI Requirements page says it's needed for .NET 6+ development.`
 
 ## Step 2: Download Synergy/DE installers
 
@@ -43,10 +40,10 @@ During the installation of Synergy/DE, you’ll need to configure the licensing.
    - Choose **License Client** if you need to specify the name of a license server.
 
 3. **Enter license details**:
-   - For License Server/Stand-alone: Enter the unique licensee name given by Synergex.
+   - For License Server or Stand-alone: Enter the unique licensee name given by Synergex.
    - For License Client: Enter the name of your license server.
 
-   **Note**: If installing 32-bit Synergy/DE on a machine with 64-bit Synergy/DE network server licensing, the server name for the 32-bit installation defaults to the 64-bit machine’s name.
+   If you install 32-bit Synergy/DE on a machine with 64-bit Synergy/DE network server licensing, the server name for the 32-bit installation defaults to the 64-bit machine’s name.
 
 ## Step 5: Install Synergy/DE Visual Studio Integration
 
@@ -59,6 +56,5 @@ After installation, it’s good practice to verify that everything is set up cor
 1. **Verify licensing**: Open a command prompt and run `"%SYNERGYDE64%\dbl\dblvars64.bat" && lmu`. This should display the licensing information for your machine.
    
 ## Conclusion
-
 You have now successfully set up the DBL programming environment on your Windows machine using Visual Studio 2022. In the future when someone says to go to a DBL command prompt or ensure DBL environment variables have been configured in your command prompt, you can just run `"%SYNERGYDE64\dbl\dblvars64.bat"`, which will bring in the environment variables required to build/run DBL code in 64-bit. If you need the 32-bit version instead, you can just replace the "64" parts in that command with "32" and run `"%SYNERGYDE32\dbl\dblvars32.bat"`. Now we can move on to creating our first DBL program.
 
