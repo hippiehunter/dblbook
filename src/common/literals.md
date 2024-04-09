@@ -10,7 +10,7 @@ An alpha literal in DBL is essentially a string of characters. These characters 
 `'This is an ALPHA literal'
 "This is also an ALPHA literal"`
 
-In order to include a quotation mark within an alpha literal, you must use two successive quotation marks. However, if the embedded character is different from the ones delimiting the literal, you don't need to double it.
+To include a quotation mark in an alpha literal, you must use two successive quotation marks. However, if the embedded character is different from the ones delimiting the literal, you don't need to double it.
 
 For example:
 
@@ -19,11 +19,11 @@ For example:
 
 You can also split an alpha literal into smaller parts, and the DBL compiler will concatenate these parts if they are separated by blanks and tabs. Note that alpha literals are case sensitive.
 
-It's important to remember that DBL does not support the C-style escape sequences found in some other languages. For instance, where in C or C# you might use `\r\n` to represent carriage return and newline, in DBL you would use `+ %char(13) + %char(10)`. So, to concatenate the words "hello" and "world" with a newline in between, you would write it as `"hello" + %char(13) + %char(10) + "world"`.
+It's important to remember that DBL does not support the C-style escape sequences found in some other languages. For instance, while in C or C# you might use `\r\n` to represent carriage return and newline, in DBL you would use `+ %char(13) + %char(10)`. So, to concatenate the words "hello" and "world" with a newline in between, you would write it as `"hello" + %char(13) + %char(10) + "world"`.
 
 #### Decimal Literals
 
-A decimal literal is a sequence of numeric characters, which can be positive or negative, and can include up to 28 digits. Leading zeros without significance are removed by the compiler. Examples include:
+A decimal literal is a sequence of numeric characters, which can be positive or negative, and can include up to 28 digits. Leading zeros without significance are removed by the compiler. Examples include
 ```
 273949830000000000
 1
@@ -45,11 +45,12 @@ The compiler removes nonsignificant leading or trailing zeros before processing.
 
 #### Integer Literals
 
-In DBL, you can't directly write integer literals like you would with alpha, decimal, or implied-decimal literals. However, when a decimal literal is part of an arithmetic expression with an integer variable, the compiler generates an integer literal in the code.
+In DBL, you can't directly write integer literals like you would alpha, decimal, or implied-decimal literals. However, when a decimal literal is part of an arithmetic expression with an integer variable, the compiler generates an integer literal in the code.
 
 #### Literal definition
 
-> #### Note this is a weird failed concept, you dont need to keep doing it 
+> #### Note this is a weird failed concept; you don't need to keep doing it 
+`**Is this comment really supposed to be here?`
 
 The *literal* declaration allows you to define a local, read-only data structure that cannot be altered during the execution of the program. The companion statement *endliteral* marks the conclusion of this declaration.
 
@@ -76,7 +77,7 @@ literal                     ;Invalid literal declaration
     lit2    ,i4  @lit1
 ```
 
-it's possible to overlay a literal record onto another if the overlaid record is named. However, you cannot specify a packed data field within the scope of a literal field.
+It's possible to overlay a literal record onto another if the overlaid record is named. However, you cannot specify a packed data field within the scope of a literal field.
 
 #### Boxing Literals
-In the .NET environment, literals or those cast as type 'object' undergo a type conversion from a DBL literal type to a .NET literal type before being boxed. For instance, the literal "abc" is changed to a string type, and the number 10 becomes @int. If you wish to retain an alpha, decimal or implied decimal literal type, simply cast the literal as the desired DBL type (@a, @d, @id). Boxing literals usually happens when adding a literal directly to an object collection or passing it as a parameter to a routine that takes an object parameter.
+In the .NET environment, literals or those cast as type "object" undergo a type conversion from a DBL literal type to a .NET literal type before being boxed. For instance, the literal "abc" is changed to a string type, and the number 10 becomes @int. If you wish to retain an alpha, decimal, or implied-decimal literal type, simply cast the literal as the desired DBL type (@a, @d, @id). Boxing literals usually happens when adding a literal directly to an object collection or passing it as a parameter to a routine that takes an object parameter.
