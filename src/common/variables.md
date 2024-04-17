@@ -403,15 +403,15 @@ Using any of these invalid paths will result in a helpful compiler error that wi
 >     -   [ ] Stack, static, and local
 >     -   [ ] Local, global, and data
 > 4.  What is the primary difference between "stack" and "static" variables in DBL?
->     -   [ ] Stack variables are shared across the program, while static variables are unique to each function.
->     -   [ ] Static variables retain their value between function calls, while stack variables are deallocated when the scope is exited.
+>     -   [ ] Stack variables are shared across the program, while static variables are unique to each function
+>     -   [ ] Static variables retain their value between function calls, while stack variables are deallocated when the scope is exited
 >     -   [ ] Stack variables persist until the program ends, while static variables are deallocated when the scope is exited.
->     -   [ ] Static variables are shared across the program, while stack variables are unique to each function.
+>     -   [ ] Static variables are shared across the program, while stack variables are unique to each function
 > 6.  How are "data" variables stored in DBL?
->     -   [ ] They are stored statically.
->     -   [ ] They are stored locally.
->     -   [ ] They are stored on the stack.
->     -   [ ] They are stored globally.
+>     -   [ ] They are stored statically
+>     -   [ ] They are stored locally
+>     -   [ ] They are stored on the stack
+>     -   [ ] They are stored globally
 > 7.  Which data containers in DBL can hold multiple related data items of various types?
 >     -   [ ] Functions
 >     -   [ ] Groups

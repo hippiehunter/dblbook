@@ -468,23 +468,23 @@ proc
 As a best practice, limit or eliminate the use of GOTO, as it can make code difficult to read and maintain. Structured control flow with loops, conditionals, and routine calls is preferable. EXIT and EXITLOOP can be very useful for managing control flow, especially when you need to leave a loop or block due to an error condition or when a certain condition is met. NEXTLOOP is also a handy tool when you want to skip the current iteration and continue with the next one.
 
 > ## Quiz
-> 1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does statement2 represent?
->    - [ ] The statement to be executed when the condition is true.
->    - [ ] The statement to be executed when the condition is false.
->    - [ ] The condition to be checked after the initial condition is checked.
->    - [ ] The default statement that is always executed.
+> 1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
+>    - [ ] The statement to be executed when the condition is true
+>    - [ ] The statement to be executed when the condition is false
+>    - [ ] The condition to be checked after the initial condition is checked
+>    - [ ] The default statement that is always executed
 > 
 > 2. In an IF construct, are parentheses around the condition required?
->    - [ ] Yes, the condition must always be enclosed in parentheses.
->    - [ ] Yes, but only when using the ELSE IF clause.
->    - [ ] No, parentheses can improve readability but are entirely optional.
->    - [ ] No, parentheses are not allowed in the IF construct.
+>    - [ ] Yes, the condition must always be enclosed in parentheses
+>    - [ ] Yes, but only when using the ELSE IF clause
+>    - [ ] No, parentheses can improve readability but are entirely optional
+>    - [ ] No, parentheses are not allowed in the IF construct
 > 
 > 3. Which statement about THEN in DBL is correct?
->    - [ ] THEN is always required in IF and ELSE IF statements.
->    - [ ] THEN is only required in IF statements.
->    - [ ] THEN is never required in DBL.
->    - [ ] THEN is required if another ELSE or ELSE IF will follow, but it is not allowed on the last one.
+>    - [ ] THEN is always required in IF and ELSE IF statements
+>    - [ ] THEN is only required in IF statements
+>    - [ ] THEN is never required in DBL
+>    - [ ] THEN is required if another ELSE or ELSE IF will follow, but it is not allowed on the last one
 > 
 > 4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in DBL?
 >    - [ ] IF, ELSE IF, ELSE
@@ -493,7 +493,7 @@ As a best practice, limit or eliminate the use of GOTO, as it can make code diff
 >    - [ ] BEGIN, END
 > 
 > 5. What is the purpose of the ELSE clause in a CASE control flow statement?
->    - [ ] It provides a condition to be checked if no prior conditions have been met.
->    - [ ] It acts as the default case that is always executed.
->    - [ ] It specifies a block of code to be executed if no case labels match the value of the switch expression.
->    - [ ] It causes the program to exit the CASE statement if no match is found.
+>    - [ ] It provides a condition to be checked if no prior conditions have been met
+>    - [ ] It acts as the default case that is always executed
+>    - [ ] It specifies a block of code to be executed if no case labels match the value of the switch expression
+>    - [ ] It causes the program to exit the CASE statement if no match is found

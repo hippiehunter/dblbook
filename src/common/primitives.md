@@ -177,11 +177,11 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] Sixteen-bit signed integer
 >    - [ ] Sixteen-bit unsigned integer
 >    
-> 4. What's the main difference between the decimal and implied-decimal types in DBL?
->    - [ ] Decimal types are unsigned; implied-decimal types are signed.
->    - [ ] Decimal types are whole numbers; implied-decimal types have a sized precision.
->    - [ ] Decimal types have a fractional precision; implied-decimal types are whole numbers.
->    - [ ] Decimal types are signed; implied-decimal types are unsigned.
+> 4. What is the main difference between the decimal and implied-decimal types in DBL?
+>    - [ ] Decimal types are unsigned; implied-decimal types are signed
+>    - [ ] Decimal types are whole numbers; implied-decimal types have a sized precision
+>    - [ ] Decimal types have a fractional precision; implied-decimal types are whole numbers
+>    - [ ] Decimal types are signed; implied-decimal types are unsigned
 >    
 > 5. What is the default value for the .NET System.Double structure in DBL?
 >    - [ ] 1.0
@@ -189,13 +189,13 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] NULL
 >    - [ ] Undefined
 >    
-> 6. Which types do short map to in Traditional DBL and DBL on .NET, respectively?
+> 6. Which types does short map to in Traditional DBL and DBL on .NET, respectively?
 >    - [ ] i2 and System.Int32
 >    - [ ] i2 and System.Int64
 >    - [ ] i2 and System.Int16
 >    - [ ] i4 and System.Int16
 >    
-> 7. When defining a record, when must you include a size for these DBL types: `a`, `d`, `i`, `id`?
+> 7. When defining a record, when must you include a size for these DBL types: a, d, i, id?
 >    - [ ] Only when the fields need to be stored in an array
 >    - [ ] Only when the fields will be processed in a loop
 >    - [ ] When the fields define a memory layout (this is most of the time)
@@ -208,7 +208,7 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] When they are declared
 >    
 > 9. What happens when you pass the string "a slightly longer alpha" to a routine with an unsized alpha parameter `myFld, a`?
->    - [ ] An error occurs as the parameter is unsized.
->    - [ ] The parameter myFld will have a size of 23.
->    - [ ] The parameter myFld will have a size of 24, including the end character.
->    - [ ] The program will crash.
+>    - [ ] An error occurs as the parameter is unsized
+>    - [ ] The parameter myFld will have a size of 23
+>    - [ ] The parameter myFld will have a size of 24, including the end character
+>    - [ ] The program will crash
