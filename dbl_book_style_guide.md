@@ -45,4 +45,4 @@ Keywords should be in all caps (e.g., USING-RANGE). Don’t use backticks unless
 **Traditional DBL.** "Traditional DBL" is considered a product name and should have initial caps.
 
 ## Punctuation
-**Dashes.** Don't add spaces around em dashes (---). Do include spaces around en dashes (--). 
+**Dashes.** Don't add spaces around em dashes (—). Do include spaces around en dashes (–). 
