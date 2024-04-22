@@ -96,7 +96,7 @@
       - shrug
     - What does this program output if month = 5555 instead of 3?
       - "wild month"
-`**Should we number these? If so, we could have a Part 1 and Part 2`
+<!--Should we number these? If so, we could have a Part 1 and Part 2-->
    1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
       - [ ] The statement to be executed when the condition is true
       - [x] The statement to be executed when the condition is false

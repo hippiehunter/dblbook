@@ -9,7 +9,7 @@ In addition to comparison operators, we have Boolean operators. They compare the
 2.  **Exclusive OR (`.XOR.`)**: Returns `true` if exactly one operand is true.
 3.  **AND (`&&` or `.AND.`)**: Returns `true` if both operands are true.
 4.  **NOT (`!` or `.NOT.`)**: Returns `true` if the operand is false.
-`**Consider formatting these as bullets rather than a numbered list, which implies steps`
+<!--Consider formatting these as bullets rather than a numbered list, which implies steps-->
 
 > Like most programming languages, DBL evaluates Boolean operators from left to right. If the result can be determined by the left operand, DBL won't process the right operand. This is known as short-circuit evaluation.
 

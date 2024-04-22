@@ -52,10 +52,10 @@ proc
 
 In this snippet, we parse the JSON response into a `JsonDocument`. Then, we iterate over the array of posts, extracting and printing the title of each post. It's important to note that in Traditional DBL, you must keep the jsonDoc variable in scope for the lifetime of the jsonElement variable. This is because the jsonElement variable is a reference to the jsonDoc variable. If you don't keep the jsonDoc variable in scope, the jsonElement variable will be invalid.
 
-There's a lot more you can do with the System.Text.Json.JsonDocument API`**should this be class instead of API?`, and typicode.com has a lot more endpoints you can play with. If you're running .NET, you can look at the Microsoft documentation for the System.Text.Json.JsonDocument API`**class?`, [Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.text.json.jsondocument?view=net-5.0). If you're running Traditional DBL, you can look at the Synergex documentation for the Json.JsonDocument class, [Synergex documentation](https://www.synergex.com/docs/versions/v121/index.htm#lrm/lrmChap10JSONJSONDOCUMENT.htm).
+There's a lot more you can do with the System.Text.Json.JsonDocument API<!--should this be class instead of API?-->, and typicode.com has a lot more endpoints you can play with. If you're running .NET, you can look at the Microsoft documentation for the System.Text.Json.JsonDocument API<!--class?-->, [Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/api/system.text.json.jsondocument?view=net-5.0). If you're running Traditional DBL, you can look at the Synergex documentation for the Json.JsonDocument class, [Synergex documentation](https://www.synergex.com/docs/versions/v121/index.htm#lrm/lrmChap10JSONJSONDOCUMENT.htm).
 
 #### Writing data with Utf8JsonWriter
-Utf8JsonWriter is borrowed from .NET and provides a high-performance way to write JSON data. Because Traditional DBL doesn't have streams,`**explain what streams are and why they are necessary` we'll write a new program and use System.StringBuilder as our output target and then fling our JSON data at httpbin.org to show it off.
+Utf8JsonWriter is borrowed from .NET and provides a high-performance way to write JSON data. Because Traditional DBL doesn't have streams,<!--explain what streams are and why they are necessary--> we'll write a new program and use System.StringBuilder as our output target and then fling our JSON data at httpbin.org to show it off.
 
 ##### Imports
 First, make sure you have included the necessary namespaces:

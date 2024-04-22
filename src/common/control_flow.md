@@ -1,6 +1,6 @@
 # Control Flow
 
-`**A brief intro would be good`
+<!--A brief intro would be good-->
 
 ### IF-THEN-ELSE
 IF is the most basic statement that allows for conditional control flow in a DBL program. The IF statement checks a specified condition (a statement that evaluates to a Boolean value), and if the condition is true, it executes an associated code block&mdash;i.e., a statement or a BEGIN-END block.
@@ -232,7 +232,7 @@ proc
 > What does this program output if `month` is 5 instead of 3? 
 >
 > What does this program output if `month` is 5555 instead of 3?
-`**Should we number these?`
+<!--Should we number these?-->
 
 While each of these multi-way control mechanisms has its uses, in most modern coding scenarios, USING tends to be the go-to choice due to its flexibility and powerful matching conditions. The CASE statement is straightforward and simple to use, and you'll frequently encounter it in legacy code (as it was developed earlier than USING). But it is generally slower. Also, the USING-RANGE statement provides a slight efficiency boost when a control expression is evaluated within a predefined range.
 

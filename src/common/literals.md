@@ -50,7 +50,7 @@ In DBL, you can't directly write integer literals like you would alpha, decimal,
 #### Literal definition
 
 > #### Note this is a weird failed concept; you don't need to keep doing it 
-`**Is this comment really supposed to be here?`
+<!--Is this comment really supposed to be here?-->
 
 The *literal* declaration allows you to define a local, read-only data structure that cannot be altered during the execution of the program. The companion statement *endliteral* marks the conclusion of this declaration.
 
