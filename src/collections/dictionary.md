@@ -1,22 +1,22 @@
 # Dictionary
-There is nothing built into Traditional DBL that behaves exactly like Dictionary in .NET. However, there are a few of the necessary building blocks so we're going to use this as an opportunity to build our own Dictionary class. This will be a good exercise in using some of the collections and concepts we've covered so far.
+There is nothing built into Traditional DBL that behaves exactly like Dictionary in .NET. However, DBL contains a few of the necessary building blocks, so we're going to use this as an opportunity to build our own Dictionary class. This will be a good exercise in using some of the collections and concepts we've covered so far.
 
-### Whats this useful for?
-Depending on your historical context you might be wondering, why do I care about a dictionary when I can just use an ISAM file? Alternatively you might be wondering why there isnt much of a built-in in-memory associative lookup data structure. I'll start by trying to sell you on the benefits of an in-memory dictionary.
+### What's this useful for?
+Depending on your historical context, you might be wondering, "Why do I care about a dictionary when I can just use an ISAM file?" Alternatively, you might be wondering why there isn't much of a built-in in-memory associative lookup data structure. The following are some of the benefits of an in-memory dictionary.
 
 Using in-memory dictionaries offers several benefits:
 
-    Speed: Accessing and modifying data in memory is orders of magnitude faster than disk operations.
+    Speed: Accessing and modifying data in memory is considerably faster than disk operations.
     Efficiency: In-memory operations reduce the overhead of disk I/O, making data processing more efficient.
     Simplicity: Working with data in memory often simplifies the code, reducing the complexity associated with file management. 
-    Serialization: No need to serialize and deserialize data when it's already in memory. More importantly no need to worry about data structures like string that cant be written directly to ISAM files.
+    Serialization: There's no need to serialize and deserialize data when it's already in memory. More importantly, there's no need to worry about data structures like string that can't be written directly to ISAM files.
 
-Now for the downsides and this is why I think in-memory dictionaries arent used much in traditionary DBL code. DBL programs often handle large volumes of data and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.
+Now it's time to discuss the downsides, and these are probably why in-memory dictionaries aren't used much in traditional DBL code. DBL programs often handle large volumes of data, and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.<!--Not sure what "where you should work in on disk structures" means-->
 
-That said, there are still plenty of scenarios where an in-memory dictionary is a good fit. For example, if you need to perform a series of lookups on a small set of data, it's often more efficient to load the data into memory and perform the lookups there, rather than repeatedly accessing the disk. This is especially true if the data is already in memory, such as when it's being passed from one routine to another. In such cases, using an in-memory dictionary can be a good option. As with all things architecture and performance related your milage may very and you should always test your assumptions.
+That said, there are still plenty of scenarios where an in-memory dictionary is a good fit. For example, if you need to perform a series of lookups on a small set of data, it's often more efficient to load the data into memory and perform the lookups there, rather than repeatedly accessing the disk. This is especially true if the data is already in memory, such as when it's being passed from one routine to another. In such cases, using an in-memory dictionary can be a good option. As with all things architecture and performance related, your mileage may very and you should always test your assumptions.
 
 ## Implementation
-Let's jump into a high level overview for our custom implementation of a dictionary-like data structure, combining the Symbol Table API with `System.Collections.ArrayList` to manage string lookups of arbitrary objects.
+Let's jump into a high-level overview for our custom implementation of a dictionary-like data structure, combining the Symbol Table API with `System.Collections.ArrayList` to manage string lookups of arbitrary objects.
 
 ### Overview
 - **Purpose:** To create a dictionary for string-based key lookups.
