@@ -1,6 +1,6 @@
 # Hello World
 
-`**Might want to say something brief about how they're now ready to write DBL code, create a program, etc. (E.g., "Now that you've installed Visual Studio, Synergy/DE, and SDI, you're ready to create your first program in DBL" or something like the intro in hello_msbuild.md.) This will give the next sentence ("You'll start by...") and the section the context it needs.`
+<!--Might want to say something brief about how they're now ready to write DBL code, create a program, etc. (E.g., "Now that you've installed Visual Studio, Synergy/DE, and SDI, you're ready to create your first program in DBL" or something like the intro in hello_msbuild.md.) This will give the next sentence ("You'll start by...") and the section the context it needs.-->
 
 ## Creating a project directory
 
