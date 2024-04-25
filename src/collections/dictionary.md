@@ -78,14 +78,14 @@ Let's jump into a high-level overview for our custom implementation of a diction
 6. **Contains method:**
    - Checks if a key exists in the dictionary.
 
-7. **Clear method:**
+7. **Clear Method:**
    - Clears the dictionary.
    - Uses `nspc_reset` to clear the symbol table.
 
-8. **Items method:**
+8. **Items Method:**
    - Returns a collection of all key-value pairs in the dictionary.
 
-### Internal methods
+### Internal Methods
 1. **AddObjectInternal:**
    - Manages adding objects to the `objectStore`.
    - Uses `freeIndicies` to reuse free slots in `objectStore`.
