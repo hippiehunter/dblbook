@@ -1,5 +1,5 @@
 # Libraries
-This section essentially combines a description of how things work and what tools are available to you with a choose-your-own-adventure game. At some point, you very likely have had at your workplace a script-driven manual traditional dbl build system that contains `.dbo`, `.olb`, and `.elb` files in some form. Outside of developers who need to deploy to OpenVMS or AIX, you can make use of MSBuild to reproduce this script-based environment to allow your IDE or CI/CD pipeline to build your projects.<!--Does this mean "Unless you are a developer who needs to deploy...-->
+This section essentially combines a description of how things work and what tools are available to you with a choose-your-own-adventure game.<!--"adventure game" might be pushing it a little!--> At some point, you very likely have had at your workplace a script-driven manual traditional dbl build system that contains `.dbo`, `.olb`, and `.elb` files in some form. Outside of developers who need to deploy to OpenVMS or AIX, you can make use of MSBuild to reproduce this script-based environment to allow your IDE or CI/CD pipeline to build your projects.<!--Does this mean "Unless you are a developer who needs to deploy...-->
 
 ## Traditional DBL (manual)
 
