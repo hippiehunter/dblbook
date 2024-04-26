@@ -167,7 +167,7 @@ This code will set the `EXEDIR` and `SOMEOTHER_ENVVAR` environment variables for
 ```
 
 ## Grouping projects into solutions
-Using a solution file (.sln) in an MSBuild-based build system is required in order to effectively managing multiple projects. A .sln file is a text file that lists the projects that make up your solution, essentially serving as a project aggregator. It allows developers to organize, build, and manage a group of related projects as a single entity. This is particularly useful when your application consists of multiple components, such as a library, a user interface, and various service modules. Each project can be developed and maintained separately, with its own set of files, resources, and dependencies. The .sln file keeps track of these projects and their dependencies, ensuring that when you build the solution, MSBuild compiles the projects in the correct order. The flexibility of solution files (.sln) extends to allowing custom-named solution configurations, within which developers can selectively determine which projects to build and specify the particular project-level configurations, such as Debug or Release, for each, offering a tailored and granular control over the build process. This second level of configuration is powerful but it's very easy to confused if you're not careful with your naming conventions.
+Using a solution file (.sln) in an MSBuild-based build system is required to effectively manage multiple projects. A .sln file is a text file that lists the projects that make up your solution, essentially serving as a project aggregator. It allows developers to organize, build, and manage a group of related projects as a single entity. This is particularly useful when your application consists of multiple components, such as a library, a user interface, and various service modules. Each project can be developed and maintained separately, with its own set of files, resources, and dependencies. The .sln file keeps track of these projects and their dependencies, ensuring that when you build the solution, MSBuild will compile the projects in the correct order. The flexibility of solution files extends to allowing custom-named solution configurations, within which developers can selectively determine which projects to build and can specify project-level configurations (such as Debug or Release) for each, offering a tailored and granular control over the build process. This second level of configuration is powerful, but it's very easy to get confused if you're not careful with your naming conventions.
 
 ### Creating a solution file
 You likely already have a solution file for your project. If you don't, you can create one by using the `dotnet new sln` command. This command creates a new solution file with the same name as the current directory. You can also specify a name for the solution file by using the `-n` or `--name` option. For example, to create a solution file named `MySolution.sln`, you would use the following command:
@@ -177,7 +177,7 @@ dotnet new sln -n MySolution
 ```
 
 ### Adding projects to a solution file
-Once you have a solution file, you can add projects to it using the `dotnet sln add` command. This command adds the specified project to the solution file. In order to use `dotnet sln add` you will need to make sure that your project file has explicitly specified its project type. This is going to feel a little bit like boiler plate and it is, but doing things this way will ensure you know every part of your build system and will make it easier to maintain in the long run. You can check to see if you already have the required project type guid by opening your project file and looking for something like the following structure:
+Once you have a solution file, you can add projects to it using the `dotnet sln add` command. First, you will need to make sure your project file has explicitly specified its project type. This is going to feel a little bit like boilerplate, and it is, but doing things this way will ensure you know every part of your build system and will make it easier to maintain in the long run. You can check to see if you already have the required project type GUID by opening your project file and looking for something like the following structure:
 
 ```xml
 <Project>
@@ -195,12 +195,12 @@ Here's a list of the project type GUIDs and their meanings:
 +----------------------------------------+----------------------------------------------+
 | Project Type GUID                      | Meaning                                      |
 +----------------------------------------+----------------------------------------------+
-| {BBD0F5D1-1CC4-42FD-BA4C-A96779C64378} | DBL Base Project                             |
-| {7B8CF543-378A-4EC1-BB1B-98E4DC6E6820} | Traditional DBL Flavor                       |
+| {BBD0F5D1-1CC4-42FD-BA4C-A96779C64378} | DBL base project                             |
+| {7B8CF543-378A-4EC1-BB1B-98E4DC6E6820} | Traditional DBL flavor                       |
 +----------------------------------------+----------------------------------------------+
 ```
 
-If you have a Traditional DBL project you would combine the two project type GUIDs like this:
+If you have a Traditional DBL project, you would combine the two project type GUIDs like this:
 ```xml
 <ProjectTypeGuids>
 {7B8CF543-378A-4EC1-BB1B-98E4DC6E6820};{BBD0F5D1-1CC4-42fd-BA4C-A96779C64378}
