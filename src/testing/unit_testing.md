@@ -1,5 +1,5 @@
 # Unit Testing
-DBL developers have 2 primary options for unit testing, the Synergex Test Framework for Traditional DBL and MSTest for .NET. The Synergex Test Framework attempts to mimic the syntax of MSTest as closely as possible. Both frameworks use attributes to mark classes and methods as tests, and both use the `Assert` class to verify test results. The main visible difference is that MSTest uses the `Microsoft.VisualStudio.TestTools.UnitTesting` namespace and Traditional DBL uses the `Synergex.TestFramework` namespace. We're going to go over the tools you have available to you in both framework and then we'll walk through creating a running some tests in both frameworks.
+DBL developers have two primary options for unit testing: the Synergex Test Framework for Traditional DBL and MSTest for .NET. The Synergex Test Framework attempts to mimic the syntax of MSTest as closely as possible. Both frameworks use attributes to mark classes and methods as tests, and both use the `Assert` class to verify test results. The main visible difference is that MSTest uses the `Microsoft.VisualStudio.TestTools.UnitTesting` namespace, and Traditional DBL uses the `Synergex.TestFramework` namespace. We're going to go over the tools you have available to you in both frameworks, and then we'll walk through creating and running some tests.
 
 ### Attributes
 
@@ -11,26 +11,26 @@ DBL developers have 2 primary options for unit testing, the Synergex Test Framew
 
 **TestCleanup**: The counterpart to TestInitialize, methods with this attribute are executed after each test in the class. This is where you clean up or dispose of resources used during the test, ensuring that one test's side effects don't affect another. It's essential for maintaining isolation between tests.
 
-**ClassInitialize**: Used for setup that needs to run once before any of the tests in the class are executed, typically for more resource-intensive operations. This could involve setting up database connections, preparing external resources, or other once-per-class setup tasks.
+**ClassInitialize**: Used for setup that needs to run once before any of the tests in the class are executed, this attribute is typically for more resource-intensive operations. This could involve setting up database connections, preparing external resources, or establishing other once-per-class setup tasks.
 
 **ClassCleanup**: The companion to ClassInitialize, this attribute is used for teardown operations that should occur after all tests in a class have been run. It's used to release resources that were set up in the ClassInitialize method, such as closing database connections or cleaning up files.
 
 **Ignore**: This attribute is applied to tests that should be skipped. It's useful for temporarily disabling a test, perhaps because it's failing due to an external dependency or if it's not relevant under certain conditions. The Ignore attribute allows for flexibility in test execution without removing the test code.
 
 ### Asserts
-There are several static methods available to you in `Synergex.TestFramework.Assert` and `Microsoft.VisualStudio.TestTools.UnitTesting.Assert` for verifying test results. We're going to go over the basics but if you want to dig into the exact signatures you can check [Synergex Test Framework documentation](https://www.synergex.com/docs/#vs/Assert.htm) and the [MSTest documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert?view=mstest-net-1.3.2).
+Several static methods for verifying test results are available to you in `Synergex.TestFramework.Assert` and `Microsoft.VisualStudio.TestTools.UnitTesting.Assert`. We're going to go over the basics, but if you want to dig into the exact signatures, you can check [Synergex Test Framework documentation](https://www.synergex.com/docs/#vs/Assert.htm) and the [MSTest documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert?view=mstest-net-1.3.2).
 
 **AreEqual** and **AreNotEqual**: These methods are used to verify that two values are equal or not equal, respectively. They're typically used to compare the actual result of a test to the expected result. The first parameter is the expected value, and the second parameter is the actual value. If the values are equal, the test passes. If they're not equal, the test fails and the test runner displays the expected and actual values along with a message if one is provided.
 
-**AreSame** and **AreNotSame**: These methods are used to verify that two objects are the same or not the same, respectively. They're typically used to compare the actual result of a test to the expected result. The first parameter is the expected object, and the second parameter is the actual object. This is much less common and you should usually prefer `AreEqual` instead of `AreSame`. If the objects are the same instance, the test passes. If they're not the exact same instance, the test fails and the test runner displays the expected and actual objects along with a message if one is provided.
+**AreSame** and **AreNotSame**: These methods are used to verify that two objects are the same or not the same, respectively. They're typically used to compare the actual result of a test to the expected result. The first parameter is the expected object, and the second parameter is the actual object. This comparison is much less common, and `AreEqual` is usually preferred to `AreSame`. If the objects are the same instance, the test passes. If they're not exactly the same instance, the test fails and the test runner displays the expected and actual objects along with a message if one is provided.
 
 **Fail**: This method is used to force a test to fail. It's typically used to indicate that you've reached a code branch that should never be reached. 
 
 **Inconclusive**: This method is used to indicate that a test is inconclusive. It's typically used to indicate that a test is not applicable under certain conditions.
 
-**IsFalse** and **IsTrue**: These methods are used to verify that a condition is false or true, respectively. They're typically used to verify that a boolean condition is true or false. The first parameter is the condition to test, and the second parameter is a message to display if the test fails.
+**IsFalse** and **IsTrue**: These methods are used to verify that a condition is false or true, respectively. They're typically used to verify that a Boolean condition is true or false.<!--Doesn't this just repeat the previous sentence? Can we delete it or change the first sentence to "These methods are used to verify that a condition (typically Boolean) is true or false, respectively"?--> The first parameter is the condition to test, and the second parameter is a message to display if the test fails.
 
-**IsNull** and **IsNotNull**: These methods are used to verify that an object is null or not null, respectively. They're typically used to verify that an object is null or not null. The first parameter is the object to test, and the second parameter is a message to display if the test fails.
+**IsNull** and **IsNotNull**: These methods are used to verify that an object is null or not null, respectively. The first parameter is the object to test, and the second parameter is a message to display if the test fails.
 
 ## Traditional DBL
 initial project setup
