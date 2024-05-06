@@ -1,11 +1,11 @@
-# Classes
-#### Classes: The Building Blocks of Object-Oriented Programming<!--I think the heading levels are off in this topic. Can this line just be the title? And then the next two headings are level 4, followed by some level 3 headings. Is that really what we want?-->
+# Classes: The Building Blocks of Object-Oriented Programming<!--I think the heading levels are off in this topic. Can this line just be the title? And then the next two headings are level 4, followed by some level 3 headings. Is that really what we want?-->
 
 In object-oriented programming (OOP), classes serve as the foundational building blocks. They encapsulate data and methods that operate on that data into a single unit. When you hear the word "encapsulation," think of it as a protective shield that prevents external code from accidentally modifying the internal state of an object. This shield ensures data integrity and allows for modular and maintainable code.
 
-#### Defining classes
+## Defining classes
 ```
 [access] [modifiers] CLASS name [EXTENDS class] [IMPLEMENTS interface, ...]
+&  [INHERITS [class,] [interface[, ...]]]
 member_def
   .
   .
@@ -15,11 +15,11 @@ ENDCLASS
 <!--Add INHERITS to the syntax above?-->
 The syntax for declaring a class is pretty similar to that of a structure, so this should already look pretty familiar. `EXTENDS`, `IMPLEMENTS`, and the catch-all `INHERITS` all have to do with specifying a base type or interface to be implemented by a class. `EXTENDS` is specifically for a base class. `IMPLEMENTS` allows a list of interfaces to be implemented. `INHERITS` can take any combination of a base class or list of interfaces and is a newer syntax option, because it turns out that separating classes and interfaces syntactically is a real pain.
 
-#### Members
+### Members
 
 A class is typically comprised of three main components: fields, properties, and methods. Properties are variables that hold the state of the object. For example, in a `Person` class, `Name` and `Age` could be properties. Methods, on the other hand, are functions defined within the class that act on or use these properties. Continuing with our `Person` analogy, `CelebrateBirthday()` might be a method that increases the `Age` property by one.
 
-### Common class member modifiers
+#### Common class member modifiers
 Methods and properties both share many of the same concepts because under the hood, properties are syntactic sugar that just make a certain type of method more friendly to call and understand. 
 **Modifiers**: A method or property can have several modifiers. Some common ones include
 
@@ -72,7 +72,7 @@ Here's a brief overview of common visibility modifiers:
 ENDMETHOD|END
 ```
 
-#### Key components:
+#### Key components
 
 1.  **Name**: The method's identifier.
 
@@ -125,7 +125,7 @@ Most of the complexity seen in field definitions is about dealing with the fixed
 
 Other than access modifiers, class field declarations are largely the same as what you've seen inside records, groups, or structures, and in fact, you can declare records, groups, and structures within a class as you would in the data division of a routine.
 
-#### Inheritance and polymorphism
+### Inheritance and polymorphism
 
 One of the powerful features of classes is the ability to create hierarchies through inheritance. A class can inherit properties and methods from another class, referred to as its "base" or "parent" class. This enables the creation of more specific subclasses from general parent classes. For instance, from a general `Vehicle` class, one could derive more specific classes like `Car` or `Bike`.
 
@@ -133,16 +133,16 @@ Polymorphism, closely tied to inheritance, allows objects of different classes t
 
 Both of these topics will be further covered in the later sections about inheritance and objects.
 
-#### Constructors and destructors
+### Constructors and destructors
 
 Classes often come with special methods called constructors and destructors. A constructor is automatically invoked when an object of the class is instantiated, and it typically initializes the object's properties. Destructors, on the other hand, are called when the object is about to be destroyed, providing an opportunity to release resources or perform cleanup operations.
 
-#### Overloaded methods
+### Overloaded methods
 Method overloading is a feature that allows a class to have multiple methods with the same name but with different parameters. Consider the `Console.WriteLine` method in .NET, a staple for output in this book. In .NET this method is overloaded to accept a variety of data types, from strings to integers to custom objects. Whether you're passing a string, an integer, or even a decimal, you use the same method name, `Console.WriteLine`. The specific version of `Console.WriteLine` that gets executed depends on the type and number of arguments you provide. For example, `Console.WriteLine("Hello, World!")` will use the string overload, while `Console.WriteLine(123)` will use the integer overload. This allows for a consistent method name, promoting readability, while catering to various data needs. By leveraging method overloading, developers can maintain a streamlined method-naming convention, making code both more intuitive and readable.
 
 Overloaded methods don't require any specific syntax; they are just multiple method declarations with the same name but a different number of parameters or different parameter types.
 
-#### Example
+### Example
 ```dbl
 namespace ComplexTypesExample
     

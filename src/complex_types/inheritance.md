@@ -76,7 +76,7 @@ namespace DelegatePattern
 endnamespace
 ```
 
-In this design, the `EventManager` doesn't need to know how the user is notified—it just knows it has a method to do so. We've abstracted the notification mechanism and encapsulated it within specific "delegate" classes (EmailNotifier, SMSNotifier, PushNotifier) after creating an instance of `EventManager`, the specific notifier added to the internal array list. <!--Jeff, make sure this sentence says what you intended. I removed what appeared to be a rogue period, but I'm not sure the sentence makes sense. Are we saying EventManager is the notifier? Or do we mean "...(EmailNotifier, SMSNotifier, PushNotifier). After creating an instance of EventManager, the specific notifier is added to the internal array list"? Or something else?-->This provides a high degree of flexibility.
+In this design, the `EventManager` doesn't need to know how the user is notified—it just knows it has a method to do so. We've abstracted the notification mechanism and encapsulated it within specific "delegate" classes (EmailNotifier, SMSNotifier, PushNotifier). After creating an instance of `EventManager`, the specific notifier is added to the internal array list. This provides a high degree of flexibility.
 
 1.  **Flexibility**: Easily add new notification methods without changing the `EventManager` code.
 2.  **Single responsibility**: Each class has a distinct responsibility. The notifiers just notify, and the `EventManager` manages events.

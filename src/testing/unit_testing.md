@@ -28,7 +28,7 @@ Several static methods for verifying test results are available to you in `Syner
 
 **Inconclusive**: This method is used to indicate that a test is inconclusive. It's typically used to indicate that a test is not applicable under certain conditions.
 
-**IsFalse** and **IsTrue**: These methods are used to verify that a condition is false or true, respectively. They're typically used to verify that a Boolean condition is true or false.<!--Doesn't this just repeat the previous sentence? Can we delete it or change the first sentence to "These methods are used to verify that a condition (typically Boolean) is true or false, respectively"?--> The first parameter is the condition to test, and the second parameter is a message to display if the test fails.
+**IsFalse** and **IsTrue**: These methods are used to verify that a condition (typically Boolean) is false or true, respectively. The first parameter is the condition to test, and the second parameter is a message to display if the test fails.
 
 **IsNull** and **IsNotNull**: These methods are used to verify that an object is null or not null, respectively. The first parameter is the object to test, and the second parameter is a message to display if the test fails.
 
