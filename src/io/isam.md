@@ -95,52 +95,52 @@ Individual keys in an ISAM file can be marked as immutable, meaning they cannot 
 ### Delete
 ***
 
-#### Soft Delete vs Hard Delete
-Delete is a pretty fundamental operation in DBL applications, but your codebase has probably already decided how it's going to handle deletes. We're going to cover both approaches here to help you better understand the tradeoffs that your applications designers originally made. 
+#### Soft delete vs hard delete
+Delete is a pretty fundamental operation in DBL applications, but your codebase has probably already decided how it's going to handle deletes. We're going to cover both soft and hard approaches here to help you better understand the tradeoffs that your application's designers originally made. 
 
-### Soft Deletes
-Soft delete is a form of delete where a record is not physically removed from the database; instead, it's marked as inactive or deleted. This is usually implemented using a flag, such as `is_deleted`, or a timestamp field, like `deleted_at`, to indicate that the record is no longer active. If you need to delete a record in a soft delete system the order of operations is as follows:
-1. `READ` the record
-2. Update the field in record to mark it as deleted
-3. `WRITE` the record back to the file
+### Soft deletes
+Soft delete is a form of delete where a record is not physically removed from the database; instead, it's marked as inactive or deleted. This is usually implemented using a flag, such as `is_deleted`, or a timestamp field, like `deleted_at`, to indicate that the record is no longer active. If you need to delete a record in a soft-delete system, the order of operations is as follows:
+1. READ the record.
+2. Update the field in the record to mark it as deleted.
+3. WRITE the record back to the file.
 
 **Advantages**:
-1. **Data Recovery**: Soft deletes allow for easy recovery of data. Mistakenly deleted records can be restored without resorting to backup data, which is especially useful in user-facing applications where accidental deletions might occur.
-2. **Audit Trails and Historical Data**: Maintaining historical data is essential in many systems for audit trails. Soft deletes enable you to keep a complete history of all transactions, including deletions, without losing the integrity of historical data.
-3. **Referential Integrity**: In databases with complex relationships, soft deletes help in maintaining referential integrity. Removing a record might break links with other data. Soft deletes prevent such issues, ensuring that all relationships are preserved.
+1. **Data recovery**: Soft deletes allow for easy recovery of data. Mistakenly deleted records can be restored without resorting to backup data, which is especially useful in user-facing applications where accidental deletions might occur.
+2. **Audit trails and historical data**: Maintaining historical data is essential in many systems for audit trails. Soft deletes enable you to keep a complete history of all transactions, including deletions, without losing the integrity of historical data.
+3. **Referential integrity**: In databases with complex relationships, soft deletes help maintain referential integrity. Removing a record might break links with other data. Soft deletes prevent such issues, ensuring that all relationships are preserved.
 
-### Hard Deletes
+### Hard deletes
 Hard delete is the complete removal of a record from the database. Once a record is hard deleted, it is permanently removed from the database table.
 
 `DELETE(channel) [[error_list]]`
 
-The `DELETE` statement is used to remove a record from a file. `DELETE` requires an open channel in update mode (U:I) positioned to a record that has been previously locked. If you need to delete a record in a hard delete system the order of operations is as follows:
-1. `READ` or `FIND` the record with automatic locking or manual locking enabled
-2. Call `DELETE` on the same channel as the `READ` or `FIND` operation
+The DELETE statement is used to remove a record from a file. DELETE requires an open channel in update mode (U:I) positioned to a record that previously has been locked. If you need to delete a record in a hard delete system, the order of operations is as follows:
+1. READ or FIND the record with automatic locking or manual locking enabled.
+2. Call DELETE on the same channel as the READ or FIND operation.
 
 **Considerations**:
-1. **Space Efficiency**: Hard deletes free up space in the database, making them suitable for applications where data storage is a concern.
+1. **Space efficiency**: Hard deletes free up space in the database, making them suitable for applications where data storage is a concern.
 2. **Simplicity**: Hard deletes can be simpler to implement and manage, as they involve straightforward removal without the need for additional mechanisms to handle the deleted state.
-3. **Privacy Compliance**: For certain data, especially personal or sensitive information, hard deletes might be necessary to comply with privacy regulations like GDPR, where individuals have the 'right to be forgotten.'
+3. **Privacy compliance**: For certain data, especially personal or sensitive information, hard deletes might be necessary to comply with privacy regulations like GDPR, where individuals have the "right to be forgotten."
 
-### Why Opt for Soft Deletes
+### Why opt for soft deletes
 
 A system might be designed to use soft deletes for several reasons:
-1. **Undo Capability**: Soft deletes provide an 'undo' option, which is crucial in many business applications for correcting accidental deletions without resorting to more complex data restoration processes.
-2. **Data Analysis and Reporting**: Having historical data, including records marked as deleted, can be valuable for trend analysis and reporting. Soft deletes allow you to maintain and query this historical data.
-3. **System Integrity**: In systems with intricate data relationships, soft deletes help maintain the integrity of the system by ensuring that deleting one record does not inadvertently impact related data.
+1. **Undo capability**: Soft deletes provide an "undo" option, which is crucial in many business applications for correcting accidental deletions without resorting to more complex data restoration processes.
+2. **Data analysis and reporting**: Having historical data, including records marked as deleted, can be valuable for trend analysis and reporting. Soft deletes allow you to maintain and query this historical data.
+3. **System integrity**: In systems with intricate data relationships, soft deletes help maintain the integrity of the system by ensuring that deleting one record does not inadvertently impact related data.
 
 ## Beyond CRUD
 
-### Sequential Access
+### Sequential access
 
-Sequential access in databases, exemplified by the `READS` statement in DBL, is a method where records are processed in an order determined by a key. This approach is particularly advantageous for certain tasks over reading individual records one at a time for several reasons:
+Sequential access in databases, exemplified by the READS statement in DBL, is a method where records are processed in an order determined by a key. For certain tasks, this approach is particularly advantageous, versus reading individual records one at a time, for several reasons:
 
-1. **Efficiency in Processing Ordered Data**: When data needs to be processed in the order it's stored (such as chronological logs or sorted lists), sequential access allows for a streamlined and efficient traversal. It eliminates the overhead associated with locating each record individually based on specific criteria or keys.
+1. **Efficiency in processing ordered data**: When data needs to be processed in the order it's stored (such as chronological logs or sorted lists), sequential access allows for a streamlined and efficient traversal. It eliminates the overhead associated with locating each record individually based on specific criteria or keys.
 
-2. **Optimized for Large Volume Data Handling**: Sequential access is ideal for operations involving large datasets where each record needs to be examined or processed. By accessing records in sequence, it reduces the computational cost and complexity compared to individually querying records, especially in scenarios like data analysis, report generation, or batch processing.
+2. **Optimized for large-volume data handling**: Sequential access is ideal for operations involving large datasets where each record needs to be examined or processed. Accessing records in sequence reduces the computational cost and complexity compared to individually querying records, especially in scenarios like data analysis, report generation, or batch processing.
 
-3. **Simplicity and Reduced Complexity**: Implementing sequential access in applications simplifies the code, as it follows the natural order of records in the file. This contrasts with the more complex logic required for random or individual record access, where each read operation might require a separate query or key specification.
+3. **Simplicity and reduced complexity**: Implementing sequential access in applications simplifies the code, as it follows the natural order of records in the file. This contrasts with the more complex logic required for random or individual record access, where each read operation might require a separate query or key specification.
 
 ```
 READS(channel, data_area[, DIRECTION:dir_spec][, GETRFA:new_rfa][, LOCK:lock_spec]
@@ -148,27 +148,28 @@ READS(channel, data_area[, DIRECTION:dir_spec][, GETRFA:new_rfa][, LOCK:lock_spe
 ```
 
 **Basics of READS**:
-- The `READS` statement is designed to retrieve the next sequential record from a file, based on the collating sequence of the index of reference. This means that it reads records in either ascending or descending order, depending on the key's ordering.
+- The READS statement is designed to retrieve the next sequential record from a file, based on the collating sequence of the index of reference. This means that it reads records in either ascending or descending order, depending on the key's ordering.
 
-**Navigating Through Records**:
-- `READS` is particularly adept at navigating through records in a file, moving logically from one record to the next. It maintains a context of 'next record', established through operations like `READ`, `FIND`.
-- `READS` does not perform any filtering or matching it simply reads the next record in the file based on the order of the key that was used to position it. If you want to stop reading records after the criteria is no longer matching you'll need to do that checking manually against the data area or use the Select class.
-**Directional Reading**:
-- With the `DIRECTION` qualifier, `READS` offers the ability traverse records in reverse order. In the distant past before this functionality, keys needed to be declared reverse order in order to support this access pattern, so you may still see files where there are two keys that differ only by the declared order.
+**Navigating through records**:
+- READS is particularly adept at navigating through records in a file, moving logically from one record to the next. It maintains a context of "next record," established through operations like READ and FIND.
+- READS does not perform any filtering or matching; it simply reads the next record in the file based on the order of the key that was used to position it. If you want to stop reading records after the criteria is no longer matching, you'll need to check manually against the data area or use the Select class.
 
-### Error Handling and Record Locking
+**Directional reading**:
+- With the `DIRECTION` qualifier, READS offers the ability to traverse records in reverse order. In the distant past before this functionality existed, keys had to be declared reverse order to support this access pattern, so you may still see files where there are two keys that differ only by the declared order.
 
-**Handling EOF and Errors**:
-- When `READS` encounters the end (or beginning, in case of reverse reading) of the file, it triggers an “End of file” error (`$ERR_EOF`). This error sets the current record position to undefined, so it's important to handle it appropriately. This can be done by checking for the `$ERR_EOF` error and taking appropriate action, such as exiting the loop or performing cleanup operations.
+### Error handling and record locking
 
-**Record Locking**:
-- In update mode, `READS` automatically locks the retrieved record, ensuring that the data remains consistent during any subsequent update operations. TODO: rewrite This automatic locking is crucial in scenarios where data integrity is paramount, particularly in multi-user environments.
+**Handling EOF and errors**:
+- When READS encounters the end (or beginning, when reverse reading) of the file, it triggers an “End of file” error (\$ERR_EOF). This error sets the current record position to undefined, so it's important to handle it appropriately. This can be done by checking for the \$ERR_EOF error and taking appropriate action, such as exiting the loop or performing cleanup operations.
 
-### Best Practices and Considerations
-Consider using Select instead of READS for sequential access especially if you need to filter the records you're reading. Select is covered in more detail later in this chapter. TODO: there are more best practices for READS to cover here
+**Record locking**:
+- In update mode, READS automatically locks the retrieved record, ensuring that the data remains consistent during any subsequent update operations. TODO: rewrite This automatic locking is crucial in scenarios where data integrity is paramount, particularly in multi-user environments.
 
-## Repositioning, Checking for Existence, or Targeted Locking
-The `FIND` statement is designed to position the pointer to a specific record in a file, setting the stage for its subsequent retrieval. Unlike the `READ` statement, which fetches the record's data immediately, `FIND` simply locates the record, allowing the next `READS` statement on the same channel to retrieve it.
+### Best practices and considerations
+Consider using Select instead of READS for sequential access, especially if you need to filter the records you're reading. Select is covered in more detail later in this chapter. TODO: there are more best practices for READS to cover here
+
+## Repositioning, checking for existence, or targeted locking
+The FIND statement is designed to position the pointer to a specific record in a file, setting the stage for its subsequent retrieval. Unlike the READ statement, which fetches the record's data immediately, FIND simply locates the record, allowing the next READS statement on the same channel to retrieve it.
 
 ```
 FIND(channel[, record][, key_spec][, GETRFA:new_rfa][, KEYNUM:krf_spec]
@@ -176,12 +177,12 @@ FIND(channel[, record][, key_spec][, GETRFA:new_rfa][, KEYNUM:krf_spec]
 &   [, RFA:match_rfa][, WAIT:wait_spec]) [[error_list]]
 ```
 
-**Key Parameters**:
-- **Record**: Don't use this argument.
-- **Key_spec**: This works the same as `READ` and is used to specify the key to use for locating the record.
+**Key parameters**:
+- **record**: Don't use this argument.
+- **key_spec**: This works the same as READ and is used to specify the key to use for locating the record.
   
-**Special Qualifiers**:
-These special qualifiers all work the same as `READ` and are used to control the behavior of the `FIND` operation.
+**Special qualifiers**:
+These special qualifiers all work the same as READ and are used to control the behavior of the FIND operation.
 - **KEYNUM**
 - **LOCK**
 - **MATCH**
@@ -189,42 +190,42 @@ These special qualifiers all work the same as `READ` and are used to control the
 - **RFA**
 - **WAIT**
 
-**Positioning vs. Retrieving**:
-- While `READ` retrieves and locks the record in one operation, `FIND` only attempts to position the pointer to the record. 
+**Positioning vs retrieving**:
+- While READ retrieves and locks the record in one operation, FIND only attempts to position the pointer to the record. 
 
-**Use Cases for FIND**:
-- `FIND` will set the context for a future `READS` operation. This has been used in applications to slightly simplify the `READS` loop to avoid the specialized initial step of dealing with the first record.
-- `FIND` is useful if you need to check for the existence of a record without retrieving it. This can be useful for checking for duplicates or for checking for the existence of a record before creating it.
-- `FIND` is also useful if you need to lock a record without retrieving it. This can be useful for optimistic locking or for locking a record before overwriting it.
+**Use cases for FIND**:
+- FIND will set the context for a future READS operation. This has been used in applications to slightly simplify the READS loop to avoid the specialized initial step of dealing with the first record.
+- FIND is useful if you need to check for the existence of a record without retrieving it, for example, if you want to check for duplicates or for the existence of a record before creating it.
+- FIND is also useful if you need to lock a record without retrieving it, for example, for optimistic locking or for locking a record before overwriting it.
 
-**Locking Behavior**:
-- By default, `FIND` does not lock the located record unless explicitly specified with the `LOCK` qualifier or enabled through compiler options. This contrasts with `READ`, which automatically locks the retrieved record if used on a channel opened for update.
+**Locking behavior**:
+- By default, FIND does not lock the located record unless explicitly specified with the `LOCK` qualifier or enabled through compiler options. READ, on the other hand, automatically locks the retrieved record if used on a channel opened for update.
 
-## Keyed Lookups
+## Keyed lookups
 
 Keyed lookups in ISAM files are a fundamental aspect of database operations in DBL, offering a distinct approach compared to non-ordered keyed lookups, such as those in a hash table. Understanding these differences, as well as the concept of partial keyed reads, is crucial for database developers. 
 
-### Keyed Lookups in ISAM Files
+### Keyed lookups in ISAM files
 
-**Ordered Nature of ISAM Lookups**:
+**Ordered nature of ISAM lookups**:
 - ISAM files in DBL utilize ordered keys for data retrieval, meaning the records are sorted based on the key values. This ordered structure enables efficient range queries and sequential access based on key order. For example, you can quickly locate a record with a specific key or navigate through records in a sorted manner.
 
-**Comparison with Hash Table Lookups**:
+**Comparison with hash table lookups**:
 - Unlike ISAM files, hash tables are typically unordered. A hash table provides fast access to records based on a hash key, but it doesn't maintain any order among these keys. While hash tables excel in scenarios where you need to quickly access a record by a unique key, they don't support range queries or ordered traversals as ISAM files do.
 
-**Efficiency Considerations**:
+**Efficiency considerations**:
 - In scenarios where the order of records is important, ISAM files are more efficient than hash tables. The ability to perform range scans and ordered retrievals makes ISAM files preferable for applications where such operations are frequent.
 
-### Partial Keyed Reads in ISAM
+### Partial keyed reads in ISAM
 
-**Understanding Partial Keyed Reads**:
+**Understanding partial keyed reads**:
 - Partial keyed reads in ISAM files allow for searches based on a portion of the key, starting from the leftmost part. This means you can perform lookups using only the beginning segment of the key, and the search will return records that match this partial key.
 
-**Left-to-Right Application in Keyspace**:
+**Left-to-right application in keyspace**:
 - The key structure in ISAM files is significant when it comes to partial keyed reads. The search considers the key's structure from left to right. For instance, if you have a composite key made of two fields, say, region and department, a partial key search with just the region will return all records within that region, regardless of the department.
 
-**Use Case Scenarios**:
-- This feature is particularly useful in scenarios where data is hierarchically structured. For instance, if you're dealing with geographical data, you might want to retrieve all records within a certain area without specifying finer details initially. Partial keyed reads allow for this level of query flexibility.
+**Use case scenarios**:
+- Partial keyed reads are particularly useful in scenarios where data is hierarchically structured. For instance, if you're dealing with geographical data, you might want to retrieve all records within a certain area without specifying finer details initially. Partial keyed reads allow this level of query flexibility.
 
 ```svgbob
 +---------------------------------------------------+
@@ -285,59 +286,59 @@ Keyed lookups in ISAM files are a fundamental aspect of database operations in D
 +-------------------------+
 ```
 
-In this diagram:
+In this diagram
 - Each `EmployeeRecord` is represented with different key orderings: by `id`, `dept`, `region`, and `manager`.
 - The records are sorted based on each key ordering, demonstrating how the positioning of the key fields affects the sorting and access pattern.
 - The sorting order shows how queries and partial key reads would be efficient for different key combinations, illustrating the significance of key ordering in database design and querying.
-- The sort order of a composite key (manager + id) shows that if you partially key read on the manager field, you'll get all the records for that manager in order by id.
-- Region as defined here must be a non unique key because there are multiple records with the same region. This is a common pattern in ISAM files where you have a unique key and then a non unique key that is used for range queries. This is also true for dept but not for id or (manager + id).
-- `FIND` and `READ` can specify a partial key value in order to position on the first matching record in a sequence. `READS` will advance to the next record in the file based on the ordering of the key, but it will not filter out records that don't match the partial key value.
+- The sort order of a composite key (`manager + id`) shows that if you partially key read on the `manager` field, you'll get all the records for that manager in order by `id`.
+- Region as defined here must be a non-unique key because there are multiple records with the same region. This is a common pattern in ISAM files where you have both a unique key and a non-unique key that is used for range queries. This is also true for `dept` but not for `id` or (`manager + id`).
+- FIND and READ can specify a partial key value in order to position on the first matching record in a sequence. READS will advance to the next record in the file based on the ordering of the key, but it will not filter out records that don't match the partial key value.
 
-If you wanted to access records by the keys in the diagram above, you would specify the `KEYNUM:` argument to `READ` or `FIND`. The mapping of the keynum argument to the key in the file is literally the ordering you specified to ISAMC or the order of declaration in your XDL file. It's a good idea to use a variable to hold this mapping so that you can change the order of the keys in the file without having to change all of your code.
+If you wanted to access records by the keys in the diagram above, you would specify the `KEYNUM` argument to READ or FIND. The mapping of the KEYNUM argument to the key in the file is literally the ordering you specified to ISAMC or the declaration order in your XDL file. It's a good idea to use a variable to hold this mapping so you can change the order of the keys in the file without having to change all of your code.
 
-### Context-Driven Key Design
+### Context-driven key design
 
-**Analyzing User Needs**:
+**Analyzing user needs**:
 - When designing keys, it’s essential to consider the user's perspective and the tasks they need to accomplish. For instance, if there’s a user role focused on managing inventory in a specific warehouse, it would be beneficial to key inventory records by warehouse ID. This approach allows for rapid access and management of all items within a given warehouse.
 
 **Example**:
 - In an inventory management system, if users frequently access all items in a specific warehouse, designing a composite key like `[WarehouseID, ItemID]` would optimize data retrieval for these users.
 
-### Key Design for Data Relationships
+### Key design for data relationships
 
-**Facilitating Efficient Joins**:
+**Facilitating efficient joins**:
 - Often, one of the main reasons for accessing a particular dataset is to join it with another. In such cases, it’s vital to design keys that can easily and accurately match the related records. The key should include fields that are present in the driving record of the join operation.
 
 **Example**:
-- Suppose you have a 'Orders' table and a 'Customers' table. If orders are frequently retrieved based on customer information, having a `CustomerID` in both tables as part of their keys allows for efficient joins between these tables.
+- Suppose you have an `Orders` table and a `Customers` table. If orders are frequently retrieved based on customer information, having a `CustomerID` in both tables as part of their keys allows for efficient joins between these tables.
 
-**Considerations for Composite Keys in Joins**:
-- When using composite keys, ensure that the key components align with the fields used in join conditions. The order of elements in a composite key can impact the efficiency of the join operation, especially in ISAM databases where key order dictates access patterns.
+**Considerations for composite keys in joins**:
+- When using composite keys, ensure that the key components align with the fields used in join conditions. The order of elements in a composite key can affect the efficiency of the join operation, especially in ISAM databases where key order dictates access patterns.
 
-## Optimistic Concurrency
-Optimistic concurrency control is a method used in database management where transactions are processed without locking resources initially, but with a check at the end of the transaction to ensure no conflicting modifications have been made by other transactions.
+## Optimistic concurrency
+Optimistic concurrency control is a method used in database management where transactions are processed without locking resources initially, but there's a check at the end of the transaction to ensure no conflicting modifications have been made by other transactions.
 
-**How GRFA Facilitates Optimistic Concurrency**:
-1. **Record Identification**: When a record is read, its GRFA can be retrieved. This GRFA acts as a locator to get back to that record at a later time.
-2. **Concurrent Modifications**: While a transaction is processing a record, other transactions might also access and modify the same record. 
-3. **Final Validation**: At the point of updating or committing the transaction, the current GRFA of the record is compared with the GRFA obtained at the start. If the hash part of the GRFA has changed, it indicates that the record has been modified by another transaction since it was read.
-4. **Conflict Resolution**: In case of a mismatch in GRFA values, the transaction knows that a conflicting modification has occurred. The system can then take appropriate actions, such as retrying the transaction, aborting it, or triggering a conflict resolution mechanism.
+**How GRFA facilitates optimistic concurrency**:
+1. **Record identification**: When a record is read, its GRFA can be retrieved. This GRFA acts as a locator to get back to that record at a later time.
+2. **Concurrent modifications**: While a transaction is processing a record, other transactions might also access and modify the same record. 
+3. **Final validation**: At the point of updating or committing the transaction, the current GRFA of the record is compared with the GRFA obtained at the start. If the hash part of the GRFA has changed, it indicates that the record has been modified by another transaction since it was read.
+4. **Conflict resolution**: In case of a mismatch in GRFA values, the transaction knows that a conflicting modification has occurred. The system can then take appropriate actions, such as retrying the transaction, aborting it, or triggering a conflict resolution mechanism.
 
-### Practical Implications
+### Practical implications
 
 **Advantages**:
-- This approach reduces the need for locking, thereby enhancing performance in environments with high concurrency. It allows multiple transactions to proceed in parallel without waiting for locks.
+- Optimistic concurrency reduces the need for locking, thereby enhancing performance in environments with high concurrency. It allows multiple transactions to proceed in parallel without waiting for locks.
 - It provides a mechanism to ensure data integrity without the overhead of locking resources for the duration of the transaction.
 
 **Considerations**:
 - While optimistic concurrency control increases throughput, it requires careful handling of conflict scenarios. Applications must be designed to handle cases where transactions are rolled back or retried due to GRFA mismatches.
-- It's most effective in scenarios where read operations are frequent, but actual conflicts are relatively rare.
-- Harmony Core uses this mechanism along with transactional rollback capability to ensure data integrity in concurrent environments.
+- It's most effective in scenarios where read operations are frequent but actual conflicts are relatively rare.
+- Harmony Core uses optimistic concurrency along with transactional rollback capability to ensure data integrity in concurrent environments.
 
-**GRFA Stability**:
-- The RFA part will be stable as long as the file is not rebuilt. The hash part will be stable as long as the record is not modified. If the record is modified the hash will change. If the file is rebuilt the RFA will change. This means you should not store the GRFA or RFA in a file or database because it will become invalid if the file is rebuilt. If you need to store a reference to a record you should store a unique key value and use that to retrieve the record.
+**GRFA stability**:
+- The RFA part will be stable as long as the file is not rebuilt. The hash part will be stable as long as the record is not modified. If the record is modified, the hash will change. If the file is rebuilt, the RFA will change. This means you should not store the GRFA or RFA in a file or database, because it will become invalid if the file is rebuilt. If you need to store a reference to a record, you should store a unique key value and use that to retrieve the record.
 
-### Sleep vs Wait
-Comparing the use of a sleep statement in a loop for retrying a read operation with a lock to employing a wait qualifier on a `READ` or `READS` statement reveals some key differences, particularly in terms of efficiency and resource management. When you use a sleep statement in a loop to retry a locked read operation, your approach is essentially a form of polling. In this scenario, the program repeatedly checks if the lock is released, interspersed with sleep intervals. While this method is straightforward, it can be inefficient as it continuously consumes CPU cycles and can lead to increased response times due to the sleep duration.
+### SLEEP vs WAIT
+Comparing the use of a SLEEP statement in a loop for retrying a read operation with a lock to employing a `WAIT` qualifier on a READ or READS statement reveals some key differences, particularly in terms of efficiency and resource management. When you use a SLEEP statement in a loop to retry a locked read operation, your approach is essentially a form of polling. In this scenario, the program repeatedly checks if the lock is released, interspersed with sleep intervals. While this method is straightforward, it can be inefficient, as it continuously consumes CPU cycles and can lead to increased response times due to the sleep duration.
 
-On the other hand, utilizing a wait qualifier with a read statement leverages operating system level blocking I/O with a timeout. This approach is generally more efficient because it allows the operating system to suspend the execution of your thread until the lock is released or the timeout is reached. During this suspension, the CPU resources that would have been consumed by polling are freed up for other tasks. The blocking mechanism is more responsive as well, as the system can resume the thread's execution immediately after the lock is released, without waiting for the next polling interval. This method not only improves resource utilization but also tends to offer better overall performance, particularly in high-concurrency environments or applications where minimizing the response time is crucial.
+On the other hand, utilizing a WAIT qualifier with a READ statement leverages operating system–level blocking I/O with a timeout. This approach is generally more efficient because it allows the operating system to suspend the execution of your thread until the lock is released or the timeout is reached. During this suspension, the CPU resources that would have been consumed by polling are freed up for other tasks. The blocking mechanism is more responsive as well, as the system can resume the thread's execution immediately after the lock is released, without waiting for the next polling interval. This method not only improves resource utilization but also tends to offer better overall performance, particularly in high-concurrency environments or applications where minimizing the response time is crucial.
