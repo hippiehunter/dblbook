@@ -13,7 +13,7 @@ Where:
 
 **Components of the error list**
 
-- `error_code`: This is a specific error condition you want to handle, such as $ERR_EOF, $ERR_LOCKED, $ERR_NODUPS, etc. It represents a class of error that the I/O operation might encounter.
+- `error_code`: This is a specific error condition you want to handle, such as \$ERR_EOF, \$ERR_LOCKED, \$ERR_NODUPS, etc. It represents a class of error that the I/O operation might encounter.
 - `label`: This is a user-defined label in the program that execution will jump to if the corresponding error occurs.
 
 **Example of an I/O error list:**

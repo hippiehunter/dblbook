@@ -1,33 +1,33 @@
 # ISAM
-Indexed Sequential Access Method (ISAM) files represent a cornerstone in database file organization, offering a blend of sequential and direct access methods. Essentially, ISAM files are structured to facilitate both efficient record retrieval and ordered data processing. They consist of two primary components: the data records themselves and a set of indexes that provide fast access paths to these records. Developers utilize ISAM files for scenarios where both rapid individual record retrieval and ordered data traversal are required. This makes them particularly suitable for applications like customer databases, inventory systems, and any context where data needs to be quickly accessed using keys, yet also iterated in a specific order. The power of ISAM lies in its ability to handle large volumes of data with quick access times. ISAM files in DBL support multiple keys on a single file this allows for fast lookups even when you have multiple access patterns. As we delve deeper into the workings of ISAM files in DBL, it's helpful to adopt a mindset where your application is effectively 'running inside the database' rather than just querying it from a distance. I'll try to point out the places where this matters most as we work though this chapter.
+Indexed Sequential Access Method (ISAM) files represent a cornerstone in database file organization, offering a blend of sequential and direct access methods. Essentially, ISAM files are structured to facilitate both efficient record retrieval and ordered data processing. They consist of two primary components: the data records themselves and a set of indexes that provide fast access paths to these records. This makes ISAM files particularly suitable for customer databases, inventory systems, and any context where data needs to be quickly accessed using keys yet also iterated in a specific order. The power of ISAM lies in its ability to handle large volumes of data with quick access times. Synergy ISAM files support multiple keys on a single file, which allows for fast lookups even when you have multiple access patterns. As we delve deeper into the workings of ISAM files in DBL, it's helpful to think of your application as running inside the database, rather than just querying it from a distance. I'll try to point out the places where this matters most as we work though this chapter.
 
 ## CRUD
-CRUD, an acronym for Create, Read, Update, and Delete, represents the essential set of operations in database management and application development, forming the cornerstone of most data-driven systems by enabling the basic interaction with stored information. ISAM files in DBL support all four of these operations, and we'll cover these basics and a few extras in this section. 
+CRUD, an acronym for create, read, update, and delete, represents the essential set of operations in database management and application development, forming the cornerstone of most data-driven systems by enabling the basic interaction with stored information. ISAM files in DBL support all four of these operations, and we'll cover these basics and a few extras in this section. 
 
 ### Common concepts
-- **Channel**: All of these operations require an open channel to the ISAM file. This channel is used to identify the file and to track the state of the file. For example, the current position in the file and any locks that have been taken. 
-- **Data Area**: If you're reading, creating or updating a record, you'll need a data area to hold the record. This is a variable that is defined as a structure or alpha that matches the size of the records in the file.
-- **GETRFA**: Returns the record’s Global Record File Address (GRFA). If you pass an argument with space for 6 bytes this will be filled with the RFA. If you pass an argument with space for 10 bytes it gains a 4 byte hash that can be used to implement optimistic locking. This feature will be covered in more detail later in this chapter. TODO: mention the stability that comes from static rfas and also the loss of them if you rebuild a file
-- **error_list** argument allows specification of an I/O error list for robust error management. This feature ensures the program can handle exceptions like locked records or EOF conditions gracefully.
+- **Channel**: All of these operations require an open channel to the ISAM file. This channel is used to identify the file and track its state (for example, the current position in the file and any locks that have been taken). 
+- **Data area**: If you're reading, creating, or updating a record, you'll need a data area to hold the record. This is a variable that is defined as a structure or alpha that matches the size of the records in the file.
+- **GETRFA**: Returns the record’s global record file address (GRFA). If you pass an argument with space for 6 bytes, this will be filled with the RFA. If you pass an argument with space for 10 bytes, it gains a 4-byte hash that can be used to implement optimistic locking. This feature will be covered in more detail later in this chapter. TODO: mention the stability that comes from static rfas and also the loss of them if you rebuild a file
+- **error_list** This argument allows you to specify an I/O error list for robust error management, which ensures the program can handle exceptions like locked records or EOF conditions gracefully.
 
 ### Create
 ***
 `STORE(channel, data_area[, GETRFA:new_rfa][, LOCK:lock_spec]) [[error_list]]`
 
-The `STORE` statement adds new records to an ISAM file. The statement requires an open channel in update mode (U:I) and a data area that contains the record to be added.
+The STORE statement adds new records to an ISAM file. The statement requires an open channel in update mode (U:I) and a data area that contains the record to be added.
 
-**Optional Qualifiers**:
-- **GETRFA**: This optional argument is used to return the Record File Address (RFA) of the newly added record, which can be essential for subsequent operations like updates or deletions.
-- **LOCK**: While automatic locking is not supported for `STORE`, this optional qualifier can be used to apply a manual lock to the newly inserted record. 
+**Optional qualifiers**:
+- **GETRFA**: This optional argument is used to return the record file address (RFA) of the newly added record, which can be essential for subsequent operations like updates or deletions.
+- **LOCK**: While automatic locking is not supported for STORE, this optional qualifier can be used to apply a manual lock to the newly inserted record. 
 
+When executing a STORE, DBL checks for key constraints. For instance, if the ISAM file is set to disallow duplicate keys, attempting to store a record with a duplicate key will trigger an \$ERR_NODUPS error. It's important to note that if the data area exceeds the maximum record size defined for the ISAM file, an "Invalid record size" error (\$ERR_IRCSIZ) is raised, and the operation is halted.
 
-When executing a `STORE`, DBL checks for key constraints. For instance, if the ISAM file is set to disallow duplicate keys, attempting to store a record with a duplicate key will trigger a `$ERR_NODUPS` error. It's important to note that if the data area exceeds the maximum record size defined for the ISAM file, an "Invalid record size" error (`$ERR_IRCSIZ`) is raised, and the operation is halted.
+**Transactional capability**:
+The combination of the `LOCK` qualifier and the `GETRFA` argument in a STORE statement lends a degree of transactional capability to the operation. The lock ensures that the record remains unaltered during subsequent operations, while the RFA provides a reference to the specific record. This is not commonly seen in DBL applications, but it's worth noting in case you find yourself in a situation where you need to implement some form of transactional capability.
 
-**Transactional Capability**:
-The combination of the `LOCK` qualifier and the `GETRFA` argument in a `STORE` statement lends a degree of transactional capability to the operation. The lock ensures that the record remains unaltered during subsequent operations, while the RFA provides a reference to the specific record. This is not commonly seen in DBL applications, but it's worth noting that in case you find yourself in a situation where you need to implement some form of transactional capability.
-
-**Basic Example**:
-> These examples make use of `ISAMC` to create a new isam file with a single key. `ISAMC` will be explained later in more detail but for now we'll just use it without explanation
+**Basic example**:
+> These examples make use of the ISAMC subroutine to create a new ISAM file with a single key. ISAMC will be explained later in more detail but for now we'll just use it without explanation
+TODO: Add example
 
 ```dbl
 
@@ -41,56 +41,56 @@ READ(channel, data_area, key_spec[, KEYNUM:key_num][, LOCK:lock_spec]
   [, WAIT:wait_spec]) [[error_list]]
 ```
 
-The `READ` statement is used to read a specified record from a file that's open on a given channel. It's vital for accessing data in ISAM files, where the channel must be opened in input, output, append, or update mode.
-- **Key Arguments**:
+The READ statement is used to read a specified record from a file that's open on a given channel. It's vital for accessing data in ISAM files, where the channel must be opened in input, output, append, or update mode.
+- **Key arguments**:
   - `channel`: Specifies the channel on which the file is open.
   - `data_area`: A variable that receives the information from the read operation.
   - `key_spec`: Defines how the record is located, either by its position, key value, or qualifiers like `^FIRST` or `^LAST`.
 
-**Additional Qualifiers**:
+**Additional qualifiers**:
 - **KEYNUM**: Optional. Specifies a key of reference for the read operation.
 - **LOCK**: Optional. Determines the locking behavior for the record being read.
-- **MATCH**: Optional. Defines how the specified key is matched, crucial for precise data retrieval.
+- **MATCH**: Optional. Defines how the specified key is matched, which is crucial for precise data retrieval.
 - **POSITION**: Optional. Allows you to position to the first or last record in the file rather than doing a key lookup.
-- **RFA**: Optional. The RFA argument in the READ statement specifies the exact address of a record to be read directly from the file, facilitating targeted data retrieval. The size of the RFA argument changes its behavior: a 6-byte RFA represents just the locator, pinpointing the record's location, while a 10-byte RFA includes both the locator and a hash value. The hash serves as a data integrity check; if the record at the specified address doesn't match the hash, indicating that the data has been altered or is no longer valid, an $ERR_RECNOT error is triggered.
-- **WAIT**: Optional. Specifies how long the program should wait for a record to become available if it's locked. This is more efficient than calling `READ` in a loop with a sleep statement because the call will block until the record is available rather than waiting the entire sleep duration and then checking again.
+- **RFA**: Optional. The RFA argument in the READ statement specifies the exact address of a record to be read directly from the file, facilitating targeted data retrieval. The size of the RFA argument changes its behavior: a 6-byte RFA represents just the locator, pinpointing the record's location, while a 10-byte RFA includes both the locator and a hash value. The hash serves as a data integrity check; if the record at the specified address doesn't match the hash, indicating that the data has been altered or is no longer valid, an \$ERR_RECNOT error is triggered.
+- **WAIT**: Optional. Specifies how long the program should wait for a record to become available if it's locked. This is more efficient than calling READ in a loop with a SLEEP statement because the call will be blocked until the record is available rather than waiting the entire sleep duration and then checking again.
 
-**Functional Insights**:
+**Functional insights**:
 - The `LOCK` qualifier specifies whether a manual lock is applied to the record. This feature is critical in concurrent environments where data integrity is paramount.
-- The `MATCH` qualifier defines how a record is located. This determines the behavior when an exact match isnt found. Due to historic reasons, the default behavior is `Q_GEQ` but this is likely to lead to an unpleasant surprise for someone writing new code. The following options are available:
-  - **Q_GEQ (0)**: Finds a record with a key value greater than or equal to the specified key. If an exact match isn't found, it reads the next higher record, potentially raising a `$ERR_KEYNOT` error if no exact match is found, or an “End of file” error if no higher record exists.
-  - **Q_EQ (1)**: Searches for a record that exactly matches the specified key value. If there's no exact match, it triggers a `$ERR_RNF` error.
-  - **Q_GTR (2)**: Looks for a record with a key value greater than the specified key. It only raises an `$ERR_EOF` error if it reaches the end of the file without finding a matching record.
-  - **Q_RFA (3)**: Locates a record using the Record File Address (RFA) specified in the RFA qualifier.
-  - **Q_GEN (4)**: Finds a record whose key value is equal to or the next in sequence after the specified key. An `$ERR_EOF` error occurs if no such records are found.
-  - **Q_SEQ (5)**: Retrieves the next sequential record after the current one, regardless of the key specification. It raises an “End of file” error only if it reaches the end of the file.
+- The `MATCH` qualifier defines how a record is located. This determines the behavior when an exact match isn't found. For historical reasons, the default behavior is `Q_GEQ`, but that is likely to lead to an unpleasant surprise for someone writing new code. The following options are available:
+  - **Q_GEQ (0)**: Finds a record with a key value greater than or equal to the specified key. If an exact match isn't found, it reads the next higher record, potentially raising a \$ERR_KEYNOT error if no exact match is found or an “End of file” error if no higher record exists.<!--Is there a reason we use the mnemonic for KEYNOT but the text for EOF? I think we should use the mnemonic for both-->
+  - **Q_EQ (1)**: Searches for a record that exactly matches the specified key value. If there's no exact match, it triggers a \$ERR_RNF error.
+  - **Q_GTR (2)**: Looks for a record with a key value greater than the specified key. It only raises an \$ERR_EOF error if it reaches the end of the file without finding a matching record.
+  - **Q_RFA (3)**: Locates a record using the record file address specified in the RFA qualifier.
+  - **Q_GEN (4)**: Finds a record whose key value is equal to or the next in sequence after the specified key. An \$ERR_EOF error occurs if no such records are found.
+  - **Q_SEQ (5)**: Retrieves the next sequential record after the current one, regardless of the key specification. It raises an “End of file” error only if it reaches the end of the file.<!--Can we use $ERR_EOF here instead?-->
 
-**Practical Application**:
-When you lock a record after a `READ` operation in a database, you are essentially ensuring that the data remains unchanged until your next action, be it a `DELETE` or a `WRITE`. This lock is how you maintaining data consistency because it prevents other users or processes from modifying the record during this interim period. In environments where multiple transactions occur simultaneously, locking is key to preventing conflicts. Without locking, there’s a risk that another transaction might alter the data after you've read it but before you've had the chance to update or delete it, leading to inconsistencies. By locking the record, you ensure that any subsequent WRITE or DELETE reflects the state of the data as it was when you first read it, thereby preserving the accuracy and integrity of your database operations. It's very important that applications not keep records locked for indefinite periods of time. This can lead to deadlocks, performance issues and frustrated users.
+**Practical application**:
+When you lock a record after a READ operation in a database, you are essentially ensuring that the data remains unchanged until your next action, be it a DELETE or a WRITE. This lock is how you maintaining data consistency because it prevents other users or processes from modifying the record during this interim period. In environments where multiple transactions occur simultaneously, locking is key to preventing conflicts. Without locking, there’s a risk that another transaction might alter the data after you've read it but before you've had the chance to update or delete it, leading to inconsistencies. By locking the record, you ensure that any subsequent WRITE or DELETE reflects the state of the data as it was when you first read it, thereby preserving the accuracy and integrity of your database operations. It's very important that applications not keep records locked for indefinite periods of time. This can lead to deadlocks, performance issues, and frustrated users.
 
-On the other side of locking, the WAIT argument exists to help you gracefully handle locked records in multi-user environments or scenarios involving concurrent data access. This argument specifies the duration for which the `READ` operation should wait for a locked record to become available before timing out.
+On the other side of locking, the `WAIT` argument exists to help you gracefully handle locked records in multi-user environments or scenarios involving concurrent data access. This argument specifies the duration for which the READ operation should wait for a locked record to become available before timing out.
 
-In terms of error control, appropriate use of the WAIT argument can prevent your application from failing immediately when encountering locked records. By setting a reasonable wait time, you allow your application to pause and retry the `READ` operation, thereby handling temporary locks effectively without leading to spurious errors or immediate application failure.
+In terms of error control, appropriate use of the `WAIT` argument can prevent your application from failing immediately when encountering locked records. By setting a reasonable wait time, you allow your application to pause and retry the READ operation, thereby handling temporary locks effectively without leading to spurious errors or immediate application failure.
 
-However, developers need to be cautious to avoid potential infinite loops or excessively long wait times. This is particularly important in high-throughput systems where waiting for extended periods could significantly impact performance. One approach is to implement a retry logic with a maximum number of attempts or a cumulative maximum wait time. After these thresholds are reached, the application can either log an error, alert the user, or take alternative action. This strategy ensures that the application retries sufficiently to handle temporary locks, but not indefinitely, thus maintaining a balance between robust error handling and application responsiveness.
+However, developers need to be careful to avoid potential infinite loops or excessively long wait times. This caution is particularly important in high-throughput systems where waiting for extended periods can significantly impact performance. One approach is to implement a retry logic with a maximum number of attempts or a cumulative maximum wait time. After these thresholds are reached, the application can either log an error, alert the user, or take alternative action. This strategy ensures that the application retries sufficiently to handle temporary locks but not indefinitely, thus maintaining a balance between robust error handling and application responsiveness.
 
 ### Update
 ***
 `WRITE(channel, data_area[, GETRFA:new_rfa]) [[error_list]]`
 
-The `WRITE` statement in DBL is used to update a record in a file. When you execute a `WRITE` operation on a channel that is open in output, append, or update mode, the specified record is updated with the contents of the data area.
+The WRITE statement in DBL is used to update a record in a file. When you execute a WRITE operation on a channel that is open in output, append, or update mode, the specified record is updated with the contents of the data area.
 
-`GETRFA` is Optional, it returns the RFA after the write operation, useful in files with data compression, variable-length records or when trying to get the new hash for the updated record.
+`GETRFA` is optional. It returns the RFA after the WRITE operation, which is useful in files with data compression, for variable-length records, or when trying to get the new hash for the updated record.
 
 **Constraints**:
-The record being modified must be the one most recently retrieved and locked. Modifying unmodifiable keys or primary keys directly with `WRITE` is not allowed and will result in errors. If the data area exceeds the maximum record size, an “Invalid record size” error occurs.
+The record being modified must be the one most recently retrieved and locked. Modifying unmodifiable keys or primary keys directly with WRITE is not allowed and will result in errors. If the data area exceeds the maximum record size, an “Invalid record size” error occurs.<!--Mnemonic?-->
 
-#### Immutable Keys
-Individual keys in an ISAM file can be marked as immutable, meaning they cannot be updated. This constraint is enforced when calling `WRITE` on a record with an immutable key. Immutable keys are a choice in database design that can play a role in maintaining data integrity, ensuring consistency, and simplifying database management.
+#### Immutable keys
+Individual keys in an ISAM file can be marked as immutable, meaning they cannot be updated. This constraint is enforced when calling WRITE on a record with an immutable key. Immutable keys are a choice in database design that can play a role in maintaining data integrity, ensuring consistency, and simplifying database management.
 
-**Immutable as Identifiers**: One primary reason to enforce immutable keys is to preserve the integrity of unique identifiers. In many database designs, certain key fields serve as definitive identifiers for records akin to a Social Security number for an individual. Allowing these key values to change can lead to complications in tracking and referencing records, potentially causing data integrity issues. For example, if a key field used in foreign key relationships were allowed to change, it could create orphaned records or referential integrity problems.
+**Immutable as identifiers**: One primary reason to enforce immutable keys is to preserve the integrity of unique identifiers. In many database designs, certain key fields serve as definitive identifiers for records, akin to a Social Security number for an individual. Allowing these key values to change can lead to complications in tracking and referencing records, potentially causing data integrity issues. For example, if a key field used in foreign key relationships were allowed to change, it could create orphaned records or referential integrity problems.
 
-**Avoiding Designs With Complex Updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
+**Avoiding designs with complex updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
 
 ### Delete
 ***
