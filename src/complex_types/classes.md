@@ -1,4 +1,4 @@
-# Classes: The Building Blocks of Object-Oriented Programming<!--I think the heading levels are off in this topic. Can this line just be the title? And then the next two headings are level 4, followed by some level 3 headings. Is that really what we want?-->
+# Classes: The Building Blocks of Object-Oriented Programming
 
 In object-oriented programming (OOP), classes serve as the foundational building blocks. They encapsulate data and methods that operate on that data into a single unit. When you hear the word "encapsulation," think of it as a protective shield that prevents external code from accidentally modifying the internal state of an object. This shield ensures data integrity and allows for modular and maintainable code.
 
@@ -12,7 +12,6 @@ member_def
   .
 ENDCLASS
 ```
-<!--Add INHERITS to the syntax above?-->
 The syntax for declaring a class is pretty similar to that of a structure, so this should already look pretty familiar. `EXTENDS`, `IMPLEMENTS`, and the catch-all `INHERITS` all have to do with specifying a base type or interface to be implemented by a class. `EXTENDS` is specifically for a base class. `IMPLEMENTS` allows a list of interfaces to be implemented. `INHERITS` can take any combination of a base class or list of interfaces and is a newer syntax option, because it turns out that separating classes and interfaces syntactically is a real pain.
 
 ### Members
