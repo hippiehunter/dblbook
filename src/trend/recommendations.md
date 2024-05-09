@@ -67,7 +67,7 @@ begin
     orderTrends.Set(targetOrder.ItemId, (@*)targetTrend)
 end
 ```
-In this block, the subroutine iterates through each order in the `orders` array list. Because ArrayList only understands an untyped `object`, we tell the compiler what the expected type is using the AS syntax. For each order, the routine calculates the Julian date (`orderDate`) and initializes a `Trend` structure (`targetTrend`). This structure is then populated with data depending on whether the order falls within the one-month or one-year threshold. Orders within these thresholds contribute to the item count and order count or the historic count, reflecting recent and historical sales data. The updated trend data for each item is stored back into the `orderTrends` dictionary.
+In this block, the subroutine iterates through each order in the `orders` ArrayList. Because ArrayList only understands an untyped `object`, we tell the compiler what the expected type is using the AS syntax. For each order, the routine calculates the Julian date (`orderDate`) and initializes a `Trend` structure (`targetTrend`). This structure is then populated with data depending on whether the order falls within the one-month or one-year threshold. Orders within these thresholds contribute to the item count and order count or the historic count, reflecting recent and historical sales data. The updated trend data for each item is stored back into the `orderTrends` dictionary.
 
 ### Analyzing inventory and creating recommendations
 ```dbl
@@ -97,7 +97,7 @@ begin
     end
 end
 ```
-This segment iterates over each item in the inventory. For items that have corresponding trend data in `orderTrends`, the subroutine calculates the historical average sales and compares that value with the recent sales quantity. If the recent sales exceed 1.5 times the historical average or if the current inventory is below the historical average, a restock request is created. This request includes the item ID and the calculated restock quantity, which is determined based on whether the recent sales or the historical average is greater. Restock requests with a positive quantity are added to the `result` array list, which contains all recommendations. Additionally, the trend data for each item is added to the `trends` array list for potential further analysis.
+This segment iterates over each item in the inventory. For items that have corresponding trend data in `orderTrends`, the subroutine calculates the historical average sales and compares that value with the recent sales quantity. If the recent sales exceed 1.5 times the historical average or if the current inventory is below the historical average, a restock request is created. This request includes the item ID and the calculated restock quantity, which is determined based on whether the recent sales or the historical average is greater. Restock requests with a positive quantity are added to the `result` ArrayList, which contains all recommendations. Additionally, the trend data for each item is added to the `trends` ArrayList for potential further analysis.
 
 ### Test data
 We're going to need to build some test data to run this routine against. We'll need a few helper routines to accomplish this. Let's start with the `MakeItem` function. This function will take in an item ID, name, and quantity and return an `InventoryItem` structure, which we'll use to populate our inventory.
@@ -144,7 +144,7 @@ proc
 endsubroutine
 ```
 
-The above code is doing just a little bit more than the `MakeItem` function. Because we're going to be generating a lot of orders, we're going to use a FOR loop to do it. We're also going to be adding these orders to an array list` so we can keep track of them. Now that we have our helper routines, let's build some test data.
+The above code is doing just a little bit more than the `MakeItem` function. Because we're going to be generating a lot of orders, we're going to use a FOR loop to do it. We're also going to be adding these orders to an ArrayList` so we can keep track of them. Now that we have our helper routines, let's build some test data.
 
 ```dbl
 
@@ -224,7 +224,7 @@ begin
     &   " with quantity " + %string(restockReq.Quantity))
 end
 ```
-This loop iterates over the `restockRequests` array list. For each restock request, it retrieves the corresponding inventory item to display the item's name and the recommended restock quantity. This is a very simple way to output the recommendations, but at least we can see that the subroutine is working. Let's build and run the program again.
+This loop iterates over the `restockRequests` ArrayList. For each restock request, it retrieves the corresponding inventory item to display the item's name and the recommended restock quantity. This is a very simple way to output the recommendations, but at least we can see that the subroutine is working. Let's build and run the program again.
 
 ```console
 dbl Program.dbl StringDictionary.dbl
@@ -243,4 +243,4 @@ restock request for whatchacallit with quantity 833
 %DBR-S-STPMSG, STOP
 ```
 
-We can see that the subroutine is working as expected. It's recommending restocking for the widget, doodad, and whatchacallit items. The widget and doodad items have been selling well recently, and the whatchacallit item has been selling well historically. The subroutine is also recommending a higher quantity for the whatchacallit item because it has a history of massive sales spikes. Although this is a very simple example, it shows how we can use the tools we've learned to build a useful routine. We can do better though. In the next section, we're going to explore how we can use the `trends` array list to generate a very simple PDF report of the sales trends for each item.
+We can see that the subroutine is working as expected. It's recommending restocking for the widget, doodad, and whatchacallit items. The widget and doodad items have been selling well recently, and the whatchacallit item has been selling well historically. The subroutine is also recommending a higher quantity for the whatchacallit item because it has a history of massive sales spikes. Although this is a very simple example, it shows how we can use the tools we've learned to build a useful routine. We can do better though. In the next section, we're going to explore how we can use the `trends` ArrayList to generate a very simple PDF report of the sales trends for each item.
