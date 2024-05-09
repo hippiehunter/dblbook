@@ -28,7 +28,7 @@ structure Restock
 endstructure
 ```
 
-You'll notice that these structures all have the `ItemId` field in common. This is going to be how we keep track of which items are which. We'll use this field to join the data together later on. We'll also be using `ItemId` to look up the item name in the `InventoryItem` structure. This is a common pattern that you'll see frequently in the wild. It's a good idea to keep this in mind when you're designing your own data structures.<!--Keep what in mind?--> Now let's take a look at the SDL for these structures.
+You'll notice that these structures all have the `ItemId` field in common. This is going to be how we keep track of which items are which. We'll use `ItemID` to join the data together later on, and We'll also use it to look up the item name in the `InventoryItem` structure. This is a common pattern that you'll see frequently in the wild, and it's a good idea to keep it in mind when you're designing your own data structures. Now let's take a look at the SDL for these structures.
 
 ```sdl
 STRUCTURE InventoryItem DBL ISAM
