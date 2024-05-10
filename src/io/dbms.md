@@ -156,7 +156,7 @@ The `fcompare` utility can compare ISAM file definitions with repository file de
 
 **Logging the output**: To capture the results of the comparison, you can specify a log file using the `-l` option. This is useful for recording discrepancies and later analysis.
 
-**Choosing the level of detail in messages**: You can control the level of detail in the messages `fcompare` generates. Use `-i` for error, warning, and informational messages, or `-v` for just error and warning messages. Using the verbose option `-v` for detailed insights is recommended, especially if discrepancies are expected.
+**Choosing the level of detail in messages**: You can control the level of detail in the messages `fcompare` generates. Use `-i` for error, warning, and informational messages, or `-v` for just error and warning messages. It's best to use the verbose option `-v` for detailed insights, especially if discrepancies are expected.
 
 **Executing the command**: Once you’ve set the appropriate options, run the `fcompare` command with the chosen parameters. For example:
 
