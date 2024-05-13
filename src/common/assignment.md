@@ -243,7 +243,7 @@ proc
 ### Explicit justify
 When you make a numeric-to-alpha assignment the formatted information gets loaded right-justified by default. To change it, you can include a justification control—either `LEFT` or `RIGHT`—at the end of the assignment statement, like this: `statement[ [justification[:variable]]]`. Here, variable is updated with the number of characters loaded into the destination, not counting leading blanks.
 
-The following examples illustrate the usage and combination with explicit formatting. As with explicit formatting, this syntax does not work when the assignment operator is not by itself on the line: <!--Do we mean "...when the assignment operation is not the only thing on the line?--> 
+The following examples illustrate the usage and combination with explicit formatting. As with explicit formatting, this syntax does not work when the assignment operator is not the only thing on the line. 
 
 ```dbl
 record
