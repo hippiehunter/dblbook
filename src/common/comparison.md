@@ -4,24 +4,24 @@ Comparison, or relational, operators are used to evaluate the relationship betwe
 
 Here are the basic comparison operators:
 
-1.  **Equal to (== or .EQ.)**: Returns `true` if the left and right operands are equal.
-2.  **Not equal to (!= or .NE.)**: Returns `true` if the left and right operands are not equal.
-3.  **Greater than (> or .GT.)**: Returns `true` if the left operand is greater than the right one.
-4.  **Less than (< or .LT.)**: Returns `true` if the left operand is less than the right one.
-5.  **Greater than or equal to (>= or .GE.)**: Returns `true` if the left operand is greater than or equal to the right one.
-6.  **Less than or equal to (<= or .LE.)**: Returns `true` if the left operand is less than or equal to the right one.
+- **Equal to (== or .EQ.)**: Returns `true` if the left and right operands are equal.
+- **Not equal to (!= or .NE.)**: Returns `true` if the left and right operands are not equal.
+- **Greater than (> or .GT.)**: Returns `true` if the left operand is greater than the right one.
+- **Less than (< or .LT.)**: Returns `true` if the left operand is less than the right one.
+- **Greater than or equal to (>= or .GE.)**: Returns `true` if the left operand is greater than or equal to the right one.
+- **Less than or equal to (<= or .LE.)**: Returns `true` if the left operand is less than or equal to the right one.
 
 These descriptions are accurate for numbers and generally true for strings and objects, but things get a little weird when comparing alphas. So this is going to take a lot of example code to explain.
 
 ### Alpha comparisons
 Alphas have their own set of comparison operators. They use the same symbolic operators like `==` and `!=`, but they have different meanings. The following table shows the alpha comparison operators and their symbolic equivalents:
 
-1.  **Equal to (== or .EQ.)**: Returns `true` if operands are equal in content and length or equal in content up to the shorter of the two operands.
-2.  **Not equal to (!= or .NE.)**: Returns `true` if operands are not equal in content and length or not equal in content up to the shorter of the two operands.
-3.  **Greater than (> or .GT.)**: Returns `true` if the left operand is greater than the right one, considering at most the length of the shortest of the two operands.
-4.  **Less than (< or .LT.)**: Returns `true` if the left operand is less than the right one, considering at most the length of the shortest of the two operands.
-5.  **Greater than or equal to (>= or .GE.)**: Returns `true` if the left operand is greater than or equal to the right one, considering at most the length of the shortest of the two operands.
-6.  **Less than or equal to (<= or .LE.)**: Returns `true` if the left operand is less than or equal to the right one, considering at most the length of the shortest of the two operands.
+- **Equal to (== or .EQ.)**: Returns `true` if operands are equal in content and length or equal in content up to the shorter of the two operands.
+- **Not equal to (!= or .NE.)**: Returns `true` if operands are not equal in content and length or not equal in content up to the shorter of the two operands.
+- **Greater than (> or .GT.)**: Returns `true` if the left operand is greater than the right one, considering at most the length of the shortest of the two operands.
+- **Less than (< or .LT.)**: Returns `true` if the left operand is less than the right one, considering at most the length of the shortest of the two operands.
+- **Greater than or equal to (>= or .GE.)**: Returns `true` if the left operand is greater than or equal to the right one, considering at most the length of the shortest of the two operands.
+- **Less than or equal to (<= or .LE.)**: Returns `true` if the left operand is less than or equal to the right one, considering at most the length of the shortest of the two operands.
 
 The alpha type refers to a sequence of characters that has a fixed length. When you compare two alpha operands, you're comparing them character by character, based on the order of characters in the ASCII character set. The comparison only considers the length of the shorter operand, meaning that if one operand is shorter, only the first N characters (where N is the length of the shorter operand) of the longer operand are considered in the comparison. This is definitely considered odd in the world of programming languages, but it's stuck that way now.`**Maybe "but that's the way it is" instead.` As an example, consider the following expressions:
 
