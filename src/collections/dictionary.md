@@ -6,7 +6,7 @@ Depending on your historical context, you might be wondering, why should I care 
 
 Using in-memory dictionaries offers several benefits:
 
-    Speed: Accessing and modifying data in memory is considerably faster than disk operations.
+    Speed: Accessing and modifying data in memory is orders of magnitude faster than disk operations.
     Efficiency: In-memory operations reduce the overhead of disk I/O, making data processing more efficient.
     Simplicity: Working with data in memory often simplifies the code, reducing the complexity associated with file management. 
     Serialization: There's no need to serialize and deserialize data when it's already in memory. More importantly, there's no need to worry about data structures like string that can't be written directly to ISAM files.
