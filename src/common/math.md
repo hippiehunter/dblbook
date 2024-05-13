@@ -1,5 +1,4 @@
-# Math
-<!--Would Arithmetic be a more accurate title?-->
+# Arithmetic
 Arithmetic operations are performed using various operators such as addition (+), subtraction (-), multiplication (*), division (/ and //), and, when running on .NET, modulo (.mod.). These operators execute standard, signed, whole number arithmetic if the operands don't have an implied decimal point. However, if at least one operand contains an implied decimal point, the intermediate result will also include a fractional portion.
 
 Unary plus (+) and minus (-) operators have a special function to denote whether a numeric operand is positive or negative. The unary plus operator is generally ignored, as unsigned values are assumed to be positive, whereas the unary minus operator changes the sign of the operand to its right. If multiple minuses are used consecutively, they are combined algebraically, with two minuses forming a plus, three minuses forming a single minus, and so forth. Importantly, the resulting data type from such operations will mirror that of the operand.

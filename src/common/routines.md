@@ -1,7 +1,7 @@
 # Routines
 A function, subroutine, or method is a self-contained block of code designed to perform a specific task. The task could be anything, from complex mathematical operations to manipulating data or creating output. Each routine is given a name, and this name is used to call or invoke the routine at different points in a program.
 
-Routines usually take inputs, known as "arguments" or "parameters," and return output(s), or a return value.<!--Can we say "...and return one or more outputs or return values"?--> The inputs are values that the routine operates on, and the output is the result of the routine's operation.
+Routines usually take inputs, known as "arguments" or "parameters," and return one or more outputs or return values. The inputs are values that the routine operates on, and the output is the result of the routine's operation.
 
 One key feature of functions is that they promote reusability and organization in code. If you have a task that needs to be performed multiple times throughout a program, you can define a function for that task and then call the function whenever the task needs to be performed. This helps reduce repetition and makes the code easier to maintain and understand.
 
@@ -17,7 +17,7 @@ Finally, decomposing a problem into smaller parts can often make the problem eas
 
 ### Subroutines
 
-Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular.<!--By "regular" do we mean external? If so, maybe we should just say that.-->
+Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular.
 
 An external subroutine, simply referred to as a subroutine, is a separate entity from the routine that calls it. This subroutine can be present in the same source file as the invoking routine or in a different file.
 
@@ -152,9 +152,9 @@ The direction of data flow for parameters can be controlled using certain parame
 
 By default, subroutines and functions in DBL treat parameters as "unspecified," which means they can be used for both input and output, akin to INOUT. However, not specifying direction carries more risk, because it doesn't protect against unintentional modifications to parameters that are not meant to be altered, such as temporary values or literals. Therefore, it's advisable to always specify the direction of a parameter explicitly.
 
-In Traditional DBL, arguments can be passed to subroutines and functions in one of three ways: by descriptor, by reference, or by value. The default mode is by descriptor.<!--Probably don't need this sentence since it's repeated in the next paragraph"-->
+In Traditional DBL, arguments can be passed to subroutines and functions in one of three ways: by descriptor, by reference, or by value. 
 
-* By descriptor: This is the default and most common way of passing arguments. In this mode, any changes made to the variable linked with the parameter in the receiving routine are also reflected in the argument's value in the calling routine.
+* By descriptor: This mode is the default and most common way of passing arguments. In this mode, any changes made to the variable linked with the parameter in the receiving routine are also reflected in the argument's value in the calling routine.
 
 * By reference: This mode is primarily used when passing arguments to non-DBL routines. It functions similarly to passing by descriptor; any modifications made to the variable linked with the parameter in the receiving routine are also reflected in the argument's value in the calling routine.
 
@@ -237,7 +237,7 @@ The MISMATCH modifier provides flexibility with weakly typed systems, permitting
 
 When MISMATCH is used with an alpha, numeric, decimal, or implied-decimal parameter type, it allows the program to interchangeably pass either alpha or numeric type arguments to that parameter. This feature provides a certain level of freedom, but it must be used with care to avoid unexpected behaviors or errors.
 
-If you use MISMATCH with a numeric parameter, it's recommended to only use it for routines that either pass the parameter as an argument to another routine also marked MISMATCH numeric or where you explicitly control the datatype with casting. Failure to do so might lead to unexpected results, especially when running DBL on .NET as compared to Traditional DBL. <!--How about "Using MISMATCH with a numeric parameter is only recommended for routines that either pass the parameter as an argument to another routine also marked MISMATCH numeric or where the data type is explicitly controlled with casting. Failure to limit use to these situations [or Using MISMATCH numeric in other situations] might lead to unexpected results, especially when running DBL on .NET."?-->
+Using MISMATCH with a numeric parameter is only recommended for routines that either pass the parameter as an argument to another routine also marked MISMATCH numeric or where the data type is explicitly controlled with casting. Using MISMATCH numeric in other situations might lead to unexpected results, especially when running DBL on .NET.
 
 For instance, when an alpha parameter is passed to a MISMATCH numeric parameter, it's interpreted as decimal in Traditional DBL but remains alpha in DBL on .NET, leading to subtle differences in behavior. To safely pass an alpha to a numeric parameter, consider using explicit casting unless the routine uses MISMATCH numeric.
 
