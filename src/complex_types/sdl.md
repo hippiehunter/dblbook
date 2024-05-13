@@ -35,7 +35,7 @@ Schema files can create a new repository or modify an existing one.
 
 -   **New repositories**: When generating a new repository using a schema file, if errors are detected during the process, the new repository won't be formed, necessitating schema file corrections.
 -   **Updating repositories**: For existing repositories, the utility makes a duplicate before performing updates. Errors will result in the deletion of this copy. Once the repository is updated successfully, use the Verify Repository and Validate Repository utilities to check it.
--   **Loading schemas**: The Load Repository Schema utility can handle both new and existing definitions. Behavior changes based on the options selected:<!--Does this mean "Here are some behavior differences depending on the options selected"? Or are they actually changes?--> 
+-   **Loading schemas**: The Load Repository Schema utility can handle both new and existing definitions. Here are some behavior differences depending on the options selected: 
     -   For new repositories, duplicate definitions in the schema file cause error logs.
     -   Merging schemas into existing repositories will add new definitions. Existing definitions can either be replaced or overlaid. The "Replace" option discards the existing structure and integrates the new schema's structure. The "Overlay" option updates existing fields from the schema file and incorporates new ones without any deletions.
 

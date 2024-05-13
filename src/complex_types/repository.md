@@ -18,10 +18,10 @@ Now, imagine harnessing the detailed data definitions from Repository and feedin
 Furthermore, as data definitions evolve in Repository, developers can rerun CodeGen to update the corresponding parts of the application, ensuring that the software remains aligned with the latest data schema. This iterative process reduces manual errors, enhances maintainability, and ensures that the application remains data-centric.
 
 ### Defining a repository
-There are two ways to build a repository: textually using the Synergy Data Language or visually using the repository program<!--Do we mean the Repository application"-->. We will focus on the Synergy Data Language in this book because it's more flexible and easier to maintain. However, the repository program is a great tool for visualizing the data dictionary and can be used to generate the data definition language.
+There are two ways to build a repository: textually using the Synergy Data Language or visually using the Repository application. We will focus on the Synergy Data Language in this book because it's more flexible and easier to maintain. However, the repository program is a great tool for visualizing the data dictionary and can be used to generate the data definition language.
 
 ### Including from a repository
-The .INCLUDE statement is used to include a repository structure in a program. The use of the word "structure" here is a bit misleading because it<!--What does "it" refer to?--> can produce a variety of data types, including structures, commons, records, and groups. Think of `.INCLUDE "structure" REPOSITORY` as your language interface to the data structures stored in your data dictionary.
+The .INCLUDE statement is used to include a repository structure in a program. The use of the word "structure" here is a bit misleading, because "structure" can produce a variety of data types, including structures, commons, records, and groups. Think of `.INCLUDE "structure" REPOSITORY` as your language interface to the data structures stored in your data dictionary.
 
 `.INCLUDE "structure" REPOSITORY ["rpsfile_log"][, type_spec][, qualifier]`
 
