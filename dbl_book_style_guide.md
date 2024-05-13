@@ -46,3 +46,6 @@ Keywords should be in all caps (e.g., USING-RANGE). Don’t use backticks unless
 
 ## Punctuation
 **Dashes.** Don't add spaces around em dashes (—). Do include spaces around en dashes (–). 
+
+`**Decisions to discuss:
+"Traditional" capitalization`

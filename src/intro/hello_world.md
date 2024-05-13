@@ -1,12 +1,12 @@
 # Hello World
 
-Now that you've set up your DBL development environment (as described in [Installation](install.md)), you're ready to create your first program in DBL.
+<!--Might want to say something brief about how they're now ready to write DBL code, create a program, etc. (E.g., "Now that you've installed Visual Studio, Synergy/DE, and SDI, you're ready to create your first program in DBL" or something like the intro in hello_msbuild.md.) This will give the next sentence ("You'll start by...") and the section the context it needs.-->
 
 ## Creating a project directory
 
 Start by making a directory to store your DBL code. It doesn’t matter where your code resides, but for the exercises and projects in this book, we suggest making a "projects" directory in your home directory and keeping all your projects there.
 
-Open a terminal, move to your home directory, and enter the following commands to make a "projects" directory and a directory within that for the project you'll create for your first DBL program, “Hello, world!”
+Open a terminal, move to your home directory, and enter the following commands to make a "projects" directory and a directory within that for the project you'll create for your first DBL program, “Hello World!”
 
 ```console
 mkdir "%USERPROFILE%\projects"
@@ -16,8 +16,7 @@ cd HelloWorld
 ```
 
 ## Add Traditional DBL tools to PATH
-
-Whether you want to build and run 32-bit applications or 64-bit applications, you'll need to run one of the following commands at a Windows command prompt to add the needed Synergy DBL runtime to your PATH. If you want to build and run 32-bit applications, run `"%SYNERGYDE32%\dbl\dblvars32.bat"`. If you want to build and run 64-bit applications, run `"%SYNERGYDE64%\dbl\dblvars64.bat"`.
+Whether you want to build and run 32-bit applications or 64-bit applications, you'll need to run one of the following commands at a Windows command prompt to add the appropriate Synergy DBL runtime to your PATH. If you want to build and run 32-bit applications, run `"%SYNERGYDE32%\dbl\dblvars32.bat"`. If you want to build and run 64-bit applications, run `"%SYNERGYDE64%\dbl\dblvars64.bat"`.
 
 ## Write the "Hello World" program
 
@@ -46,7 +45,7 @@ dbl HelloWorld.dbl
 >If you get a message indicating that “dbl isn’t recognized," run dblbvars64, as instructed in [Add Traditional DBL tools to PATH](#add-traditional-dbl-tools-to-path) (above), and then run `dbl HelloWorld.dbl`.
 
 ## Link your application for Traditional DBL
-The compile step above will produce a `.DBO` file, which is an object file that contains the compiled code for your application. You'll need to link this object file to produce a runnable `.dbr` file. You can do this by executing this command:
+The compile step above will produce an `.obj` file. This is an object file that contains the compiled code for your application. You'll need to link this object file to produce a runnable `.dbr` file. You can do this by executing
 
 ```console
 dblink HelloWorld
