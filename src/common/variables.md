@@ -1,20 +1,18 @@
 # Variables
-`ML is actively working on this (11/16), so comments/changes are provisional at this point`
-
-<!--Should "field" be defined or discussed, or is it really just the same thing as it is in other languages?-->
+<!--ML is actively working on this (11/16), so comments/changes are provisional at this point-->
+<!--ML: Should "field" be defined or discussed, or is it really just the same thing as it is in other languages?-->
 
 DBL routines have two main divisions: the data division and the procedure division. The data division `..., which precedes the PROC statement in a DBL routine,...(?)` is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
-Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the "data" <!--Should be using double quotes in text (unless we uppercase it; then we don't need quotes at all)--> keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. <!--I think we can omit the preceding sentence.--> This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
+Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the DATA keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. <!--LK: I think we can omit the preceding sentence.--> This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
 
 ## Records
-<!--Added this heading because a "Groups" heading was added below-->
 Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD at the end of a record, but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records. 
 
 #### Named vs Unnamed Records
 The existence of both named and unnamed records can be a little confusing for developers new to DBL. When should you use one over the other? Named records have two use cases. The first use is code clarity: if you have a lot of fields, grouping them by purpose can make it easier to reason about them. The second (and much more complex) use is when you want to refer to all the data with a single variable. There is a lot to this last use case, so let's unpack it. 
 
-<!--*ADD example with ENDRECORD-->
+<!--ML: ADD example with ENDRECORD-->
 ```svgbob
 +---------------------------------------------------+
 | EmployeeRecord                                    |
@@ -33,7 +31,7 @@ The existence of both named and unnamed records can be a little confusing for de
 | [0000name                          0000000000]    |
 +---------------------------------------------------+
 ```
-<!--The bottom rectangle shows EmployeeRecord referred to as a single entity, but the arrow is pointing to the rectangle above that, which is showing constituent variables, it seems, which doesn't match the label for the arrow.-->
+<!--ML: The bottom rectangle shows EmployeeRecord referred to as a single entity, but the arrow is pointing to the rectangle above that, which is showing constituent variables, it seems, which doesn't match the label for the arrow.-->
 
 You can see from the above diagram that we're treating all of the EmployeeRecord data as a single big alpha. This is very common in DBL code, and it's one of the things that makes I/O very natural in this language. You can write an entire record to disk or send it over the network without any serialization effort. With unnamed records, however, this is not the case. Unnamed records are just a way to group related data. They are not types. You can't pass them to a routine or return them from a routine. They just group data.
 
@@ -46,8 +44,8 @@ Top-level data division records can be declared with different storage specifier
 "Local" records and the variables they contain behave similarly to static variables in that they are shared across all invocations of their defining routine. However, the system might reclaim the memory allocated to local variables if it's running low on memory. When this feature was introduced, computers had significantly less RAM, so local variables were a flexible choice for large data structures. There is no reason to use them today. 
 
 ## Groups
-<!--instance and definition-->
-"Groups" allow for nested organization and fixed-size arrays. Although groups are frequently employed as composite data types, the preferred approach for new code is to use a "structure." (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha blobs. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option`because they're costlier to access than structures******[Should this say costlier to access than groups?]`.
+<!--ML: instance and definition-->
+"Groups" allow for nested organization and fixed-size arrays. Although groups are frequently employed as composite data types, the preferred approach for new code is to use a "structure." (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha blobs. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option<!--ML: because they're costlier to access than structures [LK: Should this say "costlier to access than groups"?]-->.
 
 ### COMMON and Global Data Section (GDS)
 <!--How about "Commons and Global Data Sections (GDS)"?-->
@@ -60,7 +58,7 @@ The main distinguishing factor for COMMON statements is that the data layout (ty
 
 Global data sections are also defined in one routine and accessed from other routines, but a global data section is referenced by the name of the data section, rather than by data entities it contains (fields, etc.). Records are the top-level data definitions within GLOBAL-ENDGLOBAL blocks, so fields, groups, and other data entities in global data sections are all contained in records. 
 
-<!--*Add para about init, external, global-->
+<!--ML: Add para about init, external, global-->
 
 Here is an example that illustrates how commons are bound at link time:
 
@@ -140,7 +138,7 @@ endsubroutine
 > nfld2 = nfld2
 > ```
 
-You can see from the output that it doesn't matter what order the fields are declared in. The linker will bind them to the correctly named fields in the common statement. By contrast, the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs<!--reinterpretable bucket?-->. The size of each named section is determined by the size of the largest definition<!--Not INIT version? Could the example below demonstrate this?-->. Here's an example that shows how a global data section can be defined differently when it is accessed, which demonstrates the binding differences between COMMON and GDS:
+You can see from the output that it doesn't matter what order the fields are declared in. The linker will bind them to the correctly named fields in the common statement. By contrast, the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs<!--ML: reinterpretable bucket?-->. The size of each named section is determined by the size of the largest definition<!--ML: Not INIT version? Could the example below demonstrate this?-->. Here's an example that shows how a global data section can be defined differently when it is accessed, which demonstrates the binding differences between COMMON and GDS:
 
 ```dbl
 global data section my_section, init
@@ -196,7 +194,7 @@ end
 
 You can see from the output that the field names within the GDS don't matter to the linker. A GDS is just a section of memory to be overlaid with whatever data definitions you tell it to use. 
 
-In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section. <!--If we're not talking specifically about the COMMON statement here, but just common data, we probably want to lowercase common.-->
+In terms of storage, both COMMON and global data sections occupy separate spaces from data local to a routine, and the data space of a record following a COMMON or global data section is not contiguous with the data space of the COMMON or global data section.
 
 Often in the past, developers chose to use COMMON and global data sections instead of parameters, either because they were told they were more performant or because refactoring wasn't required when they included additional data in their routines. But here's a list of reasons why you might want to avoid using global data instead of parameters:
 
@@ -270,7 +268,7 @@ proc
     end
 ```
 
-<!--mention DISPOSABLE or BYREF?-->
+<!--ML: mention DISPOSABLE or BYREF?-->
 
 > #### Output
 > ```
@@ -397,7 +395,7 @@ Using any of these invalid paths will result in a helpful compiler error that wi
 >     -   [ ] Data
 >     -   [ ] Local
 >     -   [ ] Static
-> 3.  What are the storage specifiers available for records and groups `[**Not groups. Just records, right?]` in DBL?
+> 3.  What are the storage specifiers available for records and groups in DBL? <!--ML: Not groups. Just records, right?-->
 >     -   [ ] Static, local, and global
 >     -   [ ] Stack, global, and local
 >     -   [ ] Stack, static, and local
