@@ -1,5 +1,5 @@
 # Generics
-.NET Generics in DBL introduce a powerful way to create flexible, reusable, and type-safe code structures. At their core, generics allow developers to define classes, structures, methods, delegates, and interfaces that can operate on a variety of data types without specifying the exact data type during the time of their creation. This capability is not just a convenience but a significant enhancement in programming with DBL.
+.NET generics in DBL introduce a powerful way to create flexible, reusable, and type-safe code structures. At their core, generics allow developers to define classes, structures, methods, delegates, and interfaces that can operate on a variety of data types without specifying the exact data type during the time of their creation. This capability is not just a convenience but a significant enhancement in programming with DBL.
 
 One of the key advantages of generics is the promotion of type safety. By using generics, developers can create data structures that are inherently safe at compile-time, reducing runtime errors related to type mismatches. This aspect is particularly beneficial when dealing with collections, where enforcing a consistent data type across all elements is crucial for reliability and maintainability of code.
 
@@ -23,9 +23,9 @@ endnamespace
 
 In this syntax, `ClassName` is the name of the class, and `T` is the generic type parameter. The letter `T` is conventionally used, but you can use any valid identifier.
 
-### Examples of Generic Class Declarations
+### Examples of generic class declarations
 
-#### A Simple Generic Class
+#### A simple generic class
 
 ```dbl
 namespace Example
@@ -37,7 +37,7 @@ endnamespace
 
 In this example, `MyGenericClass` is a generic class with a single type parameter `T`. The class contains a public field of type `T`.
 
-#### Generic Class with Multiple Type Parameters
+#### Generic class with multiple type parameters
 
 ```dbl
 namespace Example
@@ -54,7 +54,7 @@ Here, `Pair` is a generic class with two type parameters, `T` and `U`. It can be
 
 Constraints in generics are a pivotal feature in Synergy .NET, allowing developers to specify limitations on the types that can be used as arguments for type parameters in generic classes, methods, interfaces, or structures. These constraints provide a way to enforce type safety and ensure that generic types behave as expected. There are primarily three types of constraints in Synergy .NET generics: base class constraints, interface constraints, and the `new` keyword constraint.
 
-### Base Class Constraints
+### Base class constraints
 
 A base class constraint restricts a type parameter to a specified base class or any of its derived classes. By default, if no base class constraint is specified, the type parameter can be any class since it implicitly inherits from `System.Object`.
 
@@ -70,9 +70,9 @@ endnamespace
 
 In this example, `T` is constrained to `BaseClass` or any class derived from `BaseClass`.
 
-### Interface Constraints
+### Interface constraints
 
-Interface constraints restrict the type parameter to classes that implement one or more specified interfaces. This ensures that the type argument provides the functionality defined in the interface(s), allowing the generic class to utilize these capabilities.
+Interface constraints restrict the type parameter to classes that implement one or more specified interfaces. This ensures that the type argument provides the functionality defined in the interface, allowing the generic class to utilize these capabilities.
 
 **Syntax:**
 
@@ -86,7 +86,7 @@ endnamespace
 
 Here, `T` must be a type that implements both `Interface1` and `Interface2`.
 
-### The `new` Keyword Constraint
+### The `new` keyword constraint
 
 The `new` constraint specifies that a type argument must have a public parameterless constructor. This is particularly useful when you need to create instances of the type parameter within your generic class.
 
@@ -105,7 +105,7 @@ endnamespace
 
 In this class, `T` is constrained to types with a public parameterless constructor, allowing the `CreateInstance` method to create a new instance of `T`.
 
-### Combining Constraints
+### Combining constraints
 
 Synergy .NET also allows you to combine these constraints to create more specific and controlled generic definitions.
 
@@ -121,40 +121,40 @@ endnamespace
 
 In this case, `T` must be a type that inherits from `BaseClass`, implements `Interface`, and has a public parameterless constructor.
 
-### Practical Usage of Constraints
+### Practical usage of constraints
 Using base class or interface constraints in generics is a strategic choice for developers aiming to enhance the robustness, safety, and clarity of their code. These constraints serve several important purposes:
 
-### Enforcing Type Safety
+### Enforcing type safety
 
 By specifying a base class or interface constraint, developers ensure that the generic type parameter adheres to a certain "shape" or set of behaviors. This guarantees that the generic class or method can safely invoke the methods and properties defined in the base class or interface, without the risk of runtime errors due to type mismatches. The alternative would be to use the `System.Object` type, which would allow any type to be used as an argument for the type parameter. However, this would require the developer to perform runtime checks and casts to ensure that the type parameter is compatible with the methods and properties used within the generic class or method.
 
-### Leveraging Polymorphism
+### Leveraging polymorphism
 
 Base class and interface constraints enable polymorphism in generics. A generic class constrained to a specific base class can work with any subclass of that base class, thus benefiting from polymorphism. This allows the generic class to handle a variety of related types in a uniform way.
 
-### Utilizing Interface-Defined Capabilities
+### Utilizing interface-defined capabilities
 
 When a generic type is constrained to an interface, it can utilize the capabilities that are guaranteed by that interface. This is particularly useful when the generic class needs to perform operations that are specific to that interface, such as iterating over a collection (if the interface defines enumeration behavior), without needing to know the exact type of the objects it's dealing with.
 
-### Designing Flexible and Reusable Code
+### Designing flexible and reusable code
 
 Constraints allow for the creation of flexible and reusable generic classes and methods. They enable developers to write code that is abstract and general enough to handle different types but also specific enough to enforce certain characteristics of these types. This balance between abstraction and specificity leads to more versatile and maintainable code.
 
-### Enhancing Code Readability and Clarity
+### Enhancing code readability and clarity
 
 Using constraints clarifies the developer's intent and the design of the generic type. It makes it clear to other developers what kinds of types are expected or allowed, improving the readability and maintainability of the code.
 
-### Preventing Inappropriate Usage
+### Preventing inappropriate usage
 
 Constraints prevent the misuse of a generic type by restricting the type parameters to suitable types. This reduces the likelihood of runtime errors and ensures that the generic type is used as intended.
 
-### Facilitating Code Validation and Debugging
+### Facilitating code validation and debugging
 
 With constraints in place, many potential errors can be caught at compile-time rather than at runtime. This early detection makes debugging and validation of the code easier, as the compiler can provide clear guidance on the proper use of the generic types.
 
-### Examples of Generic Class Constraints
+### Examples of generic class constraints
 
-#### Generic Class with a Type Parameter Constraint
+#### Generic class with a type parameter constraint
 
 ```dbl
 namespace Example
@@ -166,7 +166,7 @@ endnamespace
 
 This declaration shows a generic class `MyClass` with a type parameter `T` that is constrained to be a subclass of `SomeBaseClass`. This ensures that `T` inherits from `SomeBaseClass`, allowing you to use methods and properties of `SomeBaseClass` within `MyClass`.
 
-#### Complex Constraints
+#### Complex constraints
 
 ```dbl
 namespace Example
