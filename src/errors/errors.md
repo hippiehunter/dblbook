@@ -70,7 +70,7 @@ Use structured logs (JSON, XML) over plain text. Structured logs can easily be p
 #### Contextual logging
 Provide enough context in your logs to understand the state of the application. This might include user data, current application state, or recent actions. When grabbing context for a log, it can be easy to accidentally pick up sensitive information (passwords, PII, etc.). Keep this in mind when performing code review for your colleagues.
 
-#### Correlation IDs for distributed systems<!--Maybe get rid of "for distributed systems" in the heading since you say it in the first sentence.-->
+#### Correlation IDs
 Correlation IDs are especially important in a distributed system or microservices architecture. A correlation ID is just an identifier (usually a GUID) that follows your request around through the system to be output in all of your log messages. Use correlation IDs to track and correlate logs across services for a single-user request or transaction. Even if you don't think you have a distributed system, you will likely still derive a lot of value from this technique when working through a large volume of logs.
 
 #### Performance considerations
@@ -87,7 +87,7 @@ Use a consistent format and standard practices for logging across the entire app
 - Protect log data against unauthorized access.
 - Be mindful of the security implications of logging sensitive information. Whenever possible, avoid logging sensitive information like passwords, PII, etc.
 
-## Choosing between them<!--How about "Choosing the best method of attack"?-->
+## Choosing the best method of attack
 
 -   **Nature of the problem**: For immediate errors or crashes, a traceback provides the first clue. For more complex issues, particularly those related to logic or state, debugging is more appropriate. Logging is key for issues that manifest over time or in specific environments.
 -   **Development vs. production**: While debugging is often a development-phase activity, logging is crucial in both development and production. Tracebacks are useful in both phases but are more often associated with unexpected errors in production.
