@@ -345,4 +345,4 @@ Avoid designing interfaces based on how they will be implemented. Interfaces sho
 Avoid making changes to interfaces that will break existing implementations. Consider the impact of changes on all classes that implement the interface.
 
 #### Lack of documentation
-Avoid poorly documented interfaces.<!--How about "Make sure to document your interfaces."--> Clear documentation is vital for understanding the purpose and usage of an interface, especially in large and complex projects.
+Make sure to document your interfaces. Clear documentation is vital for understanding the purpose and usage of an interface, especially in large and complex projects.

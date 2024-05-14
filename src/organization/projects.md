@@ -130,10 +130,9 @@ Include files, which might contain shared code or definitions, are also added vi
 ```
 This inclusion ensures that these files are part of the project and can be easily navigated and searched within Visual Studio but won't be treated as top-level source files by the compiler.
 
-### Managing access to the Synergy Repository<!--Do we mean "Synergy Repository" without "the" (meaning the product) or "a Synergy repository" (meaning your data dictionary)?-->
+### Managing access to a Synergy repository
 
-
-### Managing common build settings
+#### Managing common build settings
 There are a few ways to manage build settings that need to be common across multiple projects. The first is to use a Directory.Build.props file. This file can be placed in the root of your repository and will be automatically included in all projects within the repository. This is a good place to put settings that are common across all projects in the repository. For example, if you want to set the default target framework for all projects in the repository to .NET 6.0, you can add the following to the Directory.Build.props file:
 
 ```xml
@@ -166,17 +165,17 @@ This code will set the `EXEDIR` and `SOMEOTHER_ENVVAR` environment variables for
 <UnevaluatedOutputPath>EXEDIR:</UnevaluatedOutputPath>
 ```
 
-## Grouping projects into solutions
+### Grouping projects into solutions
 Using a solution file (.sln) in an MSBuild-based build system is required to effectively manage multiple projects. A .sln file is a text file that lists the projects that make up your solution, essentially serving as a project aggregator. It allows developers to organize, build, and manage a group of related projects as a single entity. This is particularly useful when your application consists of multiple components, such as a library, a user interface, and various service modules. Each project can be developed and maintained separately, with its own set of files, resources, and dependencies. The .sln file keeps track of these projects and their dependencies, ensuring that when you build the solution, MSBuild will compile the projects in the correct order. The flexibility of solution files extends to allowing custom-named solution configurations, within which developers can selectively determine which projects to build and can specify project-level configurations (such as Debug or Release) for each, offering a tailored and granular control over the build process. This second level of configuration is powerful, but it's very easy to get confused if you're not careful with your naming conventions.
 
-### Creating a solution file
+#### Creating a solution file
 You likely already have a solution file for your project. If you don't, you can create one by using the `dotnet new sln` command. This command creates a new solution file with the same name as the current directory. You can also specify a name for the solution file by using the `-n` or `--name` option. For example, to create a solution file named `MySolution.sln`, you would use the following command:
 
 ```console
 dotnet new sln -n MySolution
 ```
 
-### Adding projects to a solution file
+#### Adding projects to a solution file
 Once you have a solution file, you can add projects to it using the `dotnet sln add` command. First, you will need to make sure your project file has explicitly specified its project type. This is going to feel a little bit like boilerplate, and it is, but doing things this way will ensure you know every part of your build system and will make it easier to maintain in the long run. You can check to see if you already have the required project type GUID by opening your project file and looking for something like the following structure:
 
 ```xml
