@@ -1,5 +1,5 @@
 # Accounts
-As we start to model our super simple bank simulation we're going to start with the most basic building block, the account. We're going to start by defining a repository structure for a very simple account that has a balance, an account number and also a name so we can identify it. Go ahead and open up `Repository\repository.scm` and add the following structure definition:
+As we start to model our super simple bank simulation, we're going to begin with the most basic building block, the account. We're going to start by defining a repository structure for a very simple account that has a balance, an account number, and also a name so we can identify it. Go ahead and open `Repository\repository.scm` and add the following structure definition:
 
 ```sdl
 STRUCTURE Account DBL ISAM
@@ -10,13 +10,13 @@ STRUCTURE Account DBL ISAM
 END
 ```
 
-The field sizes here are pretty arbitrary, later on in this chapter we'll walk through a more in depth analysis of how to determine the appropriate sizes for some example fields. 
+The field sizes here are pretty arbitrary. Later on in this chapter, we'll walk through a more in-depth analysis of how to determine the appropriate sizes for some example fields. 
 
 The code we're going to write needs to handle the following operations:
 
 1. **Management**: 
-   - **Account Creation**: Users can create new bank accounts. Each account will have unique attributes like account number and balance.
-   - **Account Details**: Users can view details of an account, including the account number and the current balance.
+   - **Account creation**: Users can create new bank accounts. Each account will have unique attributes like account number and balance.
+   - **Account details**: Users can view details of an account, including the account number and the current balance.
 
 2. **Transactions**:
    - **Deposits**: Users can deposit money into any account. This involves increasing the account balance by the deposit amount.
@@ -24,10 +24,10 @@ The code we're going to write needs to handle the following operations:
    - **Transfers**: Users can transfer money from one account to another. This involves withdrawing money from one account and depositing it into another.
 
 3. **Reporting**:
-   - **Balance Inquiry**: Users can check the balance of any account.
-   - **Total Assets**: The application can calculate and display the total assets held across all accounts.
+   - **Balance inquiry**: Users can check the balance of any account.
+   - **Total assets**: The application can calculate and display the total assets held across all accounts.
 
-Most of these operations are going to be handled by the `Account` class. Lets go ahead and create a new class in `BankApp\Account.dbl`:
+Most of these operations are going to be handled by the `Account` class. Let's go ahead and create a new class in `BankApp\Account.dbl`:
 
 ```dbl
 namespace BankApp
@@ -86,13 +86,13 @@ namespace BankApp
 endnamespace
 ```
 
-Now we've hidden the details of the account data structure behind the `Account` class and it's accessors. This is a good start but we're going to need to be able to manage the accounts. We are going to be using `ArrayList` as our primary data storage mechanism. With the account id's being the index into the ArrayList. This is a very simple way to store our data and is not appropriate for a real world application. In a later chapter we're going to revisit this to use a more appropriate data storage mechanism.
+Now we've hidden the details of the account data structure behind the `Account` class and its accessors. This is a good start, but we're going to need to be able to manage the accounts. We are going to be using `ArrayList` as our primary data storage mechanism with the account IDs being the index into the ArrayList. This is a very simple way to store our data and is not appropriate for a real-world application. In a later chapter, we're going to revisit this to use a more appropriate data storage mechanism.
 
-**Storing Account Objects**: Each account, represented as an instance of the `Account` class, is stored in an `ArrayList`. This allows us to dynamically add, remove, and access accounts as needed.
+**Storing account objects**: Each account, represented as an instance of the `Account` class, is stored in an `ArrayList`. This allows us to dynamically add, remove, and access accounts as needed.
 
-**Dynamic Resizing**: Unlike static arrays, `ArrayList` can dynamically resize itself. This is particularly useful for our bank application as the number of accounts can increase over time.
+**Dynamic resizing**: Unlike static arrays, `ArrayList` can dynamically resize itself. This is particularly useful for our bank application as the number of accounts can increase over time.
 
-**Data Persistence**: In this version of the application, data is not persisted to disk. When the application is closed, all data is lost. 
+**Data persistence**: In this version of the application, data is not persisted to disk. When the application is closed, all data is lost. 
 
 Onwards to the implementation of the `Bank` class that will manage our accounts. Go ahead and create a new class in `BankApp\Bank.dbl`:
 
@@ -196,9 +196,9 @@ endnamespace
 
 The `CreateAccount` method in your `Bank` class is a factory method. `CreateAccount` encapsulates the logic for creating new `Account` instances. This ensures that all accounts are created consistently and allows for centralized control over the account creation process. By providing a method to create new accounts for a bank and insert them into the accounts list, you simplify the client code. Users of your `Bank` class don't need to know the details of how accounts are managed; they just call `CreateAccount`.
 
-In the future, if the process of account creation becomes more complex (e.g., adding validation, or additional steps in account setup), these changes can be made in one place without affecting the client code. This makes your code more maintainable and scalable.
+In the future, if the process of account creation becomes more complex (e.g., adding validation or additional steps in account setup), these changes can be made in one place without affecting the client code. This makes your code more maintainable and scalable.
 
-Let's put it all together in a simple console application. Go ahead and open up `BankApp\Program.dbl` and add the following code:
+Let's put it all together in a simple console application. Go ahead and open `BankApp\Program.dbl` and add the following code:
 
 ```dbl
 import System
@@ -225,4 +225,4 @@ Balance: 500.00
 Balance after withdrawal: 300.00
 ```
 
-Ok, the building blocks for accounts are in place. In the next section we're going to look at how to handle transfers between accounts.
+Okay, the building blocks for accounts are in place. In the next section, we're going to look at how to handle transfers between accounts.

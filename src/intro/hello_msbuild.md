@@ -1,8 +1,8 @@
 # Hello MSBuild
 
-In this section, we'll walk through the steps to create a new "Hello World" project using the .NET Command Line Interface (CLI) and a Synergy project template named SynNETApp. The .NET CLI is a powerful tool that allows you to create, build, and run .NET projects from the command line. Don't worry if your company isn't currently targeting .NET. The important thing about this walkthrough is that it shows how projects can be built and what sort of artifacts you can expect as output.
+In this section, we'll walk through the steps to create a new "Hello World" project using the .NET command-line interface (CLI) and a custom template named "SynNetApp". The .NET CLI is a powerful tool that allows you to create, build, and run .NET projects from the command line. Don't worry if your company isn't currently targeting .NET. The important parts of this walkthrough show how projects can be built and what sort of artifacts you can expect as output.
 
-## Open your command line interface
+## Step 1: Open your command-line interface
 
 First, open a Windows Command Prompt or a Terminal window. You'll use this to run the .NET CLI commands.
 
@@ -20,7 +20,7 @@ This command will download and install all the DBL project templates you might w
 
 ## Create a new project
 
-Now you're ready to create a new project. Navigate to the directory where you want to create your project and run the following command:
+Now, you're ready to create a new project. Navigate to the directory where you want to create your project and run
 
 ```console
 dotnet new synNETApp -n HelloMSBuild
@@ -41,8 +41,8 @@ Replace `HelloMSBuild` with your project name if you chose a different one.
 ## Explore the project structure
 
 Take a moment to explore the newly created project structure. You should see two files:
-- **Program.dbl**, which contains the entry point of the application. This is where the application starts executing.
-- **HelloMSBuild.synproj**, which contains the project definition in an MSBuild-compatible XML format. This file defines the project's name, source files, options, and dependencies.
+- `Program.dbl` contains the entry point of the application. This is where the application starts executing.
+- `HelloMSBuild.synproj` contains the project definition in an MSBuild-compatible XML format. This file defines the project's name, source files, options, and dependencies.
 
 Let's dig into the created HelloMSBuild.synproj file by opening it in a text editor. It should look something like this:
 
@@ -146,7 +146,7 @@ Customize the message by changing it to something like this:
 
 ## Run your application
 
-Finally, it's time to run your application. Go back to your command line and execute this command:
+Finally, it's time to run your application. Go back to your command line interface and execute
 
 ```console
 dotnet run
@@ -156,8 +156,8 @@ This command will compile and execute your application. You should see your cust
 
 Now let's set aside the very helpful .NET CLI, and try the build and run steps manually.
 
-## Build your application with MSBuild
-So far, you've seen .NET CLI act as a wrapper around MSBuild. Now let's try to build the project using MSBuild directly. On the command line, run
+## Step 8: Build your application with MSBuild
+So far you've seen dotnet CLI act as a wrapper around MSBuild. Now let's try to build the project using MSBuild directly. From the command line, run
 
 ```console
 msbuild HelloMSBuild.synproj

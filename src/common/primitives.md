@@ -1,10 +1,9 @@
 # Primitive  Types
 `Matt's currently reviewing. Comments/changes are in flux`
 
-In DBL, weakly typed descriptor types`**do they know what descriptor types are at this point? Maybe this file should start with discussion of types of types?` like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints. This wasn't really done on purpose. It would be more accurate to say that it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically restricted `"prevented"` in strongly-typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well organized projects and a few compiler switches to be set. 
+In DBL, weakly typed descriptor types<!--do they know what descriptor types are at this point? Maybe this file should start with discussion of types of types?--> like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints. This wasn't really done on purpose—it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically prevented in strongly typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well-organized projects and setting a few compiler switches. 
 
-
-Consider the following example, where a routine expects an alpha parameter, but a caller instead passes a decimal. In a strongly typed language, this would result in a compile-time error. However, with the right set of compiler switches, the compiler for Traditional DBL will allow a decimal to be passed in. At runtime there may be no ill effects, depending on the value. A negative number would result in an unexpected alpha, while the result of a positive number would look as if the caller of the routine had passed the correct type. 
+Consider the following example, where a routine expects an alpha parameter, but a caller instead passes a decimal. In a strongly typed language, this would result in a compile-time error. However, with the right set of compiler switches, the compiler for Traditional DBL will allow a decimal to be passed in. At runtime there may be no ill effects, depending on the value. A negative number would result in an unexpected alpha, while the result of a positive number would look as if the routine caller had passed the correct type. 
 
 ```dbl
 proc
@@ -40,9 +39,9 @@ endsubroutine
 > %DBR-S-STPMSG, STOP
 > ```
 
-You can see from the 'u' and '-5:46341' outputs that this wouldn't be a good idea in a real program. You are likely to encounter code like this in legacy DBL programs, but it's very unlikely that it will manifest itself in this obvious way. Because of the age and relative stability of most DBL code, it's more likely with production code that there is some rarely taken code path that is not being tested and is almost never seen in production.
+You can see from the "u" and "-5:46341" outputs that this scenario wouldn't be a good idea in a real program. You are likely to encounter code like this in legacy DBL programs, but it's very unlikely that it will manifest itself in this obvious way. Because of the age and relative stability of most DBL code, it's more likely with production code that some rarely taken code path is not being tested and is almost never seen in production.
 
-DBL can also enforce a more rigid type system, as seen with the "string" type. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. Developers must perform explicit type conversions and cannot rely on the language to coerce types implicitly, leading to more predictable though verbose code.
+DBL can also enforce a more rigid type system, as seen with the string type. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. Developers must perform explicit type conversions and cannot rely on the language to coerce types implicitly, leading to more predictable though verbose code.
 
 ### Alpha
 
@@ -50,35 +49,34 @@ An alpha value (`a`, `a*`, `a{size}`) is a sequence of printable ASCII character
 
 - `a`: An alpha parameter, return type, or method property.
 - `a*`: An alpha data field with size determined by its initial value.
-- `a{size}`: An alpha data field of specified size, default filled with spaces. Ex. `a10` is a 10 character alpha.
+- `a{size}`: An alpha data field of specified size, default filled with spaces. For example, `a10` is a 10-character alpha.
 
-> #### Platform Limits
-> Alphas have the following max length restrictions on certain platforms. 
-> - 65,535 single-byte characters in 32-bit Windows and `32-bit` Linux when running Traditional DBL.
-> - 32,767 single-byte characters in OpenVMS
-> - 2,147,483,647 single-byte characters in all other platforms
+> #### Platform limits
+> Alphas have the following maximum-length restrictions on certain platforms:
+> - 65,535 single-byte characters on 32-bit Windows and 32-bit Linux when running Traditional DBL
+> - 32,767 single-byte characters on OpenVMS
+> - 2,147,483,647 single-byte characters on all other platforms
 
-`**mention that alpha variables are padded with spaces if you assign a value that doesn't take up all bytes?`
+<!--Mention that alpha variables are padded with spaces if you assign a value that doesn't take up all bytes?-->
 
+### Decimal and implied decimal
 
-### Decimal and Implied-decimal
+Decimal (`d`, `d*`, `d{size}`) and implied-decimal (`d.`, `d{size}.{precision}`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied-decimal types are signed, meaning they can represent both positive and negative numbers.
 
-Decimal (`d`, `d*`, `d{size}`) and implied-decimal (`d.`, `d{size}.{precision}`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied decimal types are signed, meaning they can represent both positive and negative numbers.
-
-In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` `(which are discussed below)` is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule per operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
-`**FLoating point API.`
+In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` (which are discussed below) is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule in a single operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
+<!--Floating point API.-->
 
 ### Integer
 
-An integer (`i`, `i*`, `i1`, `i2`, `i4`, and `i8`) is a byte-oriented `**What does "byte-oriented mean here? Just sizing? **yes`, binary representation of a signed whole number. The integer value depends on its usage and can be a value type or descriptor type. `**Add info on when it's a value type or descriptor type? ***Put something in here about ^val`
+An integer (`i`, `i*`, `i1`, `i2`, `i4`, and `i8`) is a byte-oriented, binary representation of a signed whole number. The integer value depends on its usage and can be a value type or descriptor type. <!--Add info on when it's a value type or descriptor type? ***Put something in here about ^val-->
 
 ### Numeric
 
-Numeric types (`n` and `n.`) define numeric parameters that can pass any of the numeric data types: decimal, packed (discussed below), or integer for `n`, and implied decimal or implied packed for `n.`. It is not possible to declare a numeric field, only a parameter or return type.
+Numeric types (`n` and `n.`) define numeric parameters that can pass any of the numeric data types: decimal, packed (discussed below), or integer for `n` and implied decimal or implied packed for `n.`. It is not possible to declare a numeric field, only a parameter or return type.
 
 ## Ownership
 ### Sized declarations
-When declaring an `a`, `d`, `i`, or `id` variable somewhere that defines a memory layout or owns its own memory , you must include a size. Let's consider an example where we define several fields in a `record`:
+When declaring an `a`, `d`, `i`, or `id` variable somewhere that defines a memory layout or owns its own memory, you must include a size. Let's consider an example where we define several fields in a record:
 
 ```dbl,ignore,does_not_compile
 record
@@ -88,13 +86,13 @@ record
     myIField, i4
 ```
 
-The field `myAField` allocates a memory space of 100 bytes and informs the compiler to interpret that space as an alpha (or string) type. On the other hand, `myIdField` allocates 10 bytes of memory but specifies that the last three of those bytes should be interpreted as decimal places. This is an implied decimal declaration. The decimal places are implied within the byte storage of the field, effectively allowing you to store a decimal number within an ASCII numeric space. If, for example, the memory allocated to `myIdField` contained the value `1333333333`, it would be interpreted and displayed as `1333333.333` when printed, due to the implied decimal places.
+The field `myAField` allocates a memory space of 100 bytes and tells the compiler to interpret that space as an alpha (or string) type. On the other hand, `myIdField` allocates 10 bytes of memory but specifies that the last three of those bytes should be interpreted as decimal places. This is an implied-decimal declaration. The decimal places are implied within the byte storage of the field, effectively allowing you to store a decimal number within an ASCII numeric space. If, for example, the memory allocated to `myIdField` contained the value `1333333333`, it would be interpreted and displayed as `1333333.333` when printed, due to the implied-decimal places.
 
-### Unsized Declarations
+### Unsized declarations
 
 The size of parameters and return types is determined at runtime, rather than being defined during compile time. This means that the size of these variables is based on the actual data that is passed or returned during the execution of your program. 
 
-When declaring a field like an alpha (`a`) type within a `record`, `structure`, `group`, or `class`, you would usually specify the size, for example `myFld, a10`. However, for parameter or return type declarations, the size is omitted, and you would declare it simply as `myFld, a`.
+When declaring a field like an alpha (`a`) type within a record, structure, group, or class, you would usually specify the size, for example, `myFld, a10`. However, for parameter or return type declarations, the size is omitted, and you would declare it simply as `myFld, a`.
 
 The size of this unsized parameter will then be determined by the length of the argument passed at the time of calling. For example, if you call your routine with `xcall myRoutine("a short alpha")`, the size of the `myFld` parameter would be 13 at this particular call site, reflecting the length of the string "a short alpha".
 
@@ -119,7 +117,7 @@ endsubroutine
 
 ## Less common types
 
-### Packed and Implied-packed
+### Packed and implied packed
 
 Data in packed or implied-packed form (`p`, `p{size}`, `p.`, or `p{size}.{precision}`) is stored as two digits per byte, plus an extra byte for the sign. This data type is uncommon and can usually be migrated to decimal and implied decimal without significant trouble.
 
@@ -153,7 +151,7 @@ In Traditional DBL, long maps to `i8`. In DBL on .NET, it's a value type mapping
 
 ### Sbyte
 
-In Traditional DBL, sbyte maps to an `i1`. In DBL on .NET, it represents an eight-bit signed integer and  maps to the .NET System.Sbyte structure. The default value is 0.
+In Traditional DBL, sbyte maps to `i1`. In DBL on .NET, it represents an eight-bit signed integer and  maps to the .NET System.Sbyte structure. The default value is 0.
 
 ### Short
 
@@ -179,11 +177,11 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] Sixteen-bit signed integer
 >    - [ ] Sixteen-bit unsigned integer
 >    
-> 4. What's the main difference between the decimal and implied-decimal types in DBL?
->    - [ ] Decimal types are unsigned, implied-decimal types are signed.
->    - [ ] Decimal types are whole numbers, implied-decimal types have a sized precision.
->    - [ ] Decimal types have a fractional precision, implied-decimal types are whole numbers.
->    - [ ] Decimal types are signed, implied-decimal types are unsigned.
+> 4. What is the main difference between the decimal and implied-decimal types in DBL?
+>    - [ ] Decimal types are unsigned; implied-decimal types are signed
+>    - [ ] Decimal types are whole numbers; implied-decimal types have a sized precision
+>    - [ ] Decimal types have a fractional precision; implied-decimal types are whole numbers
+>    - [ ] Decimal types are signed; implied-decimal types are unsigned
 >    
 > 5. What is the default value for the .NET System.Double structure in DBL?
 >    - [ ] 1.0
@@ -191,13 +189,13 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] NULL
 >    - [ ] Undefined
 >    
-> 6. Which types do short map to in Traditional DBL and DBL on .NET respectively?
+> 6. Which types does short map to in Traditional DBL and DBL on .NET, respectively?
 >    - [ ] i2 and System.Int32
 >    - [ ] i2 and System.Int64
 >    - [ ] i2 and System.Int16
 >    - [ ] i4 and System.Int16
 >    
-> 7. When defining a record, when must you include a size for these DBL types: `a`, `d`, `i`, `id`?
+> 7. When defining a record, when must you include a size for these DBL types: a, d, i, id?
 >    - [ ] Only when the fields need to be stored in an array
 >    - [ ] Only when the fields will be processed in a loop
 >    - [ ] When the fields define a memory layout (this is most of the time)
@@ -210,7 +208,7 @@ In Traditional DBL, short maps to `i2`. In DBL on .NET, it's a value type that m
 >    - [ ] When they are declared
 >    
 > 9. What happens when you pass the string "a slightly longer alpha" to a routine with an unsized alpha parameter `myFld, a`?
->    - [ ] An error occurs as the parameter is unsized.
->    - [ ] The parameter myFld will have a size of 23.
->    - [ ] The parameter myFld will have a size of 24, including the end character.
->    - [ ] The program will crash.
+>    - [ ] An error occurs as the parameter is unsized
+>    - [ ] The parameter myFld will have a size of 23
+>    - [ ] The parameter myFld will have a size of 24, including the end character
+>    - [ ] The program will crash
