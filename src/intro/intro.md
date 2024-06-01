@@ -25,7 +25,7 @@ This book assumes that you’ve written code in another programming language but
 
 ## How to Use This Book
 
-In general, this book assumes that you’re reading it in sequence from front to back. Later chapters build on concepts in earlier chapters, and earlier chapters might not delve into details on a particular topic but will revisit it in a later chapter. Some chapters can be skipped if your codebase doesn't use the features that they cover. Examples are the UI and I/O chapters. <!--Where is the UI chapter? Instead of "io" (since that's a filename, not part of the content), can se say "ISAM"?--> However, you should still read a chapter that covers newer .NET-specific features, even if your codebase doesn't currently use those features.
+In general, this book assumes that you’re reading it in sequence from front to back. Later chapters build on concepts in earlier chapters, and earlier chapters might not delve into details on a particular topic but will revisit it in a later chapter. Some chapters can be skipped if your codebase doesn't use the features that they cover. (An example is the I/O chapter.) However, you should still read a chapter that covers newer .NET-specific features, even if your codebase doesn't currently use those features.
 
 ## Special Thanks
 

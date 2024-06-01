@@ -2,7 +2,7 @@
 
 In this section, we'll walk through the steps to create a new "Hello World" project using the .NET command-line interface (CLI) and a custom template named "SynNetApp". The .NET CLI is a powerful tool that allows you to create, build, and run .NET projects from the command line. Don't worry if your company isn't currently targeting .NET. The important parts of this walkthrough show how projects can be built and what sort of artifacts you can expect as output.
 
-## Step 1: Open your command-line interface
+## Open your command-line interface
 
 First, open a Windows Command Prompt or a Terminal window. You'll use this to run the .NET CLI commands.
 
@@ -156,7 +156,7 @@ This command will compile and execute your application. You should see your cust
 
 Now let's set aside the very helpful .NET CLI, and try the build and run steps manually.
 
-## Step 8: Build your application with MSBuild
+## Build your application with MSBuild
 So far you've seen dotnet CLI act as a wrapper around MSBuild. Now let's try to build the project using MSBuild directly. From the command line, run
 
 ```console
@@ -173,4 +173,4 @@ Navigate to the inner directory created in the previous step (e.g., `bin/Debug/n
 HelloMSBuild.exe
 ```
 
-You should see your custom "Hello World" message displayed in the console just as before. We prefer using the .NET CLI in this book, but it's good to know what is going on under the hood. Next, we'll move on to something a little more interesting than "Hello World" — a guessing game!
+You should see your custom "Hello World" message displayed in the console just as before. We prefer using the .NET CLI in this book, but it's good to know what is going on under the hood. Next, we'll move on to something a little more interesting than "Hello World"—a guessing game!
