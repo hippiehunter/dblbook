@@ -6,11 +6,8 @@ Weâ€™ll implement a classic beginner programming problem, a guessing game. Hereâ
 
 ## Setting up a new project
 
-To set up a new .NET project, go to the projects directory that you created in
-[chapter 1](../intro/hello_world.md#creating-a-project-directory) and make a new console app project by using the .NET CLI, like so:
+To set up a new .NET project, go to the projects directory that you created in [Chapter 1](../intro/hello_world.md#creating-a-project-directory) and make a new console app project by using the .NET CLI, like so:
 
-To set up a new .NET project, go to the projects directory that you created in [chapter 1](../intro/hello_world.md#creating-a-project-directory) and make a new project using dotnet, like this:
-<!--Jeff, there appears to have been a merge issue between what you had originally and Matt's edit, and now there are two intro paragraphs above where there should only be one. Which do you want to keep?-->
 ```console
 dotnet new SynNETApp -n GuessingGame
 cd GuessingGame
