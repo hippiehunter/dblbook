@@ -9,7 +9,7 @@ The basic syntax for an assignment operation is
 -   `destination`: A simple, subscripted, or ranged variable that will be modified.
 -   `source`: An expression whose evaluated result is assigned to the destination variable.
 
-### Assignment Operator Examples
+### Assignment operator examples
 
 For instance, the following assignment operation:
 
@@ -31,13 +31,13 @@ DBL typically rounds results when storing from an implied-decimal source express
 
 > TODO: init and clear
 
-Data Type Assignments
+Data type assignments
 ---------------------
 
 The rules for moving data between variables of different types vary based on the data types involved.
 
-### Alpha to Alpha
-when the source and destination are of the same length in an alpha-to-alpha assignment, data is directly copied from the source to the destination. However, if the lengths differ, specific rules are followed:
+### Alpha to alpha
+When the source and destination are of the same length in an alpha-to-alpha assignment, data is directly copied from the source to the destination. However, if the lengths differ, specific rules are followed:
 
 1.  When the source data length is shorter than the destination's, the data is copied from the source to the destination starting from the left. Any remaining space in the destination is filled with blank spaces to the right.
 2.  When the source data length exceeds that of the destination, only the leftmost characters from the source are copied until the destination space is filled. Notably, this process does not trigger any warning or error, meaning the extra characters from the source are simply ignored and not copied.
