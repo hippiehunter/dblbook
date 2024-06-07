@@ -2,7 +2,7 @@
 <!--ML is actively working on this (11/16), so comments/changes are provisional at this point-->
 <!--ML: Should "field" be defined or discussed, or is it really just the same thing as it is in other languages?-->
 
-DBL routines have two main divisions: the data division and the procedure division. The data division `..., which precedes the PROC statement in a DBL routine,...(?)` is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
+DBL routines have two main divisions: the data division and the procedure division. The data division <!--ML: ..., which precedes the PROC statement in a DBL routine,...(?)--> is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
 Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the DATA keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. <!--LK: I think we can omit the preceding sentence.--> This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
 
