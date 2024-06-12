@@ -9,7 +9,7 @@ Historically, the separation between these two divisions was strict, but more re
 ## Records
 Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD at the end of a record, but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records. 
 
-#### Named vs Unnamed Records
+#### Named vs unnamed records
 The existence of both named and unnamed records can be a little confusing for developers new to DBL. When should you use one over the other? Named records have two use cases. The first use is code clarity: if you have a lot of fields, grouping them by purpose can make it easier to reason about them. The second (and much more complex) use is when you want to refer to all the data with a single variable. There is a lot to this last use case, so let's unpack it. 
 
 <!--ML: ADD example with ENDRECORD-->
@@ -47,8 +47,8 @@ Top-level data division records can be declared with different storage specifier
 <!--ML: instance and definition-->
 "Groups" allow for nested organization and fixed-size arrays. Although groups are frequently employed as composite data types, the preferred approach for new code is to use a "structure." (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha blobs. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option<!--ML: because they're costlier to access than structures [LK: Should this say "costlier to access than groups"?]-->.
 
-### COMMON and Global Data Section (GDS)
-<!--How about "Commons and Global Data Sections (GDS)"?-->
+### COMMON and global data section (GDS)
+<!--How about "Commons and global data sections (GDS)"?-->
 
 Both the COMMON statement and GLOBAL data sections serve to establish shared data areas that are accessible by other routines within a program. However, they differ in how they link the shared data.
 
@@ -138,7 +138,7 @@ endsubroutine
 > nfld2 = nfld2
 > ```
 
-You can see from the output that it doesn't matter what order the fields are declared in. The linker will bind them to the correctly named fields in the common statement. By contrast, the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs<!--ML: reinterpretable bucket?-->. The size of each named section is determined by the size of the largest definition<!--ML: Not INIT version? Could the example below demonstrate this?-->. Here's an example that shows how a global data section can be defined differently when it is accessed, which demonstrates the binding differences between COMMON and GDS:
+You can see from the output that it doesn't matter what order the fields are declared in. The linker will bind them to the correctly named fields in the COMMON statement. By contrast, the unique feature of global data sections is that they are essentially overlaid record groups, with each routine defining its own layout of a given global data section. This functionality was abused in the past to reduce the memory overhead of programs<!--ML: reinterpretable bucket?-->. The size of each named section is determined by the size of the largest definition<!--ML: Not INIT version? Could the example below demonstrate this?-->. Here's an example that shows how a global data section can be defined differently when it is accessed, which demonstrates the binding differences between COMMON and GDS:
 
 ```dbl
 global data section my_section, init
@@ -237,17 +237,17 @@ DATA declarations bolster code readability and maintainability by making it conv
 
 Additionally, variables declared where they are used are more likely to have meaningful names that accurately reflect their purpose within their routines, which supports the creation of self-documenting code.
 
-#### Type Inference and DATA Declarations
+#### Type inference and DATA declarations
 DATA declarations support type inference with the syntax `data variable_name = some_expression`. With this syntax, the compiler deduces the type of a variable based on the assigned expression, eliminating the need for an explicit type declaration. Type inference can lead to more compact and, in some scenarios, more readable code. However, it can also result in less explicit code that can cause confusion, particularly in a team setting or when revisiting older code. This risk, however, is largely mitigated by modern integrated development environments (IDEs), which often show you the deduced type of the variable. 
 
 There are also pros and cons when it comes to refactoring. On the one hand, type inference can simplify refactoring. For instance, if you change the type of a function's return value, you won’t need to update variables that infer their type from the function. This can expedite refactoring and reduce errors caused by incomplete changes. On the flip side, changing the expression assigned to a variable could unintentionally change the variable's type, potentially introducing bugs that are difficult to detect. This risk is particularly high if the variable is used in many places or in complex ways, as the impact of the type change could be widespread and unexpected.
 
-> #### Type Inference Restrictions
+> #### Type inference restrictions
 > If a routine return value is of type `a`, `d`, or `id`, the compiler will not be able to infer the data type for initial value expressions. Data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
 
-`TODO: note about goto/call out of scopes with local data declarations`
+`TODO: note about GOTO/call out of scopes with local data declarations`
 
-#### DATA Example
+#### DATA example
 The following example shows the basics of data declarations:
 
 ```dbl
@@ -275,7 +275,7 @@ proc
 > hello data
 > ```
 
-### Scope Shadowing
+### Scope shadowing
 DBL follows variable shadowing rules similar to those in other languages, meaning that an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. This follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler<!--Redundant? Or is this saying something new?-->. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, they're worth considering. Here's a short example to illustrate the concept:
 
 ```dbl
@@ -299,7 +299,7 @@ proc
 > hello
 > ```
 
-## Paths and Abbreviated Paths
+## Paths and abbreviated paths
 You can declare the same field name multiple times within a group or named record structure. However, when accessing fields with the same name, ensure that the path used to reach the field is unique. This requirement is due to the compiler's need for specificity when navigating nested structures. Here's an example:
 
 ```dbl

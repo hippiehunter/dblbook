@@ -116,7 +116,8 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 
 #### Common between functions and subroutines
 <!--I think we need an intro line here (or else least a more complete heading) so people understand what this bulleted list is-->
-* access (optional): Sets access levels when defined inside a class. Options include PUBLIC, PROTECTED, PRIVATE, INTERNAL, and PROTECTED INTERNAL. More details in TODO.
+* access (optional): Sets access levels when defined inside a class. Options include PUBLIC, PROTECTED, PRIVATE, INTERNAL, and PROTECTED INTERNAL. 
+> TODO Add more details
 
 * function_mod / subroutine_mod (optional, DBL on .NET only)
   * STATIC: Accessed without a reference object.
