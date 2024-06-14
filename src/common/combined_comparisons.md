@@ -1,5 +1,5 @@
 # Combining Comparisons
-In the previous sections, we explored the fundamentals of relational comparisons, such as == and >, and delved into the essentials of control flow. Building on that foundation, this section, "Combining Comparisons" compares what life would be like with and without Boolean operators. Seeing the fully expanded long form explanation will hopefully make it easier for you to reason about complex logical expressions and also help you break down any overly complex expressions you encounter in your codebase. 
+In the previous sections, we explored the fundamentals of relational comparisons, such as `==` and `>`, and delved into the essentials of control flow. Building on that foundation, this section, "Combining Comparisons," compares what life would be like with and without Boolean operators. Seeing the fully expanded long-form explanation will hopefully make it easier for you to reason about complex logical expressions and also help you break down any overly complex expressions you encounter in your codebase. 
 
 ## Boolean operators
 
@@ -9,7 +9,6 @@ In addition to comparison operators, we have Boolean operators. They compare the
 - **Exclusive OR (`.XOR.`)**: Returns `true` if exactly one operand is true.
 - **AND (`&&` or `.AND.`)**: Returns `true` if both operands are true.
 - **NOT (`!` or `.NOT.`)**: Returns `true` if the operand is false.
-<!--Consider formatting these as bullets rather than a numbered list, which implies steps-->
 
 > Like most programming languages, DBL evaluates Boolean operators from left to right. If the result can be determined by the left operand, DBL won't process the right operand. This is known as short-circuit evaluation.
 

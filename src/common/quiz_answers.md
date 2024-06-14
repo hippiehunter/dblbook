@@ -12,6 +12,7 @@
     -   [ ] Local
     -   [ ] Static
 3.  What are the storage specifiers available for records and groups in DBL?
+<!--ML from Variables section: Not groups. Just records, right?-->
     -   [ ] Static, local, and global
     -   [ ] Stack, global, and local
     -   [x] Stack, static, and local
@@ -32,7 +33,7 @@
     -   [x] Records
     -   [ ] Variables
 7.  True or False: It's mandatory to put ENDRECORD at the end of a record declaration in DBL.
-    - False. It's not mandatory to put ENDRECORD at the end of a record declaration in DBL, but it is considered good form
+    - False. It's not mandatory to put ENDRECORD at the end of a record declaration in DBL, but it is considered good form.
 
 
 ### Primitives
@@ -56,7 +57,7 @@
    
 4. What is the main difference between the decimal and implied-decimal types in DBL?
    - [ ] Decimal types are unsigned; implied-decimal types are signed.
-   - [x] Decimal types are whole numbers; implied-decimal types have a have a sized precision.
+   - [x] Decimal types are whole numbers; implied-decimal types have a sized precision.
    - [ ] Decimal types have a fractional precision; implied-decimal types are whole numbers.
    - [ ] Decimal types are signed; implied-decimal types are unsigned.
    
@@ -92,11 +93,11 @@
 
 
 ### Control Flow
-    - What does this program output if month = 5 instead of 3?
+    - What does this program output if `month` is 5 instead of 3?
       - shrug
-    - What does this program output if month = 5555 instead of 3?
+    - What does this program output if `month` is 5555 instead of 3?
       - "wild month"
-<!--Should we number these? If so, we could have a Part 1 and Part 2-->
+<!--Should both of the above answers be in quotes or without quotes? It seems like they should be the same. Also, should we number these two questions? If so, we could have a Part 1 and Part 2-->
    1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
       - [ ] The statement to be executed when the condition is true
       - [x] The statement to be executed when the condition is false
@@ -115,7 +116,7 @@
       - [ ] THEN is never required in DBL
       - [x] THEN is required if another ELSE or ELSE-IF will follow, but it is not allowed on the last one
 
-   4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in the DBL programming language?
+   4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in DBL?
       - [ ] IF, ELSE IF, ELSE
       - [x] USING, CASE
       - [ ] FOR, WHILE

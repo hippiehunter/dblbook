@@ -1,5 +1,5 @@
 # Primitive  Types
-`Matt's currently reviewing. Comments/changes are in flux`
+<!--Matt's currently reviewing. Comments/changes are in flux-->
 
 In DBL, weakly typed descriptor types<!--do they know what descriptor types are at this point? Maybe this file should start with discussion of types of types?--> like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints. This wasn't really done on purpose—it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically prevented in strongly typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well-organized projects and setting a few compiler switches. 
 
@@ -39,7 +39,7 @@ endsubroutine
 > %DBR-S-STPMSG, STOP
 > ```
 
-You can see from the "u" and "-5:46341" outputs that this scenario wouldn't be a good idea in a real program. You are likely to encounter code like this in legacy DBL programs, but it's very unlikely that it will manifest itself in this obvious way. Because of the age and relative stability of most DBL code, it's more likely with production code that some rarely taken code path is not being tested and is almost never seen in production.
+You can see from the `u` and `-5:46341` outputs that this scenario wouldn't be a good idea in a real program. You are likely to encounter code like this in legacy DBL programs, but it's very unlikely that it will manifest itself in this obvious way. Because of the age and relative stability of most DBL code, it's more likely with production code that some rarely taken code path is not being tested and is almost never seen in production.
 
 DBL can also enforce a more rigid type system, as seen with the string type. Here, a variable declared as a string can only hold string data, and any operation that attempts to change its type will result in a compile-time error. This strict type enforcement promotes data consistency and type safety, reducing runtime errors related to unexpected data conversion. Developers must perform explicit type conversions and cannot rely on the language to coerce types implicitly, leading to more predictable though verbose code.
 
@@ -94,7 +94,7 @@ The size of parameters and return types is determined at runtime, rather than be
 
 When declaring a field like an alpha (`a`) type within a record, structure, group, or class, you would usually specify the size, for example, `myFld, a10`. However, for parameter or return type declarations, the size is omitted, and you would declare it simply as `myFld, a`.
 
-The size of this unsized parameter will then be determined by the length of the argument passed at the time of calling. For example, if you call your routine with `xcall myRoutine("a short alpha")`, the size of the `myFld` parameter would be 13 at this particular call site, reflecting the length of the string "a short alpha".
+The size of this unsized parameter will then be determined by the length of the argument passed at the time of calling. For example, if you call your routine with `xcall myRoutine("a short alpha")`, the size of the `myFld` parameter would be 13 at this particular call site, reflecting the length of the string `a short alpha`.
 
 ```dbl
 main

@@ -23,13 +23,13 @@ Console.WriteLine("Hello World") ;This is a comment
 
 > TODO: add a section describing common patterns in dbl codebases. Routine top comments and the usage as a change log. make suggestions on what to do going forward.
 
-## Documentation Comments
+## Documentation comments
 
 When compiling for .NET, similar to XML documentation in C#, triple semicolons (`;;;`) are used to create documentation comments. These are a special kind of comments that can be processed by a documentation generator to produce software documentation. They are typically placed immediately before the code statement they are annotating.
 
 Documentation comments can be extracted to generate external documentation or used by integrated development environments (IDEs) and code editors to provide contextual hints and auto-completion suggestions.
 
-The XML tags used in DBL doc comments are identical to those used in C# XML documentation. Some of the commonly used XML tags include
+The XML tags used in DBL documentation comments are identical to those used in C# XML documentation. Some of the commonly used XML tags include
 
 - `<summary>`: Provides a short description of the associated code.
 - `<param name="paramName">`: Describes a parameter for a method or function.

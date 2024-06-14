@@ -33,19 +33,19 @@ Several static methods for verifying test results are available to you in `Syner
 **IsNull** and **IsNotNull**: These methods are used to verify that an object is null or not null, respectively. The first parameter is the object to test, and the second parameter is a message to display if the test fails.
 
 ## Traditional DBL
-initial project setup
+Initial project setup
 
 ```console
 dotnet new synTradUnitTestProj -n MyUnitTestProject
 ```
 
-running tests
+Running tests
+Once you've build the project, you can run the test by opening a Visual Studio developer command prompt, moving to the output directory for the project, and then running the following command:
 ```console
-cd 
-vstest.console.exe MyUnitTestProject.dbr
+vstest.console.exe MyUnitTestProject.elb
 ```
 ## .NET
-initial project setup
+Initial project setup
 
 ```console
 dotnet new synNETUnitTest -n MyUnitTestProject
@@ -71,7 +71,7 @@ namespace MyUnitTestProject
 endnamespace
 ```
 
-running tests
+Running tests
 
 ```console
 dotnet test
