@@ -1,5 +1,5 @@
 # Anti-Patterns
 > TODO
-### Inconsistent Globals
+### Inconsistent globals
 
-### Multiple Definitions Of The Same Routine
+### Multiple definitions of the same routine

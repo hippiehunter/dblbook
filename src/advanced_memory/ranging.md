@@ -6,7 +6,7 @@ It's important to be aware that memory overlays can only be applied to fixed-siz
 
 Memory overlays are particularly valuable when dealing with records that represent different subtypes. Often, the first few bytes of a record indicate its specific subtype. By using memory overlays, you can manage this scenario effectively, delivering customized views of your data according to its subtype.
 
-The area referred to by the position indicator starts at the specified offset within the record or group. If the field extends beyond the record being overlaid, you will encounter a compilation error: "Cannot extend record with overlay field". However, if the field extends beyond a non-overlaid record and doesn't overlay another field, DBL extends the record to fit the newly defined field.
+The area referred to by the position indicator starts at the specified offset within the record or group. If the field extends beyond the record being overlaid, you will encounter a compilation error: "Cannot extend record with overlay field." However, if the field extends beyond a non-overlaid record and doesn't overlay another field, DBL extends the record to fit the newly defined field.
 
 To use a position indicator, the literal record must be named, or the field must exist in a GROUP/ENDGROUP block. There are two forms of indicating a field's starting position: absolute and relative.
 
@@ -57,7 +57,7 @@ record contact
 
 In `contact`, `phone` references the entire 14-character field. Furthermore, `area` references the second through fourth characters of `phone`, `prefix` references the seventh through ninth characters, and `line_num` references the last four characters.
 
-You may want to create an overlay, or a new view, on top of an entire existing data structure. This could be a group, record, or common. This can be achieved using the ,X syntax during declaration. When used, `,X` indicates that you're creating an overlay for the most recent nonoverlay entity of the same type. For instance, if you're declaring a new record with ,X, it will overlay the last defined nonoverlay record. Similarly, it works for  groups, and commons. However, there's a special case for external commons - if you use ,X while declaring an external common, it will be ignored. Here's the general format of declaring an overlay
+You may want to create an overlay, or a new view, on top of an entire existing data structure. This could be a group, record, or common. This can be achieved using the ,X syntax during declaration. When used, `,X` indicates that you're creating an overlay for the most recent non-overlay entity of the same type. For instance, if you're declaring a new record with ,X, it will overlay the last defined non-overlay record. Similarly, it works for  groups, and commons. However, there's a special case for external commons—if you use ,X while declaring an external common, it will be ignored. Here's the general format of declaring an overlay
 
 ```dbl
 record interesting_definition
@@ -91,18 +91,18 @@ proc
 You can see from the output that interpreting a decimal field as an alpha can lead to unexpected results, but it is very common for DBL projects to feature this kind of layout. Remember, when adding fields to a record with overlays, you must ensure that the absolute field positions haven't changed. Also, the field specified in the position indicator should have been defined before, and the specified record for overlaying should be the one being overlaid. This memory overlaying feature in DBL allows for efficient memory usage and convenience when working with fixed layouts.
 
 
-### Absolute Ranging
+### Absolute ranging
 A ranged reference in DBL allows you to specify a range of characters within a variable's data space. This range is specified in parentheses following the variable reference and represents the starting and ending character positions relative to the start of the variable's data. The value of a ranged variable is the sequence of characters between, and including, these start and end positions. If the specified range exceeds the limit of the first variable, the range continues onto the next variable.
 
 Ranging is possible on real arrays. An example would be `my_alpha_array[1,2](1,2)`. However, subscripted arrays cannot be ranged, and trying to do so, such as `my_alpha_array(4)(1,2)`, will produce an error.
 
-If the variable being ranged is of implied-decimal type, the value is interpreted as a decimal. Please note that ranging is not permissible beyond the defined size of class data fields, records or when the -qcheck compiler option is specified.
+If the variable being ranged is of implied-decimal type, the value is interpreted as a decimal. Please note that ranging is not permissible beyond the defined size of class data fields, and records or when the -qcheck compiler option is specified.
 
-Absolute ranging specifies the start and end character positions directly. The format for this type of ranging is variable(start_pos,end_pos). 
+Absolute ranging specifies the start and end character positions directly. The format for this type of ranging is `variable(start_pos,end_pos)`. 
 
-### Relative Ranging
+### Relative ranging
 
-Relative ranging allows you to specify a range in terms of a start position and length, or an end position and length backward from that end position. This is done using two numeric expressions separated by a colon in the format variable(position:length).
+Relative ranging allows you to specify a range in terms of a start position and length, or an end position and length backward from that end position. This is done using two numeric expressions separated by a colon in the format `variable(position:length)`.
 
 If the length is positive, the specified position is the starting point, and the length extends forward from this point. The value of the ranged variable is the sequence of characters that begins at the start position and spans the specified length.
 
@@ -110,12 +110,12 @@ Conversely, if the length is negative, the specified position is treated as an e
 
 This relative ranging mechanism provides you with flexible ways to interpret your data, whether you want to view it from a specified starting point forward or from a specified ending point backward.
 
-> #### Range Restrictions
-> In Traditional DBL, referencing beyond the defined area up to the end of the data area is permitted, if your dimension specification exceeds the declared size of its corresponding array dimension. This technique, known as 'over subscripting', 'subscripting off the end', or 'over ranging', is however not allowed in .NET. Moreover, it's also disallowed for class data fields in Traditional DBL, or when the '-qstrict' or '-qcheck' options are specified.
+> #### Range restrictions
+> In Traditional DBL, referencing beyond the defined area up to the end of the data area is permitted if your dimension specification exceeds the declared size of its corresponding array dimension. This technique, known as "over subscripting," "subscripting off the end," or "over ranging," is not allowed in .NET. Moreover, it's also disallowed for class data fields in Traditional DBL or when the `-qstrict` or `-qcheck` options are specified.
 > 
-> While over subscripting might seem like a handy tool, it can introduce a significant number of bugs in production. Therefore, it's highly recommended to employ the '-qcheck' option for all development environments and '-qstrict' for all production builds to prevent these issues.
+> While over subscripting might seem like a handy tool, it can introduce a significant number of bugs in production. Therefore, employing the `-qcheck` option for all development environments and `-qstrict` for all production builds is highly recommended to prevent these issues.
 > 
-> It's essential to note that these rules generally apply to fixed-size data types, such as alpha (a), decimal (d), implied decimal (id), and integer (i), as well as complex structures composed solely of these fixed-size data types. Interestingly, despite not being a fixed-size type, Strings can also be ranged. The compiler handles this by interpreting the contents of the String as if it were an Alpha type, which allows for flexible manipulation within the defined range.
+> It's essential to note that these rules generally apply to fixed-size data types, such as alpha (a), decimal (d), implied decimal (id), and integer (i), as well as complex structures composed solely of these fixed-size data types. Interestingly, despite not being a fixed-size type, strings can also be ranged. The compiler handles this by interpreting the contents of the string as if it were an alpha type, which allows for flexible manipulation within the defined range.
 
 Here's an example showing absolute and relative ranging.
 
