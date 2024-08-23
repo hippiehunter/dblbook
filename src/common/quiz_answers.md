@@ -92,11 +92,12 @@
 
 
 ### Control Flow
-    - What does this program output if `month` is 5 instead of 3?
+    Mini quiz
+    What does this program output if `month` is 5 instead of 3?
       - shrug
-    - What does this program output if `month` is 5555 instead of 3?
+    What does this program output if `month` is 5555 instead of 3?
       - "wild month"
-<!--Should both of the above answers be in quotes or without quotes? It seems like they should be the same. Also, should we number these two questions? If so, we could have a Part 1 and Part 2-->
+<!--Should both of the above answers be in quotes or without quotes? (The output for the example has no quotes.) Also, what makes this have a different font than the rest of the text?-->
    1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
       - [ ] The statement to be executed when the condition is true
       - [x] The statement to be executed when the condition is false
