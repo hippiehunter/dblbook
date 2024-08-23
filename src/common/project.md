@@ -3,7 +3,7 @@ The goal of this assignment is to apply basic programming concepts like variable
 
 **Part 1: Client management**
 
-1.  **Client creation routine**: Write a routine called `CreateClient` that accepts client details (client ID and client name) as arguments and assigns these details to a fields<!--Should this be just "fields"? Or are we talking about alpha fields?--> in a common, along with an initial balance of 0.
+1.  **Client creation routine**: Write a routine called `CreateClient` that accepts client details (client ID and client name) as arguments and assigns these details to fields in a common, along with an initial balance of 0.
 
 2.  **Display client routine**: Write a routine called `DisplayClient` that takes the stored details from an external common and uses `Console.WriteLine` to display these details in a meaningful way.
 

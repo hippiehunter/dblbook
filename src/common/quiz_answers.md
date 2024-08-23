@@ -11,8 +11,7 @@
     -   [x] Data
     -   [ ] Local
     -   [ ] Static
-3.  What are the storage specifiers available for records and groups in DBL?
-<!--ML from Variables section: Not groups. Just records, right?-->
+3.  What are the storage specifiers available for records in DBL?
     -   [ ] Static, local, and global
     -   [ ] Stack, global, and local
     -   [x] Stack, static, and local
