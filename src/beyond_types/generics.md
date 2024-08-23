@@ -37,7 +37,7 @@ endnamespace
 
 In this example, `MyGenericClass` is a generic class with a single type parameter `T`. The class contains a public field of type `T`.
 
-#### Generic class with multiple Type parameters
+#### Generic class with multiple type parameters
 
 ```dbl
 namespace Example
@@ -72,7 +72,7 @@ In this example, `T` is constrained to `BaseClass` or any class derived from `Ba
 
 ### Interface constraints
 
-Interface constraints restrict the type parameter to classes that implement one or more specified interfaces. This ensures that the type argument provides the functionality defined in the interface(s), allowing the generic class to utilize these capabilities.
+Interface constraints restrict the type parameter to classes that implement one or more specified interfaces. This ensures that the type argument provides the functionality defined in the interface, allowing the generic class to utilize these capabilities.
 
 **Syntax:**
 

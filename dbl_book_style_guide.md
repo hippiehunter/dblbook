@@ -39,6 +39,13 @@ end
 
 ## Keywords
 Keywords should be in all caps (e.g., USING-RANGE). Don’t use backticks unless the keyword is in code.
+
 ## Product names
 
 **Traditional DBL.** "Traditional DBL" is considered a product name and should have initial caps.
+
+## Punctuation
+**Dashes.** Don't add spaces around em dashes (—). Do include spaces around en dashes (–). 
+
+`**Decisions to discuss:
+"Traditional" capitalization`

@@ -18,7 +18,7 @@ cd GuessingGame
 
 The first command, `dotnet new`, takes the template name (`SynNetApp`) as the first argument and the name of the project (`GuessingGame`) as the second argument. The second command changes to the new project’s directory.
 
-As you saw in the intro, `dotnet new` generates a "Hello World" program for you. `**Which intro are we referring to? Do we mean "Getting Started"?` Check out the *Program.dbl* file:
+As you saw in the Getting Started section, `dotnet new` generates a "Hello World" program for you. Check out the *Program.dbl* file:
 
 ```dbl
 import System

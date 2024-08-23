@@ -1,40 +1,40 @@
 # Dictionary
-There is nothing built into Traditional DBL that behaves exactly like Dictionary in .NET. However, there are a few of the necessary building blocks so we're going to use this as an opportunity to build our own Dictionary class. This will be a good exercise in using some of the collections and concepts we've covered so far.
+There is nothing built into Traditional DBL that behaves exactly like Dictionary in .NET. However, DBL contains a few of the necessary building blocks, so we're going to use this as an opportunity to build our own Dictionary class. This will be a good exercise in using some of the collections and concepts we've covered so far.
 
-### Whats this useful for?
-Depending on your historical context you might be wondering, why do I care about a dictionary when I can just use an ISAM file? Alternatively you might be wondering why there isnt much of a built-in in-memory associative lookup data structure. I'll start by trying to sell you on the benefits of an in-memory dictionary.
+### What's this useful for?
+Depending on your historical context, you might be wondering, why should I care about a dictionary when I can just use an ISAM file? Alternatively, you might be wondering why there isn't much of a built-in in-memory associative lookup data structure. I'll start by trying to sell you on the benefits of an in-memory dictionary.
 
 Using in-memory dictionaries offers several benefits:
 
     Speed: Accessing and modifying data in memory is orders of magnitude faster than disk operations.
     Efficiency: In-memory operations reduce the overhead of disk I/O, making data processing more efficient.
     Simplicity: Working with data in memory often simplifies the code, reducing the complexity associated with file management. 
-    Serialization: No need to serialize and deserialize data when it's already in memory. More importantly no need to worry about data structures like string that cant be written directly to ISAM files.
+    Serialization: There's no need to serialize and deserialize data when it's already in memory. More importantly, there's no need to worry about data structures like string that can't be written directly to ISAM files.
 
-Now for the downsides and this is why I think in-memory dictionaries arent used much in traditionary DBL code. DBL programs often handle large volumes of data and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.
+Now it's time to discuss the downsides, and these are probably why in-memory dictionaries aren't used much in traditional DBL code. DBL programs often handle large volumes of data, and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.<!--Not sure what "where you should work in on disk structures like a temporary ISAM file" means-->
 
-That said, there are still plenty of scenarios where an in-memory dictionary is a good fit. For example, if you need to perform a series of lookups on a small set of data, it's often more efficient to load the data into memory and perform the lookups there, rather than repeatedly accessing the disk. This is especially true if the data is already in memory, such as when it's being passed from one routine to another. In such cases, using an in-memory dictionary can be a good option. As with all things architecture and performance related your milage may very and you should always test your assumptions.
+That said, there are still plenty of scenarios where an in-memory dictionary is a good fit. For example, if you need to perform a series of lookups on a small set of data, it's often more efficient to load the data into memory and perform the lookups there, rather than repeatedly accessing the disk. This is especially true if the data is already in memory, such as when it's being passed from one routine to another. In such cases, using an in-memory dictionary can be a good option. As with all things architecture and performance related, your mileage may vary, and you should always test your assumptions.
 
 ## Implementation
-Let's jump into a high level overview for our custom implementation of a dictionary-like data structure, combining the Symbol Table API with `System.Collections.ArrayList` to manage string lookups of arbitrary objects.
+Let's jump into a high-level overview for our custom implementation of a dictionary-like data structure, combining the Symbol Table API with System.Collections.ArrayList to manage string lookups of arbitrary objects.
 
 ### Overview
 - **Purpose:** To create a dictionary for string-based key lookups.
-- **Key Components:**
+- **Key components:**
   - Symbol Table API: For handling key-based lookups.
-  - `System.Collections.ArrayList`: For storing objects.
+  - System.Collections.ArrayList: For storing objects.
 - **Operations Supported:** Add, Find, Delete, and Clear entries.
 
-### Class Structure
+### Class structure
 
-#### `StringDictionary` Class
+#### `StringDictionary` class
 - **Purpose:** Acts as the main dictionary class.
-- **Key Components:**
-  - `symbolTableId`: Identifier for the symbol table.
+- **Key components:**
+  - `symbolTableId`: The identifier for the symbol table.
   - `objectStore`: An ArrayList to store objects.
-  - `freeIndicies`: An ArrayList to manage free indices in `objectStore`.
+  - `freeIndicies`:<!--Should this be freeIndices throughout, including the sample code?--> An ArrayList to manage free indices in `objectStore`.
 
-#### `KeyValuePair` Inner Class
+#### `KeyValuePair` inner class
 - **Purpose:** Represents a key-value pair.
 - **Components:**
   - `Key`: The key (string).
@@ -50,32 +50,32 @@ Let's jump into a high level overview for our custom implementation of a diction
 ### Destructor: `~StringDictionary()`
 - Closes the symbol table using `nspc_close`.
 
-### Methods Overview
-1. **Add Method:**
+### Methods overview
+1. **Add method:**
    - Adds a new key-value pair to the dictionary.
    - Checks for duplicate keys using `nspc_find`.
    - If no duplicate, adds the key-value pair using `nspc_add`.
 
-2. **TryGet Method:**
+2. **TryGet method:**
    - Tries to get the value for a given key.
    - Uses `nspc_find` to locate the key.
    - If found, retrieves the value from `objectStore`.
 
-3. **Get Method:**
+3. **Get method:**
    - Retrieves the value for a given key.
-   - Similar to `TryGet`, but throws an exception if the key is not found.
+   - Similar to `TryGet` but throws an exception if the key is not found.
 
-4. **Set Method:**
+4. **Set method:**
    - Sets or updates the value for a given key.
    - If the key exists, updates the value.
    - If the key doesn't exist, adds a new key-value pair.
 
-5. **Remove Method:**
+5. **Remove method:**
    - Removes a key-value pair from the dictionary.
    - Uses `nspc_find` to locate the key.
    - Deletes the entry using `nspc_delete`.
 
-6. **Contains Method:**
+6. **Contains method:**
    - Checks if a key exists in the dictionary.
 
 7. **Clear Method:**
@@ -94,11 +94,11 @@ Let's jump into a high level overview for our custom implementation of a diction
    - Manages removing objects from `objectStore`.
    - Adds the index to `freeIndicies`.
 
-### Symbol Table API Integration
-- The Symbol Table API (`%NSPC_ADD`, `%NSPC_FIND`, `%NSPC_DELETE`, etc.) is used for managing keys in the dictionary.
+### Symbol Table API integration
+- The Symbol Table API (%NSPC_ADD, %NSPC_FIND, %NSPC_DELETE, etc.) is used for managing keys in the dictionary.
 - `objectStore` holds the actual objects, while the symbol table keeps track of the keys and their corresponding indices in `objectStore`.
 
-### Error Handling
+### Error handling
 - The class includes error handling for situations like duplicate keys or keys not found.
 
 ### Usage
@@ -160,7 +160,7 @@ namespace DBLBook.Collections
 			index, i4
 		proc
 			freeIndicies.Add((@i4)index)
-			;;cant just call removeAt because it would throw off all of the objects that are stored after it
+			;;can't just call removeAt because it would throw off all of the objects that are stored after it
 			;;so we just add to a free list and manage the slots that way
 			objectStore[index] = ^null
 		endmethod

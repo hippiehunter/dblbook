@@ -1,6 +1,6 @@
 # Control Flow
 
-`**A brief intro would be good`
+<!--A brief intro would be good-->
 
 ### IF-THEN-ELSE
 IF is the most basic statement that allows for conditional control flow in a DBL program. The IF statement checks a specified condition (a statement that evaluates to a Boolean value), and if the condition is true, it executes an associated code block&mdash;i.e., a statement or a BEGIN-END block.
@@ -15,7 +15,7 @@ begin
 end
 ```
 
-An ELSE statement is used in conjunction with an IF statement to provide an alternative branch of execution when the IF condition is not met (when it evaluates to false). The THEN keyword is required in this case, and it makes the syntax more readable, clearly defining the separate paths of execution. The general structure is this: `IF condition THEN statement_1 ELSE statement_2`. You will often see this form in DBL code: `IF(condition) statement`. The parentheses can improve readability but are entirely optional.
+An ELSE statement is used in conjunction with an IF statement to provide an alternative branch of execution when the IF condition is not met (i.e., when it evaluates to false). The THEN keyword is required in this case, and it makes the syntax more readable, clearly defining the separate paths of execution. The general structure is this: `IF condition THEN statement_1 ELSE statement_2`. You will often see this form in DBL code: `IF(condition) statement`. The parentheses can improve readability but are entirely optional.
 
 Here's a basic example with THEN and ELSE:
 
@@ -102,7 +102,7 @@ CASE is the most basic of the multi-way control statements. It selects from a se
 
 - **Unlabeled CASE** - The control expression is non-implied numeric (no decimal point) and is interpreted as an ordinal number 1 through *n*, where *n* is the number of statements in the set. For example, a value of 6 selects the sixth code block.
 
-- **Labeled CASE** - All code blocks are identified with labels that must be literals and of the same type as the control expression. A Label can be a single literal or a range (delineated with a hyphen). The control expression is matched with these labels to select the corresponding code block.
+- **Labeled CASE** - All code blocks are identified with labels that must be literals and of the same type as the control expression. A label can be a single literal or a range (delineated with a hyphen). The control expression is matched with these labels to select the corresponding code block.
 
 ELSE is used to specify a block of code to be executed if no case labels match the value of the switch expression. It's akin to an ELSE clause in an IF-THEN-ELSE conditional block. If the ELSE case is not provided and no match is found, the CASE statement will simply do nothing.
 
@@ -159,7 +159,7 @@ proc
 
 ### USING
 
-The USING statement selects a code block for execution based on the evaluation of a control expression against one or more match term conditions. Each match term is evaluated from top to bottom and left to right. Once a match is found, no other condition is evaluated. If no match is found, the null term (open and closing parentheses with nothing between them) is used if it is specified. The USING statement is more efficient than CASE when using an `i` or `d` control expression and when all match terms are compile-time literals.
+The USING statement selects a code block for execution based on the evaluation of a control expression against one or more match term conditions. Each match term is evaluated from top to bottom and left to right. Once a match is found, no other condition is evaluated. If no match is found, the null term (opening and closing parentheses with nothing between them) is used if it is specified. The USING statement is more efficient than CASE when using an i or d control expression and when all match terms are compile-time literals.
 
 ```dbl
 record
@@ -194,7 +194,7 @@ proc
 
 The USING-RANGE statement is similar to USING but adds a range for the control expression. This allows you to define a range of values within which the control expression is evaluated, enabling you to supply separate default code blocks for values that fall within the range (by using the %INRANGE label) and values that are outside the range (by using the %OUTRANGE label). The USING-RANGE statement builds a dispatch table at compile time and is typically faster than the USING statement. 
 
-In the following example, the range 1-12 is specified for the USING-RANGE statement, so any value from 1 through 12 is considered in range and will invoke the (%INRANGE) code block if there is no more specific match. In the example, however, there is a more specific match (3), so the `monthName = "March"` statement is executed. If `month` was instead set to 10, the %INRANGE statement would be executed (resulting in "shrug"). But if `month` was set to 13, the %OUTRANGE statement would be executed, and the output would be "wild month".
+In the following example, the range 1-12 is specified for the USING-RANGE statement, so any value from 1 through 12 is considered in range and will invoke the (%INRANGE) code block if there is not a more specific match. The example, however, contains a more specific match (3), so the `monthName = "March"` statement is executed. If `month` was instead set to 10, the %INRANGE statement would be executed (resulting in "shrug"). But if `month` was set to 13, the %OUTRANGE statement would be executed, and the output would be "wild month".
 
 
 ```dbl
@@ -232,20 +232,22 @@ proc
 > What does this program output if `month` is 5 instead of 3? 
 >
 > What does this program output if `month` is 5555 instead of 3?
+<!--Should we number these?-->
 
-
-While each of these multi-way control mechanisms has its uses, in most modern coding scenarios USING tends to be the go-to choice due to its flexibility and powerful matching conditions. The CASE statement is straightforward and simple to use, and you'll frequently encounter it in legacy code (it was developed earlier than USING). But it is generally slower. Also, the USING-RANGE statement provides a slight efficiency boost when a control expression is evaluated within a predefined range.
+While each of these multi-way control mechanisms has its uses, in most modern coding scenarios, USING tends to be the go-to choice due to its flexibility and powerful matching conditions. The CASE statement is straightforward and simple to use, and you'll frequently encounter it in legacy code (as it was developed earlier than USING). But it is generally slower. Also, the USING-RANGE statement provides a slight efficiency boost when a control expression is evaluated within a predefined range.
 
 It's important to consider several factors when deciding which mechanism to use in your specific use case. These include the complexity of your matching conditions, the need for a defined range for the control expression, and the importance of execution speed. However, given its power and versatility, the USING statement is often a sensible default choice for new code.
 
 ## Loops
 
-Loops are foundational constructs used to automate and repeat tasks a certain number of times, or until a specific condition is met. FOR loops are typically used in cases where the exact number of iterations is known beforehand, whereas WHILE and WHILE-DO loops are more suitable when iterations depend on certain conditions. FOREACH is used to improve readability when operating over a collection or dynamic array. 
+Loops are foundational constructs used to automate and repeat tasks a certain number of times or until a specific condition is met. FOR loops are typically used in cases where the exact number of iterations is known beforehand, whereas WHILE and WHILE-DO loops are more suitable when iterations depend on certain conditions. FOREACH is used to improve readability when operating over a collection or dynamic array. 
 
-There are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative that can be more intuitive for certain tasks, such as traversing tree-like data structures. However, recursion can lead to higher memory usage and potential stack overflow errors if it is not used correctly. Furthermore, earlier, less structured looping mechanisms, such as the GOTO statement, can be used to jump to different points in the code. Some of these less structured mechanisms can be useful, but GOTO, which provides a great degree of freedom, often leads to "spaghetti code," which is hard to read and maintain due to its lack of structure. We'll discuss GOTO and other less structured mechanisms in [Unconditional control flow](#unconditional-control-flow) below.
+There are other methods to handle repetition in code. For instance, recursion, where a function calls itself, is an alternative that can be more intuitive for certain tasks, such as traversing tree-like data structures. However, recursion can lead to higher memory usage and potential stack overflow errors if it is not used correctly. 
+
+Earlier, less structured looping mechanisms, such as the GOTO statement, can be used to jump to different points in the code. Some of these mechanisms can be useful, but GOTO, which provides a great degree of freedom, often leads to "spaghetti code" that is hard to read and maintain due to its lack of structure. We'll discuss GOTO and other less structured mechanisms in [Unconditional control flow](#unconditional-control-flow) below.
 
 ### FOR-FROM-THRU
-The FOR-FROM-THRU loop (`FOR variable FROM initial THRU final [BY incr]`) executes a statement as long as the value of a variable (*variable*) is within the specified range. The variable's value is incremented after each iteration. The default increment value is 1, but you can specify an increment amount by using `BY incr`.
+The FOR-FROM-THRU loop (`FOR variable FROM initial THRU final [BY incr]`) executes a statement as long as the value of a variable (*variable*) is within the specified range. The variable's value is incremented after each iteration. The default increment value is 1, but you can specify an increment amount using `BY incr`.
 
 ```dbl
 record
@@ -309,7 +311,7 @@ proc
 ### FOREACH-IN
 The FOREACH-IN loop (`FOREACH loop_var IN collection [AS type]`) iterates over each element in a collection, setting a loop variable (*loop_var*) to each element in turn and executing the code block. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
 
-You can use DATA to declare the iteration variable directly inside a FOREACH loop. If the compiler can't infer the type of the variable, you will need to specify it using the `AS type` syntax, which is discussed below. Here's an example with and without an inline variable declaration:
+You can use the DATA statement to declare the iteration variable directly inside a FOREACH loop. If the compiler can't infer the variable's type, you will need to specify it using the `AS type` syntax, which is discussed below. Here's an example with and without an inline variable declaration:
 
 ```dbl
 record
@@ -434,7 +436,7 @@ proc
 	end
 ```
 
-Use **NEXTLOOP** when you want to terminate the current iteration of a loop, but not all remaining iterations. After executing NEXTLOOP, control goes to the next iteration of the current loop (DO, FOR, REPEAT, WHILE, etc.). 
+Use **NEXTLOOP** when you want to terminate the current iteration of a loop but not all remaining iterations. After executing NEXTLOOP, control goes to the next iteration of the current loop (DO, FOR, REPEAT, WHILE, etc.). 
 
 ```dbl
 record
@@ -463,35 +465,35 @@ proc
 >Current Counter Value: 10
 >```
 
-As a best practice, limit or eliminate the use of GOTO, as it can make code difficult to read and maintain. Structured control flow with loops, conditionals, and routine calls is preferable. EXIT and EXITLOOP, however, can be very useful for managing control flow, especially when you need to leave a loop or block due to an error condition or when a certain condition is met. NEXTLOOP is also a handy tool when you want to skip the current iteration and continue with the next one.
+As a best practice, limit or eliminate the use of GOTO, as it can make code difficult to read and maintain. Structured control flow with loops, conditionals, and routine calls is preferable. EXIT and EXITLOOP can be very useful for managing control flow, especially when you need to leave a loop or block due to an error condition or when a certain condition is met. NEXTLOOP is also a handy tool when you want to skip the current iteration and continue with the next one.
 
 > ## Quiz
-> 1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does statement2 represent?
->    - [ ] The statement to be executed when the condition is true.
->    - [ ] The statement to be executed when the condition is false.
->    - [ ] The condition to be checked after the initial condition is checked.
->    - [ ] The default statement that is always executed.
+> 1. Consider the following IF construct: `IF condition THEN statement1 ELSE statement2`. What does `statement2` represent?
+>    - [ ] The statement to be executed when the condition is true
+>    - [ ] The statement to be executed when the condition is false
+>    - [ ] The condition to be checked after the initial condition is checked
+>    - [ ] The default statement that is always executed
 > 
 > 2. In an IF construct, are parentheses around the condition required?
->    - [ ] Yes, the condition must always be enclosed in parentheses.
->    - [ ] Yes, but only when using the ELSE IF clause.
->    - [ ] No, parentheses can improve readability but are entirely optional.
->    - [ ] No, parentheses are not allowed in the IF construct.
+>    - [ ] Yes, the condition must always be enclosed in parentheses
+>    - [ ] Yes, but only when using the ELSE IF clause
+>    - [ ] No, parentheses can improve readability but are entirely optional
+>    - [ ] No, parentheses are not allowed in the IF construct
 > 
 > 3. Which statement about THEN in DBL is correct?
->    - [ ] THEN is always required in IF and ELSE IF statements.
->    - [ ] THEN is only required in IF statements.
->    - [ ] THEN is never required in DBL.
->    - [ ] THEN is required if another ELSE or ELSE-IF will follow but it is not allowed on the last one.
+>    - [ ] THEN is always required in IF and ELSE IF statements
+>    - [ ] THEN is only required in IF statements
+>    - [ ] THEN is never required in DBL
+>    - [ ] THEN is required if another ELSE or ELSE IF will follow, but it is not allowed on the last one
 > 
-> 4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in the DBL programming language?
+> 4. Consider you have a piece of code where you need to execute different blocks of code based on the value of a single variable. Which control flow structures are the most appropriate for this purpose in DBL?
 >    - [ ] IF, ELSE IF, ELSE
 >    - [ ] USING, CASE
 >    - [ ] FOR, WHILE
 >    - [ ] BEGIN, END
 > 
 > 5. What is the purpose of the ELSE clause in a CASE control flow statement?
->    - [ ] It provides a condition to be checked if no prior conditions have been met.
->    - [ ] It acts as the default case that is always executed.
->    - [ ] It specifies a block of code to be executed if no case labels match the value of the switch expression.
->    - [ ] It causes the program to exit the CASE statement if no match is found.
+>    - [ ] It provides a condition to be checked if no prior conditions have been met
+>    - [ ] It acts as the default case that is always executed
+>    - [ ] It specifies a block of code to be executed if no case labels match the value of the switch expression
+>    - [ ] It causes the program to exit the CASE statement if no match is found
