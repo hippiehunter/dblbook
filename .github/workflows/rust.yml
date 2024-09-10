@@ -21,8 +21,8 @@ jobs:
           profile: minimal
           override: true
 
-      - name: Install mdbook-svgbob
-        run: cargo install mdbook-svgbob
+      - name: Install mdbook-svgbob2
+        run: cargo install mdbook-svgbob2
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
