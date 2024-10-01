@@ -9,7 +9,7 @@ The basic syntax for an assignment operation is
 -   `destination`: A simple, subscripted, or ranged variable that will be modified.
 -   `source`: An expression whose evaluated result is assigned to the destination variable.
 
-### Assignment Operator Examples
+### Assignment operator examples
 
 For instance, the following assignment operation:
 
@@ -31,13 +31,13 @@ DBL typically rounds results when storing from an implied-decimal source express
 
 > TODO: init and clear
 
-Data Type Assignments
+Data type assignments
 ---------------------
 
 The rules for moving data between variables of different types vary based on the data types involved.
 
-### Alpha to Alpha
-when the source and destination are of the same length in an alpha-to-alpha assignment, data is directly copied from the source to the destination. However, if the lengths differ, specific rules are followed:
+### Alpha to alpha
+When the source and destination are of the same length in an alpha-to-alpha assignment, data is directly copied from the source to the destination. However, if the lengths differ, specific rules are followed:
 
 1.  When the source data length is shorter than the destination's, the data is copied from the source to the destination starting from the left. Any remaining space in the destination is filled with blank spaces to the right.
 2.  When the source data length exceeds that of the destination, only the leftmost characters from the source are copied until the destination space is filled. Notably, this process does not trigger any warning or error, meaning the extra characters from the source are simply ignored and not copied.
@@ -62,10 +62,10 @@ proc
 > 1234
 > ```
 
-### Alpha to String
+### Alpha to string
 Directly assigning an alpha to a string may not yield the desired results, as whitespace behaves differently in strings and alphas. In strings, leading whitespace is significant, while in alphas it's generally ignored. Therefore, if you assign an alpha to a string as in `string_var = a500Var`, you'll get a 500-character-long string, even if it's all whitespace. To circumvent this and ignore leading whitespace, use `string_var = %atrimtostring(a500var)`
 
-### Alpha to Numeric
+### Alpha to numeric
 The process of assigning an alpha to a numeric destination involves several steps:
 
 1.  Evaluate the source: The alpha source data is evaluated to produce a numeric value.
@@ -114,7 +114,7 @@ proc
 > Unhandled exception. Synergex.SynergyDE.BadDigitException: Bad digit encountered
 > ```
 
-### Numeric to Alpha
+### Numeric to alpha
 When assigning numeric data to an alpha destination, the runtime must format numeric data to fit the destination. The assignment takes into account whether the format is implicitly or explicitly specified in the statement.
 
 If the source data is integer, packed, or implied-packed, it is first converted to decimal format before the assignment.
@@ -129,7 +129,7 @@ If the source is a numeric expression, the assignment follows these rules:
 4.  Handle larger source than destination: If the source value, including any decimal point, has more digits than the destination can hold, only the rightmost part is transferred. If the source is negative, the minus sign is omitted without raising any warning or error.
 5.  Handle equivalent source and destination sizes: If the number of digits and any decimal point in the source is the same size as the destination, all digits are transferred. Similar to the previous rule, if the source value is negative, the minus sign is omitted, and no warning or error is raised.
 
-Let's look at some examples of decimal-to-alpha assignments following these implicit formatting rules. Notice the leading whitespace and the effect of storing into the a9 vs a6 fields:
+Let's look at some examples of decimal-to-alpha assignments following these implicit formatting rules. Notice the leading whitespace and the effect of storing into the `a9` vs `a6` fields:
 
 ```dbl
 record
@@ -241,7 +241,7 @@ proc
 > ```
 
 ### Explicit justify
-When you make a numeric-to-alpha assignment the formatted information gets loaded right-justified by default. To change it, you can include a justification control—either `LEFT` or `RIGHT`—at the end of the assignment statement, like this: `statement[ [justification[:variable]]]`. Here, variable is updated with the number of characters loaded into the destination, not counting leading blanks.
+When you make a numeric-to-alpha assignment, the formatted information gets loaded right-justified by default. To change it, you can include a justification control—either `LEFT` or `RIGHT`—at the end of the assignment statement, like this: `statement[ [justification[:variable]]]`. Here, variable is updated with the number of characters loaded into the destination, not counting leading blanks.
 
 The following examples illustrate the usage and combination with explicit formatting. As with explicit formatting, this syntax does not work when the assignment operator is not the only thing on the line. 
 

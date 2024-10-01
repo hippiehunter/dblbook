@@ -3,7 +3,7 @@
 <!--A brief intro would be good-->
 
 ### IF-THEN-ELSE
-IF is the most basic statement that allows for conditional control flow in a DBL program. The IF statement checks a specified condition (a statement that evaluates to a Boolean value), and if the condition is true, it executes an associated code block&mdash;i.e., a statement or a BEGIN-END block.
+IF is the most basic statement that allows for conditional control flow in a DBL program. The IF statement checks a specified condition (a statement that evaluates to a Boolean value), and if the condition is true, it executes an associated code block&mdash;e.g., a statement or a BEGIN-END block.
 
 Here's a basic example: 
 
@@ -72,7 +72,7 @@ proc
         Console.WriteLine("fld1 is on its way up")
 ```
 
-> #### Compiler Output
+> #### Compiler output
 > ```
 > %DBL-E-INVSTMT, Invalid statement at or near {END OF LINE} : else
 > %DBL-E-NOSPECL, Else part expected : Console.WriteLine("fld1 is on its way up")
@@ -159,7 +159,7 @@ proc
 
 ### USING
 
-The USING statement selects a code block for execution based on the evaluation of a control expression against one or more match term conditions. Each match term is evaluated from top to bottom and left to right. Once a match is found, no other condition is evaluated. If no match is found, the null term (opening and closing parentheses with nothing between them) is used if it is specified. The USING statement is more efficient than CASE when using an i or d control expression and when all match terms are compile-time literals.
+The USING statement selects a code block for execution based on the evaluation of a control expression against one or more match term conditions. Each match term is evaluated from top to bottom and left to right. Once a match is found, no other condition is evaluated. If no match is found, the null term (opening and closing parentheses with nothing between them) is used if it is specified. The USING statement is more efficient than CASE when using an `i` or `d` control expression and when all match terms are compile-time literals.
 
 ```dbl
 record
@@ -228,11 +228,10 @@ proc
 > March
 > ```
 
-> #### Quiz
-> What does this program output if `month` is 5 instead of 3? 
+> #### Mini quiz
+> - What does this program output if `month` is 5 instead of 3? 
 >
-> What does this program output if `month` is 5555 instead of 3?
-<!--Should we number these?-->
+> - What does this program output if `month` is 5555 instead of 3?
 
 While each of these multi-way control mechanisms has its uses, in most modern coding scenarios, USING tends to be the go-to choice due to its flexibility and powerful matching conditions. The CASE statement is straightforward and simple to use, and you'll frequently encounter it in legacy code (as it was developed earlier than USING). But it is generally slower. Also, the USING-RANGE statement provides a slight efficiency boost when a control expression is evaluated within a predefined range.
 
@@ -309,7 +308,7 @@ proc
 ```
 
 ### FOREACH-IN
-The FOREACH-IN loop (`FOREACH loop_var IN collection [AS type]`) iterates over each element in a collection, setting a loop variable (*loop_var*) to each element in turn and executing the code block. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid Cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
+The FOREACH-IN loop (`FOREACH loop_var IN collection [AS type]`) iterates over each element in a collection, setting a loop variable (*loop_var*) to each element in turn and executing the code block. Note that the loop variable must be the same type as the elements in the collection, or an "Invalid cast" exception will occur. We'll cover collections and arrays in more detail in the [Collections](../collections/collections.md) chapter.
 
 You can use the DATA statement to declare the iteration variable directly inside a FOREACH loop. If the compiler can't infer the variable's type, you will need to specify it using the `AS type` syntax, which is discussed below. Here's an example with and without an inline variable declaration:
 
