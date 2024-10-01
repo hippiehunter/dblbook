@@ -4,7 +4,7 @@ Welcome to The DBL Programming Language, your introductory guide to understandin
 
 DIBOL, which stands for Digital's Business Oriented Language, was a general-purpose, procedural, and imperative programming language initially developed and marketed by Digital Equipment Corporation (DEC) in 1970. Designed primarily for use in management information systems (MIS) software development, DIBOL was deployed across a range of DEC systems, from the PDP-8 running COS-300 to the PDP-11 with COS-350, RSX-11, RT-11, and RSTS/E, and eventually on VMS systems with DIBOL-32. DIBOL development by DEC effectively ceased after 1993.
 
-DBL, developed by DISC (now Synergex), emerged as a successor to DIBOL. After an agreement between DEC and DISC, DBL replaced DIBOL on OpenVMS, Digital UNIX, and SCO Unix. It has since been further developed and supported by Synergex, adding support for object-oriented and Functional programming styles. 
+DBL, developed by DISC (now Synergex), emerged as a successor to DIBOL. After an agreement between DEC and DISC, DBL replaced DIBOL on VMS, Digital UNIX, and SCO Unix. It has since been further developed and supported by Synergex, adding support for object-oriented and Functional programming styles. 
 
 DBL strikes a balance between the business functionality offered by DIBOL and the incorporation of modern programming paradigms. By integrating procedural syntax, reminiscent of its DIBOL roots, with contemporary features like object-oriented programming, DBL allows programmers to manage their organization's complex business logic. Moreover, DBL's extensive support for various file access methods and data types makes it an excellent choice for data-intensive applications.
 
@@ -25,7 +25,7 @@ This book assumes that you’ve written code in another programming language but
 
 ## How to Use This Book
 
-In general, this book assumes that you’re reading it in sequence from front to back. Later chapters build on concepts in earlier chapters, and earlier chapters might not delve into details on a particular topic but will revisit it in a later chapter. Some chapters can be skipped if your codebase doesn't use the features that they cover. (An example is the I/O chapter.) However, you should still read a chapter that covers newer .NET-specific features, even if your codebase doesn't currently use those features.
+In general, this book assumes that you’re reading it in sequence from front to back. Later chapters build on concepts in earlier chapters, and earlier chapters might not delve into details on a particular topic but will revisit it in a later chapter. Some chapters can be skipped if your codebase doesn't use the features that they cover. (An example is the "Persisting Your Data: ISAM" chapter.) However, you should still read a chapter that covers newer .NET-specific features, even if your codebase doesn't currently use those features.
 
 ## Special Thanks
 

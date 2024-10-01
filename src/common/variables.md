@@ -2,9 +2,9 @@
 <!--ML is actively working on this (11/16), so comments/changes are provisional at this point-->
 <!--ML: Should "field" be defined or discussed, or is it really just the same thing as it is in other languages?-->
 
-DBL routines have two main divisions: the data division and the procedure division. The data division <!--ML: ..., which precedes the PROC statement in a DBL routine,...(?)--> is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
+DBL routines have two main divisions: the data division and the procedure division. The data division (which precedes the PROC statement in a DBL routine) is where data items, such as records and groups, are declared and organized. The procedure division, on the other hand, contains the executable code, or the operations performed on these data items.
 
-Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the DATA keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. <!--LK: I think we can omit the preceding sentence.--> This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
+Historically, the separation between these two divisions was strict, but more recent versions of DBL allow for variable declarations within the procedure division using the DATA keyword. This is similar to the transition from C89 to C99, where variable declarations were allowed within the body of a function. This change has been a welcome addition to DBL, as it allows for more readable and maintainable code.
 
 ## Records
 Within the data division, records are structured data containers that can be either named or unnamed. They can hold multiple related data items of various types, but they differ from the aggregate data structures in other languages in that they represent an instance as well as a type definition. The compiler doesn't require you to put ENDRECORD at the end of a record, but it is considered good form. Records are considered a top-level declaration within the data division, so while you can nest groups within records, you cannot nest records within records. 
@@ -47,8 +47,7 @@ Top-level data division records can be declared with different storage specifier
 <!--ML: instance and definition-->
 "Groups" allow for nested organization and fixed-size arrays. Although groups are frequently employed as composite data types, the preferred approach for new code is to use a "structure." (We'll get around to structures in the chapter on [complex types](../complex_types/structures.md).) This suggestion to prefer structures stems from the fact that these complex data types, even when implemented as group parameters, essentially function as alpha blobs. Consequently, the compiler's type checker is unable to assist in detecting mismatches or incompatibilities, making structures a safer and more efficient option<!--ML: because they're costlier to access than structures [LK: Should this say "costlier to access than groups"?]-->.
 
-### COMMON and global data section (GDS)
-<!--How about "Commons and global data sections (GDS)"?-->
+### Commons and global data section (GDS)
 
 Both the COMMON statement and GLOBAL data sections serve to establish shared data areas that are accessible by other routines within a program. However, they differ in how they link the shared data.
 
@@ -245,7 +244,7 @@ There are also pros and cons when it comes to refactoring. On the one hand, type
 > #### Type inference restrictions
 > If a routine return value is of type `a`, `d`, or `id`, the compiler will not be able to infer the data type for initial value expressions. Data types such as structures, classes, and sized primitives can be correctly inferred by the compiler.
 
-`TODO: note about GOTO/call out of scopes with local data declarations`
+`TODO: note about GOTO/CALL out of scopes with local data declarations`
 
 #### DATA example
 The following example shows the basics of data declarations:
@@ -276,7 +275,7 @@ proc
 > ```
 
 ### Scope shadowing
-DBL follows variable shadowing rules similar to those in other languages, meaning that an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. This follows in the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler<!--Redundant? Or is this saying something new?-->. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, they're worth considering. Here's a short example to illustrate the concept:
+DBL follows variable shadowing rules similar to those in other languages, meaning that an identifier declared within a scope can shadow an identifier with the same name in an outer scope. For example, if a global variable and a local variable within a function have the same name, the local variable takes precedence within its scope. This follows the pattern of the most narrowly scoped declaration of a variable being silently chosen by the compiler. This can lead to situations where changes to the local variable do not affect the global variable, even though they share the same name. While shadowing can be used to create private instances of variables within scopes, it can also lead to confusion and errors if not managed carefully, as it may not be clear which variable is being referred to at a given point in the code. If you don't already have code review conventions to manage this risk, they're worth considering. Here's a short example to illustrate the concept:
 
 ```dbl
 record

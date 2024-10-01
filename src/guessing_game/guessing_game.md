@@ -26,7 +26,7 @@ proc
 endmain
 ```
 
-Now let’s compile this “Hello World” program and run it in the same step using the `dotnet run` command:
+Now let’s compile this "Hello World" program and run it in the same step using the `dotnet run` command:
 
 ```console
 dotnet run Program.dbl
@@ -207,7 +207,7 @@ Please input your guess.
 Too small!
 ```
 
-You might be tempted to input something other than a number to see what happens. Go ahead and try it. You'll see something like this:
+You might be tempted to experiment with inputting something other than a number to see what happens. Go ahead and try it. You'll see something like this:
 
 ```console
 dotnet run
