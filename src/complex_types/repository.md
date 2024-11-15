@@ -63,4 +63,4 @@ The .INCLUDE statement is used to include a repository structure in a program. T
 
 -   Use RPSMFIL and RPSTFIL instead of DBLDICTIONARY because these environment variables are compatible with the Synergy/DE Repository.
 ### Relationship to SMC
-<!--Need content for this section-->
+TODO Add content for this section

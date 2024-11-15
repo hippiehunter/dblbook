@@ -1,5 +1,4 @@
 # Arrays
-
 ## Real arrays and pseudo arrays
 
 Fixed size arrays can either be "real" or "pseudo." While pseudo arrays are deprecated and not recommended for use, understanding their properties and limitations is still beneficial. It's important to note that, unlike many other programming languages, DBL uses a one-based indexing system for arrays, meaning that array elements start at index 1.
