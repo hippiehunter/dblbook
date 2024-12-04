@@ -1,5 +1,5 @@
 # Synergy Data Language
-
+<!--Need to change the TOC (which currently says "Repository Schema") to match this heading-->
 **Synergy Data Language Rules**
 
 When using the Synergy Data Language (schema) with DBL, adhere to the following rules:

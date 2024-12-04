@@ -1,4 +1,4 @@
-### Interacting with a REST API to Retrieve JSON Data
+# Interacting with a REST API to Retrieve JSON Data
 
 Now that you're familiar with basic HTTP interactions using DBL, let's delve into something more complex: calling a REST API and processing JSON data. We'll use `jsonplaceholder.typicode.com` for this purpose, a fake online REST API often used for testing and prototyping. Specifically, we'll retrieve a list of posts and then process the JSON response using the `System.Text.Json.JsonDocument` API in DBL.
 

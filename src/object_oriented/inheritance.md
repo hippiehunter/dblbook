@@ -1,7 +1,7 @@
-# Inheritance
+# Inheritance and Polymorphism
 One of the earliest object-oriented programming concepts taught is that of inheritance and polymorphism. At its core, this concept teaches that a derived class can inherit properties and behaviors from a base class and can override or extend these behaviors. This foundational concept is pivotal in building scalable and maintainable software. A common example is different shapes (`Circle`, `Rectangle`, etc.) all inheriting from a base `Shape` class. But we're going to try something just the slightest bit less contrived that you might actually be able to use. As developers delve deeper into OOP and software design patterns, the utility of polymorphism begins to shine in more subtle, advanced, and powerful ways. One of these is the delegation pattern, which can be thought of as an evolution or specialized use of polymorphism.
 
-### The delegate pattern via base class
+### The delegation pattern via base class
 
 In the delegation pattern, instead of performing a task itself, an object delegates the task to a helper object. This can be achieved elegantly using polymorphism by defining an [interface](../beyond_types/interfaces.md) or a base class and then creating delegate classes that implement the specific behavior.
 
