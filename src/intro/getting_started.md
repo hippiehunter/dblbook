@@ -1,4 +1,4 @@
-## Getting Started
+# Getting Started
 
 Let’s start your DBL journey! There’s a lot to learn, but every journey starts somewhere. In this chapter, we’ll discuss
 
