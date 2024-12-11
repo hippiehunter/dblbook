@@ -20,6 +20,7 @@
   - [Control Flow](./common/control_flow.md)
   - [Combining Comparisons](./common/combined_comparisons.md)
   - [Routines](./common/routines.md)
+  - [Preprocessor](./common/preprocessor.md)
   - [Quiz Answers](./common/quiz_answers.md)
 - [Fetching Fun: A Simple HTTP Client Project](./fetching/fetching.md)
   - [HTTP Routines](./fetching/http.md)
