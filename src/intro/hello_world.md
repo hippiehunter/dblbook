@@ -6,7 +6,7 @@
 
 Start by making a directory to store your DBL code. It doesn’t matter where your code resides, but for the exercises and projects in this book, we suggest making a "projects" directory in your home directory and keeping all your projects there.
 
-Open a terminal, move to your home directory, and enter the following commands to make a "projects" directory and a directory within that for the project you'll create for your first DBL program, “Hello World!”
+Open a terminal, move to your home directory, and enter the following commands to make a projects directory and a directory within that for the project you'll create for your first DBL program, “Hello World!”
 
 ```console
 mkdir "%USERPROFILE%\projects"

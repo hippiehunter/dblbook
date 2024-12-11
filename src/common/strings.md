@@ -25,7 +25,7 @@ These routines are specific to alpha data, and while the compiler will allow you
 
 `trimmedAlpha = %ATRIM(alpha_expression)`
 
-The %ATRIM function is designed to return an alpha descriptor that points to the same original alpha expression, but with its length adjusted to exclude any trailing blanks. This means that while the returned alpha descriptor represents the trimmed version of the string, the underlying data in memory remains unchanged. For example, if you have an alpha string 'Hello ' (with trailing spaces), %ATRIM will return a descriptor that effectively 'views' this string as 'Hello' without the spaces. However, the original string in memory still contains the spaces. This subtle yet significant behavior of %ATRIM ensures that the original data is preserved, allowing for efficient string manipulation without the overhead of duplicating data. It is particularly useful in any scenarios where you have a large alpha buffer and don't want and don't want a temp record or to show a bunch of extra white space.
+The %ATRIM function is designed to return an alpha descriptor that points to the same original alpha expression, but with its length adjusted to exclude any trailing blanks. This means that while the returned alpha descriptor represents the trimmed version of the string, the underlying data in memory remains unchanged. For example, if you have an alpha string "Hello " (with trailing spaces), %ATRIM will return a descriptor that effectively "views" this string as "Hello" without the spaces. However, the original string in memory still contains the spaces. This subtle yet significant behavior of %ATRIM ensures that the original data is preserved, allowing for efficient string manipulation without the overhead of duplicating data. It is particularly useful in any scenarios where you have a large alpha buffer and don't want and don't want a temp record or to show a bunch of extra white space.
 
 ## %ATRIMTOSTRING
 %ATRIMTOSTRING is used to remove trailing spaces from an alpha and return the result as a string. Its syntax is
@@ -51,7 +51,7 @@ UPCASE and LOCASE are used to convert an alpha to all uppercase or lowercase. Th
 
 An important thing to note is that System.String is "immutable," meaning it can't be changed once created. Any operation that seems to modify a System.String is actually creating a new one. Also, since System.String is an object, it can't be included directly in a record or structure intended for writing to disk or network transmission. While it's possible to perform these operations, extra coding is required due to the object's non-fixed size at compile time.
 
-System.String can be treated as a collection of characters. In .NET, this is a Fixed-width 16-bit character set commonly referred to as UTF-16, but the actual implementation is an earlier variant, UCS-2. In Traditional DBL System.String is made up of 8-bit characters. Because System.String is a [collection](../collections/collections.md), you can index into it or iterate over it using a FOREACH loop.
+System.String can be treated as a collection of characters. In .NET, this is a fixed-width 16-bit character set commonly referred to as UTF-16, but the actual implementation is an earlier variant, UCS-2. In Traditional DBL, System.String is made up of 8-bit characters. Because System.String is a [collection](../collections/collections.md), you can index into it or iterate over it using a FOREACH loop.
 
 # Building strings
 
@@ -61,7 +61,7 @@ The syntax for S_BLD is
 
 `xcall S_BLD(destination, [length], control[, argument, ...])`
 
-In this syntax, "destination" is the variable loaded with the formatted string. It can be either an alpha or a StringBuilder type. "Length" is an optional variable loaded with the formatted string's length. "Control" is the processing control string for the build, and "argument" can include up to nine arguments as required by the control string.
+In this syntax, `destination` is the variable loaded with the formatted string. It can be either an alpha or a StringBuilder type. `Length` is an optional variable loaded with the formatted string's length. `Control` is the processing control string for the build, and `argument` can include up to nine arguments as required by the control string.
 
 The S_BLD subroutine builds a formatted string. If the destination is an alpha field, it's cleared before being loaded with new text from the first position. However, if the destination is a StringBuilder object, the generated string is appended to the object's existing text.
 
@@ -69,12 +69,12 @@ An example using S_BLD is
 
 `xcall s_bld(sb,,"%%+07.03=d => {%+07.03=d}", f2)`
 
-The control string can consist of one or more text and/or format segments. Text segments are copied directly into the destination field. If the first two characters of the control are "%&", the output string is appended to the existing content. Otherwise, the destination is replaced with new text.
+The control string can consist of one or more text and/or format segments. Text segments are copied directly into the destination field. If the first two characters of the control are `%&`, the output string is appended to the existing content. Otherwise, the destination is replaced with new text.
 
-To achieve results equivalent to a Synergy decimal-to-alpha conversion, use a control string of "%0.0nd", where "n" is the desired precision.
+To achieve results equivalent to a Synergy decimal-to-alpha conversion, use a control string of "%0.0*n*d", where *n* is the desired precision.
 
 A format segment takes the next argument from the S_BLD call and formats it into the destination field. It follows this syntax:
 
 `%[justification size[.precision]][=]type`
 
-Here, "justification" can be either left or right within the specified size. "Size" is the minimum width of the formatted result field, and "precision" is the displayed fractional precision. The presence of "=" indicates no leading strip processing. "Type" specifies the type of the next argument to be consumed, either "A" for alpha type or "D" for numeric type.
+Here, `justification` can be either left or right within the specified size. `Size` is the minimum width of the formatted result field, and `precision` is the displayed fractional precision. The presence of `=` indicates no leading strip processing. `Type` specifies the type of the next argument to be consumed, either `A` for alpha type or `D` for numeric type.

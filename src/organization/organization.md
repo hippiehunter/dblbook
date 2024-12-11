@@ -1,1 +1,12 @@
 # Program Organization
+DBL encourages structured, modular programming design, which supports code reusability and separation of concerns and enables you to take advantage of a distributed processing environment. Modular code is contained in an isolated functional unit with a well-defined, published interface. In this chapter, we'll take a look at some of the things that improve code organization: 
+
+- **Namespaces**, which provide logical groupings for code elements with related functionality, helping to avoid naming conflicts in a project, especially when working with multiple libraries or developers. They make code easier to read and maintain by clearly defining where in the codebase identifiers belong. 
+
+- **Projects**, which organize code into executable units, each representing a specific area or functionality. Projects collect all files, settings (compiler settings, environment variables, etc.), data connections, and references needed to build a Synergy program or library. They then supply this information to MSBuild at build time, and they enable Visual Studio’s IntelliSense features to work for Synergy DBL files.
+
+- **Libraries**, which group related classes and methods into reusable components, making it easier to maintain and share code. DBL has different types of libraries depending on what you're doing and what tools you're using. In the Libraries section of this book, we discuss how to create and link libraries manually for Traditional DBL, how to create libraries with MSBuild for Traditional DBL, and how to create libraries for Synergy .NET. <!--This last section has no content, so I'm not sure what we're planning to discuss-->
+
+- Robust **prototype validation** during compilation, which ensures that the compiler checks each routine against its prototype to verify the correct number and types of arguments, the proper return type, and other specifications. For Synergy .NET code, strong prototyping is always enforced. In Traditional Synergy object-oriented code, strong prototyping is mandatory and occurs within a single compilation unit. However, when working across multiple compilation units---such as when using multiple dbl commands---you need to generate prototypes using the Synergy Prototype utility (dblproto) to enable validation.
+
+A structured approach ensures that your program is organized in a way that enhances scalability, maintainability, and extensibility, allowing team members to work in parallel while minimizing dependencies.

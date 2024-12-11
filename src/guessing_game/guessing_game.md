@@ -6,10 +6,7 @@ We’ll implement a classic beginner programming problem, a guessing game. Here�
 
 ## Setting up a new project
 
-To set up a new .NET project, go to the project directory that you created in
-[chapter 1](../intro/hello_world.md#creating-a-project-directory), and make a new console app project by using the .NET CLI, like so:
-
-To set up a new .NET project, go to the *projects* directory that you created in Chapter 1 and make a new project using dotnet, like this:
+To set up a new .NET project, go to the projects directory that you created in [Chapter 1](../intro/hello_world.md#creating-a-project-directory) and make a new console app project by using the .NET CLI, like so:
 
 ```console
 dotnet new SynNETApp -n GuessingGame
@@ -29,7 +26,7 @@ proc
 endmain
 ```
 
-Now let’s compile this “Hello World” program and run it in the same step using the `dotnet run` command:
+Now let’s compile this "Hello World" program and run it in the same step using the `dotnet run` command:
 
 ```console
 dotnet run Program.dbl
@@ -101,7 +98,7 @@ The next line declares a variable named `guess`:
 data guess = Console.ReadLine()
 ```
 
-`data guess` declares a variable named `guess`. Because it does not specify the type of the variable, the type will be inferred from the value assigned to it. In this case, it will be a `String`. The `=` followed by a call to `Console.ReadLine()` reads the next line of characters from the standard input stream (the console input in this case) and then stores the result in the variable `guess`.
+`data guess` declares a variable named `guess`. Because it does not specify the type of the variable, the type will be inferred from the value assigned to it. In this case, it will be a `string`. The `=` followed by a call to `Console.ReadLine()` reads the next line of characters from the standard input stream (the console input in this case) and then stores the result in the variable `guess`.
 
 ```dbl
 Console.WriteLine("You guessed: " + guess)
@@ -117,7 +114,7 @@ endmain
 
 The `endmain` is optional and marks the end of the `main` procedure.
 
-### Testing the First Part
+### Testing the first part
 
 Let’s test the first part of the guessing game. Run it using `dotnet run`:
 
@@ -133,7 +130,7 @@ At this point, the first part of the game is complete. We’re getting input fro
 
 ## Generating a secret number
 
-Next, we need to generate a secret number that the user will try to guess. To make the game fun to play more than once, the number should be different every time. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, `RANDM`, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace instead. Let's start using Random to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
+Next, we need to generate a secret number that the user will try to guess. To make the game fun to play more than once, the number should be different every time. We’ll use a random number between 1 and 100 so the game isn’t too difficult. DBL has a built-in random number facility, the RANDM routine, but since it's not a super ergonomic function, we're going to use the `Random` class from the `System` namespace instead. Let's start using `Random` to generate a random number between 1 and 100. Replace the contents of *Program.dbl* with the following:
 
 ```dbl
 import System
@@ -198,7 +195,7 @@ proc
 endmain
 ```
 
-First, we're calling `integer` and passing it the string we read off the console in order to convert it from a `String` to an `int`. In that same line, we've added a new variable, `guessNumber`, declared that it's an int, and assigned its initial value. Next, we have a block of if-else statements. The `if` statement checks if `guessNumber` is greater than `randomNumber`. If it is, it prints "Too big!". The `else if` statement checks if `guessNumber` is less than `randomNumber`. If it is, it prints "Too small!". Finally, the `else` statement is a catch-all that prints "Correct!" if `guessNumber` is neither greater than nor less than `randomNumber`. If we hadn't converted `guess` to an `int`, the compiler wouldn't allow us to compare with `randomNumber` because they would be different types.
+First, we're calling `integer` and passing it the string we read off the console in order to convert it from a `string` to an `int`. In that same line, we've added a new variable, `guessNumber`, declared that it's an `int`, and assigned its initial value. Next, we have a block of IF-ELSE statements. The `if` statement checks if `guessNumber` is greater than `randomNumber`. If it is, it prints "Too big!". The `else if` statement checks if `guessNumber` is less than `randomNumber`. If it is, it prints "Too small!". Finally, the `else` statement is a catch-all that prints "Correct!" if `guessNumber` is neither greater than nor less than `randomNumber`. If we hadn't converted `guess` to an `int`, the compiler wouldn't allow us to compare with `randomNumber` because they would be different types.
 
 If you run the program now, you'll see something like the following:
 
@@ -210,7 +207,7 @@ Please input your guess.
 Too small!
 ```
 
-You might be tempted to try inputting something other than a number to see what happens. Go ahead and try it. You'll see something like this:
+You might be tempted to experiment with inputting something other than a number to see what happens. Go ahead and try it. You'll see something like this:
 
 ```console
 dotnet run
@@ -223,7 +220,7 @@ Unhandled exception. Synergex.SynergyDE.BadDigitException: Bad digit encountered
    at _NS_GuessingGame._CL.MAIN$PROGRAM(String[] args)
 ```
 
-Not very user friendly! Let's add some error handling to make this a better experience for the user. Replace the contents of *Program.dbl* with the following:
+Not very user-friendly! Let's add some error handling to make this a better experience for the user. Replace the contents of *Program.dbl* with the following:
 
 ```dbl
 import System
