@@ -1,4 +1,4 @@
-# Primitive  Types
+# Primitive Types
 
 In DBL, weakly typed descriptor types like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints. This wasn't really done on purpose—it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically prevented in strongly typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well-organized projects and setting a few compiler switches. 
 
