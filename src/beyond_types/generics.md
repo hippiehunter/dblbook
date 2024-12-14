@@ -3,7 +3,7 @@
 
 One of the key advantages of generics is the promotion of type safety. By using generics, developers can create data structures that are inherently safe at compile-time, reducing runtime errors related to type mismatches. This aspect is particularly beneficial when dealing with collections, where enforcing a consistent data type across all elements is crucial for reliability and maintainability of code.
 
-Moreover, generics contribute to code optimization and reduction of redundancy. Prior to generics, developers often had to create multiple versions of classes or methods to handle different data types, leading to code duplication or expensive runtime checking and casting.<!--Should this say "extensive" instead of "expensive"?--> With generics, a single class or method can cover a range of data types, making the codebase more concise and easier to manage. This not only streamlines development but also makes the code more readable and maintainable.
+Moreover, generics contribute to code optimization and reduction of redundancy. Prior to generics, developers often had to create multiple versions of classes or methods to handle different data types, leading to code duplication or expensive runtime checking and casting.<!--TODO: Should this say "extensive" instead of "expensive"?--> With generics, a single class or method can cover a range of data types, making the codebase more concise and easier to manage. This not only streamlines development but also makes the code more readable and maintainable.
 
 ## Syntax
 

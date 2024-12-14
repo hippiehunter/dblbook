@@ -1,4 +1,4 @@
-# Overlays
+# Ranging and Overlays
 
 When defining fields within a record, group, or structure, the default behavior is to sequentially allocate memory for each new field, starting from where the previous field ends. But in some cases, you might need to interpret existing data from a fresh angle, map it to a different type, or treat a set of fields as a single entity. You can achieve this by overlaying memory, that is, specifying a field to start at a particular location within the data structure. To do this, you employ a position indicator (@) in your field definition.
 

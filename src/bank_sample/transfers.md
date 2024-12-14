@@ -192,7 +192,7 @@ Balance after transfer: 200.00
 If you get an error about `Transfer` or `Transaction` not being found, make sure you've added the new files to `BankApp.synproj`.
 
 ### Exercise
-Try extending the `Account` class: Add a new field to the `Account` structure, such as `DateOpened`, and update the `Account` class to handle this new field. The companion repository contains a solution to this exercise.<!--Add link?-->
+Try extending the `Account` class: Add a new field to the `Account` structure, such as `DateOpened`, and update the `Account` class to handle this new field. The companion repository contains a solution to this exercise.<!--TODO: Add link?-->
 
 Implement and use a new transaction type: Create a new transaction type, such as `InterestApplication`, which inherits from the `Transaction` class. This transaction should apply a fixed interest rate to the account balance. 
 

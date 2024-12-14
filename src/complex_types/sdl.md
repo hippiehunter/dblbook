@@ -1,5 +1,4 @@
 # Synergy Data Language
-<!--Need to change the TOC (which currently says "Repository Schema") to match this heading-->
 **Synergy Data Language Rules**
 
 When using the Synergy Data Language (schema) with DBL, adhere to the following rules:
@@ -10,9 +9,9 @@ When using the Synergy Data Language (schema) with DBL, adhere to the following 
 4.  **Keyword constraints**:
     -   Keywords can appear in any sequence unless otherwise stated.
     -   Multi-word keywords cannot extend over multiple lines.
-    -   Some keywords require the keyword and its associated data to stay on the same line. Such instances are noted with the keyword.<!--Do we mean that it's noted in this book?-->
+    -   Some keywords require the keyword and its associated data to stay on the same line. Such instances are noted with the keyword.<!--aTODO: Do we mean that it's noted in this book?-->
     -   Keyword data with colons should not contain spaces.
-    -   Negative values are not allowed for numeric keyword arguments, except where specified.<!--Where is it specified?-->
+    -   Negative values are not allowed for numeric keyword arguments, except where specified.<!--TODO: Where is it specified?-->
 5.  **String data**:
     -   Strings should be wrapped in matching double (" ") or single (' ') quotes and not extended over multiple lines.
     -   Strings can contain quotation marks, provided they differ from the enclosing marks. For instance, "Type 'Return' to continue" and 'Type "Return" to continue' are both valid.
@@ -62,7 +61,7 @@ Most of the definition types provided by the Synergy Data Language have an optio
     -   `PARENT template`: (Only for TEMPLATE) Parent template specification.
     -   `STORED store_format`: How it's stored. Must follow the TYPE keyword if present
     -   `ENUM name` or `STRUCT name`: For enumerations or structures.
-    -   `LANGUAGE`<!--Is this supposed to be LANGUAGE VIEW/LANGUAGE NOVIEW? Also needs a description-->
+    -   `LANGUAGE`<!--TODO: Is this supposed to be LANGUAGE VIEW/LANGUAGE NOVIEW? Also needs a description-->
     -   `DESCRIPTION "description"`: A description of the field definition. It can have a maximum of 40 characters and must be enclosed in double or single quotation marks ("" or '').
     -   `LONG DESCRIPTION "long_desc"`: Long_desc can contain 30 lines of up to 60 characters each. Each line must be enclosed in double or single quotation marks ("" or '')
 -   **Optional presentation attributes**:
@@ -79,7 +78,7 @@ Most of the definition types provided by the Synergy Data Language have an optio
     -   `SELECTION LIST`, `SELECTION WINDOW`: Selection parameters.
     -   `ENUMERATED`, `RANGE`: Enumeration and range details.
     -    Methods like `ARRIVE METHOD`, `LEAVE METHOD`, `DRILL METHOD`, `HYPERLINK METHOD`, `CHANGE METHOD`, `DISPLAY METHOD`, `EDITFMT METHOD`: Toolkit field processing methods.
-    <!--Can we get rid of all the backticks?-->
+    <!--TODO: Can we get rid of all the backticks?-->
 -    **Optional SMC-specifc attributes**:
      -    `WEB`
      -    `COERCED TYPE`: 
@@ -315,7 +314,7 @@ MEMBERS [member] [value], [member] [value], ...
 
 **Description**:
 
-ENUMERATION provides a mechanism for developers to create a set of named constants, enhancing code clarity. This is a mimic to <!--How about "the same as" or "similar to"-->the enum provided in DBL but with the benefits of a repository definition.
+ENUMERATION provides a mechanism for developers to create a set of named constants, enhancing code clarity. This is a mimic to <!--TODO: How about "the same as" or "similar to"-->the enum provided in DBL but with the benefits of a repository definition.
 
 For instance, one might define an enumeration for days of the week. Instead of working directly with numeric values (which could lead to errors and make the code harder to interpret), developers can use the named constants of the enumeration.
 

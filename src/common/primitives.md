@@ -1,4 +1,4 @@
-# Primitive Types
+# Primitives
 
 In DBL, weakly typed descriptor types like alpha, decimal, implied decimal, and integer are not bound by strict data type constraints. This wasn't really done on purpose—it's the result of being developed in the days of single-pass compilers and very limited memory, where it was not possible to enforce strong typing. DBL's continuation with this weak typing means that variables declared with these types can be assigned a variety of values or even manipulated in ways that are typically prevented in strongly typed systems. While this enables very old applications to move forward without significant costly refactoring, it increases the risk of type-related errors, necessitating a more cautious and thorough approach to debugging and data handling. It is possible to tell the modern DBL compiler to enforce strong typing, but it requires well-organized projects and setting a few compiler switches. 
 
@@ -56,18 +56,18 @@ An alpha value (`a`, `a*`, `a{size}`) is a sequence of printable ASCII character
 > - 32,767 single-byte characters on OpenVMS
 > - 2,147,483,647 single-byte characters on all other platforms
 
-<!--Mention that alpha variables are padded with spaces if you assign a value that doesn't take up all bytes?-->
+<!--TODO: Mention that alpha variables are padded with spaces if you assign a value that doesn't take up all bytes?-->
 
 ### Decimal and implied decimal
 
 Decimal (`d`, `d*`, `d{size}`) and implied-decimal (`d.`, `d{size}.{precision}`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied-decimal types are signed, meaning they can represent both positive and negative numbers.
 
 In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` (which are discussed below) is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule in a single operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
-<!--Floating point API.-->
+<!--TODO: Floating point API.-->
 
 ### Integer
 
-An integer (`i`, `i*`, `i1`, `i2`, `i4`, and `i8`) is a byte-oriented, binary representation of a signed whole number. The integer value depends on its usage and can be a value type or descriptor type. <!--Add info on when it's a value type or descriptor type? ***Put something in here about ^val-->
+An integer (`i`, `i*`, `i1`, `i2`, `i4`, and `i8`) is a byte-oriented, binary representation of a signed whole number. The integer value depends on its usage and can be a value type or descriptor type. <!--TODO: Add info on when it's a value type or descriptor type? ***Put something in here about ^val-->
 
 ### Numeric
 

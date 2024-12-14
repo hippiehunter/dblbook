@@ -17,7 +17,7 @@ Finally, decomposing a problem into smaller parts can often make the problem eas
 
 ### Subroutines
 
-Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular.<!--The doc says internal and external, which fits with the paragraph below. If we want to use "local and regular, we should probably rephrase some things because otherwise it's confusing.-->
+Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular.<!--TODO: The doc says internal and external, which fits with the paragraph below. If we want to use "local and regular, we should probably rephrase some things because otherwise it's confusing.-->
 
 An external subroutine, simply referred to as a subroutine, is a separate entity from the routine that calls it. This subroutine can be present in the same source file as the invoking routine or in a different file.
 
@@ -47,7 +47,7 @@ A local subroutine resides in the same method, function, or subroutine in which 
 
 To invoke a local subroutine, we use the CALL statement. After returning from the call, the processing continues at the line immediately following the CALL statement. This provides a level of encapsulation and data sharing within a single routine or function.
 
-> TODO - add example and diagram to help understand RETURN vs XRETURN/FRETURN/MRETURN <!--What did you have in mind here?-->
+> TODO - add example and diagram to help understand RETURN vs XRETURN/FRETURN/MRETURN
 
 ### Functions
 
@@ -115,7 +115,7 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 > ```
 
 #### Common between functions and subroutines
-<!--I think we need an intro line here (or else least a more complete heading) so people understand what this bulleted list is-->
+<!--TODO: I think we need an intro line here (or else least a more complete heading) so people understand what this bulleted list is-->
 * access (optional): Sets access levels when defined inside a class. Options include PUBLIC, PROTECTED, PRIVATE, INTERNAL, and PROTECTED INTERNAL. 
 > TODO Add more details
 
@@ -138,7 +138,7 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 * parameter_def: Definition of parameters.
 
 #### Function specific
-<!--Add intro line-->
+<!--TODO: Add intro line-->
 * return_type (optional): Specifies the return type of the function. Defaults to the type of the variable or literal of the first FRETURN statement.
 * size (optional): Specifies the size of the function return value.
 

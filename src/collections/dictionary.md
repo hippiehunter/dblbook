@@ -11,7 +11,7 @@ Using in-memory dictionaries offers several benefits:
     Simplicity: Working with data in memory often simplifies the code, reducing the complexity associated with file management. 
     Serialization: There's no need to serialize and deserialize data when it's already in memory. More importantly, there's no need to worry about data structures like string that can't be written directly to ISAM files.
 
-Now it's time to discuss the downsides, and these are probably why in-memory dictionaries aren't used much in traditional DBL code. DBL programs often handle large volumes of data, and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.<!--Not sure what "where you should work in on disk structures like a temporary ISAM file" means-->
+Now it's time to discuss the downsides, and these are probably why in-memory dictionaries aren't used much in traditional DBL code. DBL programs often handle large volumes of data, and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.<!--TODO: Not sure what "where you should work in on disk structures like a temporary ISAM file" means-->
 
 That said, there are still plenty of scenarios where an in-memory dictionary is a good fit. For example, if you need to perform a series of lookups on a small set of data, it's often more efficient to load the data into memory and perform the lookups there, rather than repeatedly accessing the disk. This is especially true if the data is already in memory, such as when it's being passed from one routine to another. In such cases, using an in-memory dictionary can be a good option. As with all things architecture and performance related, your mileage may vary, and you should always test your assumptions.
 
@@ -32,7 +32,7 @@ Let's jump into a high-level overview for our custom implementation of a diction
 - **Key components:**
   - `symbolTableId`: The identifier for the symbol table.
   - `objectStore`: An ArrayList to store objects.
-  - `freeIndicies`:<!--Should this be freeIndices throughout, including the sample code?--> An ArrayList to manage free indices in `objectStore`.
+  - `freeIndicies`:<!--TODO: Should this be freeIndices throughout, including the sample code?--> An ArrayList to manage free indices in `objectStore`.
 
 #### `KeyValuePair` inner class
 - **Purpose:** Represents a key-value pair.

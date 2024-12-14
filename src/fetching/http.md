@@ -1,9 +1,9 @@
 # HTTP Routines
-<!--I think we need more intro here. This section seems to assume knowledge the reader may not have. For example, what does the HTTP API do? What is httpbin.org? What are endpoints?-->
+<!--TODO: I think we need more intro here. This section seems to assume knowledge the reader may not have. For example, what does the HTTP API do? What is httpbin.org? What are endpoints?-->
 To show off the HTTP document transport API in DBL, we're going to make use of `httpbin.org`. Specifically, we'll use three endpoints: the HTML endpoint, the Anything endpoint, which echoes the HTTP request data, and the Status endpoint, which returns a given HTTP status code. If you're in .NET, you can of course use the HttpClient class directly, but there are loads of examples of that on the internet already, so we'll show how to use the Traditional DBL HTTP routines here.
 
 #### Using the Anything endpoint
-<!--Correct heading level?-->
+<!--TODO: Correct heading level?-->
 The Anything endpoint will echo back any data we send to it. This is useful for understanding what data is being passed in your HTTP request.
 
 #### Make a GET request
