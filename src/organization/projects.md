@@ -68,7 +68,7 @@ The output type of a project is specified within the `<PropertyGroup>` element. 
 ```xml
 <PropertyGroup>
   <OutputType>Exe</OutputType>
-  <!-- Other properties -->
+  <!-- TODO: Other properties -->
 </PropertyGroup>
 ```
 
@@ -99,7 +99,7 @@ To reference other projects, such as libraries or dependencies, use the `<ItemGr
 ```xml
 <ItemGroup>
   <ProjectReference Include="..\Library\MyLibrary.synproj" />
-  <!-- Additional project references -->
+  <!-- TODO: Additional project references -->
 </ItemGroup>
 ```
 
@@ -112,7 +112,7 @@ Source files are included in the project through the `<ItemGroup>` element, usin
 ```xml
 <ItemGroup>
   <Compile Include="src\MyProgram.dbl" />
-  <!-- Other source files -->
+  <!-- TODO: Other source files -->
 </ItemGroup>
 ```
 
@@ -125,7 +125,7 @@ Include files, which might contain shared code or definitions, are also added vi
 ```xml
 <ItemGroup>
   <None Include="includes\MyIncludeFile.dbl" />
-  <!-- Other include files -->
+  <!-- TODO: Other include files -->
 </ItemGroup>
 ```
 This inclusion ensures that these files are part of the project and can be easily navigated and searched within Visual Studio but won't be treated as top-level source files by the compiler.
