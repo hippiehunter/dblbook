@@ -36,4 +36,31 @@ In the above example,
 
 ```dbl
 TODO add an example that has error labels for multiple I/O statements but doesn't suck
+
+main
+    record myData
+        fld1, d10
+        fld2, a100
+    endrecord
+    record
+        chn, int
+proc
+    open(chn = 0, I:I, "myfile")[$ERR_FNF=file_not_found]
+    repeat
+    begin
+retry_label,
+        READS(chn, myData)[$ERR_EOF=end_label, $ERR_LOCKED=retry_label, catch_all]
+        nextloop
+end_label,
+        Console.WriteLine("Reached the end of the file")
+        exitloop
+catch_all,
+        Console.WriteLine("something went wrong the error code was: " + %string(syserr))
+        nextloop
+    end
+
+    exite
+file_not_found,
+    Console.WriteLine("The file wasnt found")
+endmain
 ```
