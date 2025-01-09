@@ -64,3 +64,5 @@ file_not_found,
     Console.WriteLine("The file wasnt found")
 endmain
 ```
+
+TODO: something here to explain the difficulty of goto label based flow control and how to ensure you dont flow through from one label to another. Restrictions about scopes, you cant jump scopes.
