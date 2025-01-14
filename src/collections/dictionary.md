@@ -11,7 +11,7 @@ Using in-memory dictionaries offers several benefits:
     Simplicity: Working with data in memory often simplifies the code, reducing the complexity associated with file management. 
     Serialization: There's no need to serialize and deserialize data when it's already in memory. More importantly, there's no need to worry about data structures like string that can't be written directly to ISAM files.
 
-Now it's time to discuss the downsides, and these are probably why in-memory dictionaries aren't used much in traditional DBL code. DBL programs often handle large volumes of data, and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on disk structures like a temporary ISAM file.<!--TODO: Not sure what "where you should work in on disk structures like a temporary ISAM file" means-->
+Now it's time to discuss the downsides, and these are probably why in-memory dictionaries aren't used much in traditional DBL code. DBL programs often handle large volumes of data, and while the amount of RAM installed on your production servers may have grown significantly over the last 30 years, there are still some operations where you should work in on-disk structures like a temporary ISAM file.
 
 That said, there are still plenty of scenarios where an in-memory dictionary is a good fit. For example, if you need to perform a series of lookups on a small set of data, it's often more efficient to load the data into memory and perform the lookups there, rather than repeatedly accessing the disk. This is especially true if the data is already in memory, such as when it's being passed from one routine to another. In such cases, using an in-memory dictionary can be a good option. As with all things architecture and performance related, your mileage may vary, and you should always test your assumptions.
 
@@ -32,7 +32,7 @@ Let's jump into a high-level overview for our custom implementation of a diction
 - **Key components:**
   - `symbolTableId`: The identifier for the symbol table.
   - `objectStore`: An ArrayList to store objects.
-  - `freeIndicies`:<!--TODO: Should this be freeIndices throughout, including the sample code?--> An ArrayList to manage free indices in `objectStore`.
+  - `freeIndices`:<!--TODO: Should this be freeIndices throughout, including the sample code?--> An ArrayList to manage free indices in `objectStore`.
 
 #### `KeyValuePair` inner class
 - **Purpose:** Represents a key-value pair.
@@ -41,7 +41,7 @@ Let's jump into a high-level overview for our custom implementation of a diction
   - `Value`: The value (object).
 
 ### Constructor: `StringDictionary()`
-- Initializes `objectStore` and `freeIndicies`.
+- Initializes `objectStore` and `freeIndices`.
 - Calls `nspc_open` to create a symbol table with specific flags.
 - Flags used:
   - `D_NSPC_SPACE`: Leading and trailing spaces in entry names are significant.
@@ -88,11 +88,11 @@ Let's jump into a high-level overview for our custom implementation of a diction
 ### Internal Methods
 1. **AddObjectInternal:**
    - Manages adding objects to the `objectStore`.
-   - Uses `freeIndicies` to reuse free slots in `objectStore`.
+   - Uses `freeIndices` to reuse free slots in `objectStore`.
 
 2. **RemoveObjectInternal:**
    - Manages removing objects from `objectStore`.
-   - Adds the index to `freeIndicies`.
+   - Adds the index to `freeIndices`.
 
 ### Symbol Table API integration
 - The Symbol Table API (%NSPC_ADD, %NSPC_FIND, %NSPC_DELETE, etc.) is used for managing keys in the dictionary.
@@ -129,11 +129,11 @@ namespace DBLBook.Collections
 
 		private symbolTableId, i4
 		private objectStore, @ArrayList
-		private freeIndicies, @ArrayList
+		private freeIndices, @ArrayList
 		public method StringDictionary
 		proc
 			objectStore = new ArrayList()
-			freeIndicies = new ArrayList()
+			freeIndices = new ArrayList()
 			symbolTableId = nspc_open(D_NSPC_SPACE | D_NSPC_CASE, 4)
 		endmethod
 
@@ -145,10 +145,10 @@ namespace DBLBook.Collections
 		private method AddObjectInternal, i4
 			value, @object
 		proc
-			if(freeIndicies.Count > 0) then
+			if(freeIndices.Count > 0) then
 			begin
-				data freeIndex = (i4)freeIndicies[freeIndicies.Count - 1]
-				freeIndicies.RemoveAt(freeIndicies.Count - 1)
+				data freeIndex = (i4)freeIndices[freeIndices.Count - 1]
+				freeIndices.RemoveAt(freeIndices.Count - 1)
 				objectStore[freeIndex] = value
 				mreturn freeIndex
 			end
@@ -159,7 +159,7 @@ namespace DBLBook.Collections
 		private method RemoveObjectInternal, void
 			index, i4
 		proc
-			freeIndicies.Add((@i4)index)
+			freeIndices.Add((@i4)index)
 			;;can't just call removeAt because it would throw off all of the objects that are stored after it
 			;;so we just add to a free list and manage the slots that way
 			objectStore[index] = ^null
@@ -255,7 +255,7 @@ namespace DBLBook.Collections
 		public method Clear, void
 		proc
 			nspc_reset(symbolTableId)
-			freeIndicies.Clear()
+			freeIndices.Clear()
 			objectStore.Clear()
 		endmethod
 

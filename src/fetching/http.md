@@ -1,12 +1,10 @@
 # HTTP Routines
-<!--TODO: I think we need more intro here. This section seems to assume knowledge the reader may not have. For example, what does the HTTP API do? What is httpbin.org? What are endpoints?-->
-To show off the HTTP document transport API in DBL, we're going to make use of `httpbin.org`. Specifically, we'll use three endpoints: the HTML endpoint, the Anything endpoint, which echoes the HTTP request data, and the Status endpoint, which returns a given HTTP status code. If you're in .NET, you can of course use the HttpClient class directly, but there are loads of examples of that on the internet already, so we'll show how to use the Traditional DBL HTTP routines here.
+To show off the HTTP document transport API in DBL, we're going to make use of `httpbin.org`, which contains sample HTTP endpoints that you can use for testing. Specifically, we'll use three endpoints: the HTML endpoint, the Anything endpoint, which echoes the HTTP request data, and the Status endpoint, which returns a given HTTP status code. If you're in .NET, you can of course use the HttpClient class directly, but there are loads of examples of that on the internet already, so we'll show how to use the Traditional DBL HTTP routines here.
 
-#### Using the Anything endpoint
-<!--TODO: Correct heading level?-->
+### Using the Anything endpoint
 The Anything endpoint will echo back any data we send to it. This is useful for understanding what data is being passed in your HTTP request.
 
-#### Make a GET request
+### Make a GET request
 
 Let's start with a simple GET request.
 
@@ -23,7 +21,7 @@ proc
 
 This code sends a GET request to the HTML endpoint and prints the response. We aren't doing anything with the response headers, there's no error handling, and we're requesting the HTTP 1.0 protocol. 
 
-#### Make a POST request
+### Make a POST request
 
 Now, let's try a POST request with some JSON data.
 
@@ -44,11 +42,11 @@ proc
 
 This sends a POST request with some hard-coded JSON data and prints the response.
 
-#### Using the Status endpoint
+### Using the Status endpoint
 
 The Status endpoint returns a response with the HTTP status code you specify. This is useful for testing how your code handles different HTTP responses.
 
-##### Request a specific status code
+#### Request a specific status code
 
 Let's request a 404 status code.
 
@@ -65,7 +63,7 @@ proc
 
 This will print `404`, indicating the status code of the response.
 
-##### Handling different status codes
+#### Handling different status codes
 
 Experiment with different status codes to see how your HTTP client handles them. For example, try 200, 400, 500, etc.
 
@@ -87,7 +85,7 @@ proc
 
 This code loops through a list of status codes, makes a request for each one, and prints the status code of the response. You can see that HTTP 200 is treated specially, resulting in a 0 status code. 200 is the only status code that will result in a 0 status code; all other status codes will be returned as expected.
 
-#### Writing a file
+### Writing a file
 
 Let's call the image endpoint and write the response to a file. This process can be used to download any kind of file, not just images. Keep in mind, though, that this is not a streaming API, so you'll need to have enough memory to hold the entire file in memory.
 

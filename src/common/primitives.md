@@ -56,14 +56,11 @@ An alpha value (`a`, `a*`, `a{size}`) is a sequence of printable ASCII character
 > - 32,767 single-byte characters on OpenVMS
 > - 2,147,483,647 single-byte characters on all other platforms
 
-<!--TODO: Mention that alpha variables are padded with spaces if you assign a value that doesn't take up all bytes?-->
-
 ### Decimal and implied decimal
 
 Decimal (`d`, `d*`, `d{size}`) and implied-decimal (`d.`, `d{size}.{precision}`, `decimal`) types in DBL handle numbers as sequences of ASCII characters, ensuring an exact representation. Both decimal and implied-decimal types are signed, meaning they can represent both positive and negative numbers.
 
 In a typical DBL program, the avoidance of floating-point numbers like `float` and `double` (which are discussed below) is deliberate. Floating-point representations can introduce rounding errors due to their binary format, which cannot precisely depict most decimal fractions. This imprecision, although minuscule in a single operation, can compound in financial contexts, leading to significant discrepancies. Therefore, DBL programmers rely on decimal and implied-decimal types for monetary computations to preserve data integrity.
-<!--TODO: Floating point API.-->
 
 ### Integer
 

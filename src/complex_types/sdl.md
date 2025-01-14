@@ -9,9 +9,9 @@ When using the Synergy Data Language (schema) with DBL, adhere to the following 
 4.  **Keyword constraints**:
     -   Keywords can appear in any sequence unless otherwise stated.
     -   Multi-word keywords cannot extend over multiple lines.
-    -   Some keywords require the keyword and its associated data to stay on the same line. Such instances are noted with the keyword.<!--aTODO: Do we mean that it's noted in this book?-->
+    -   Some keywords require the keyword and its associated data to stay on the same line. Such instances are noted with the keyword.
     -   Keyword data with colons should not contain spaces.
-    -   Negative values are not allowed for numeric keyword arguments, except where specified.<!--TODO: Where is it specified?-->
+    -   Negative values are not allowed for numeric keyword arguments, except where stated.
 5.  **String data**:
     -   Strings should be wrapped in matching double (" ") or single (' ') quotes and not extended over multiple lines.
     -   Strings can contain quotation marks, provided they differ from the enclosing marks. For instance, "Type 'Return' to continue" and 'Type "Return" to continue' are both valid.
@@ -45,46 +45,46 @@ Most of the definition types provided by the Synergy Data Language have an optio
 
 -   **Mandatory attributes**:
 
-    -   `name`: The name of the template, field, or group. This name can have a maximum of 30 characters
-    -   `TYPE type`: The item's type.
+    -   name: The name of the template, field, or group. This name can have a maximum of 30 characters
+    -   TYPE type: The item's type.
         -   Valid Types: ALPHA, DECIMAL, INTEGER, DATE, TIME, USER, BOOLEAN, ENUM, STRUCT, AUTOSEQ, AUTOTIME.
         -   Default formats are assigned to each type, but they can be overridden with the FORMAT attribute:
             - DATE - YYMMDD
             - TIME - HHMM
             - USER - ALPHA
-    -   `SIZE size`: The item's size.
+    -   SIZE size: The item's size.
         - Defines the field's maximum character length.
         - If omitted, the size is derived from existing fields or the assigned template.      
     
 -   **Optional attributes**:
 
-    -   `PARENT template`: (Only for TEMPLATE) Parent template specification.
-    -   `STORED store_format`: How it's stored. Must follow the TYPE keyword if present
-    -   `ENUM name` or `STRUCT name`: For enumerations or structures.
-    -   `LANGUAGE`<!--TODO: Is this supposed to be LANGUAGE VIEW/LANGUAGE NOVIEW? Also needs a description-->
-    -   `DESCRIPTION "description"`: A description of the field definition. It can have a maximum of 40 characters and must be enclosed in double or single quotation marks ("" or '').
-    -   `LONG DESCRIPTION "long_desc"`: Long_desc can contain 30 lines of up to 60 characters each. Each line must be enclosed in double or single quotation marks ("" or '')
+    -   PARENT template: (Only for TEMPLATE) Parent template specification.
+    -   STORED store_format: How it's stored. Must follow the TYPE keyword if present
+    -   ENUM name or STRUCT name: For enumerations or structures.
+    -   LANGUAGE<!--TODO: Is this supposed to be LANGUAGE VIEW/LANGUAGE NOVIEW? Also needs a description-->
+    -   DESCRIPTION "description": A description of the field definition. It can have a maximum of 40 characters and must be enclosed in double or single quotation marks ("" or '').
+    -   LONG DESCRIPTION "long_desc": Long_desc can contain 30 lines of up to 60 characters each. Each line must be enclosed in double or single quotation marks ("" or '')
 -   **Optional presentation attributes**:
-    -   `SCRIPT`, `REPORT`: Options for viewing, with additional `VIEW` or `NOVIEW`.
-    -   `POSITION`, `FPOSITION`, `PROMPT`, `HELP`, `INFO LINE`, `USER TEXT`, `FORMAT`, `REPORT HEADING`, `ALTERNATE NAME`, `REPORT JUST`, `INPUT JUST`, `PAINT`: Presentation and descriptive attributes.
-    -   `RADIO|CHECKBOX`: Toggle choices.
-    -   `FONT`, `PROMPTFONT`: Font specifications.
-    -   `READONLY`, `DISABLED`: Functional attributes.
-    -   `COLOR`, `HIGHLIGHT`, `REVERSE`, `BLINK`, `UNDERLINE`: Aesthetic attributes.
-    -   `DISPLAY LENGTH`, `VIEW LENGTH`, `UPPERCASE`, `NODECIMAL`, `DECIMAL_REQUIRED`: Display characteristics.
-    -   `RETAIN POSITION`, `DEFAULT`, `AUTOMATIC`, `NOECHO`, `DATE`, `TIME`, `WAIT`, `INPUT LENGTH`, `BREAK`: Behavior specifications.
-    -   `REQUIRED`, `NEGATIVE`, `NULL`: Value constraints.
-    -   `MATCH CASE`, `MATCH EXACT`: Matching rules.
-    -   `SELECTION LIST`, `SELECTION WINDOW`: Selection parameters.
-    -   `ENUMERATED`, `RANGE`: Enumeration and range details.
-    -    Methods like `ARRIVE METHOD`, `LEAVE METHOD`, `DRILL METHOD`, `HYPERLINK METHOD`, `CHANGE METHOD`, `DISPLAY METHOD`, `EDITFMT METHOD`: Toolkit field processing methods.
-    <!--TODO: Can we get rid of all the backticks?-->
+    -   SCRIPT, REPORT: Options for viewing, with additional VIEW or NOVIEW.
+    -   POSITION, FPOSITION, PROMPT, HELP, INFO LINE, USER TEXT, FORMAT, REPORT HEADING, ALTERNATE NAME, REPORT JUST, INPUT JUST, PAINT: Presentation and descriptive attributes.
+    -   RADIO|CHECKBOX`: Toggle choices.
+    -   FONT, PROMPTFONT: Font specifications.
+    -   READONLY, DISABLED: Functional attributes.
+    -   COLOR, HIGHLIGHT, REVERSE, BLINK, UNDERLINE: Aesthetic attributes.
+    -   DISPLAY LENGTH, VIEW LENGTH, UPPERCASE, NODECIMAL, DECIMAL_REQUIRED: Display characteristics.
+    -   RETAIN POSITION, DEFAULT, AUTOMATIC, NOECHO, DATE, TIME, WAIT, INPUT LENGTH, BREAK: Behavior specifications.
+    -   REQUIRED, NEGATIVE, NULL: Value constraints.
+    -   MATCH CASE, MATCH EXACT: Matching rules.
+    -   SELECTION LIST, SELECTION WINDOW: Selection parameters.
+    -   ENUMERATED, RANGE: Enumeration and range details.
+    -    Methods like ARRIVE METHOD, LEAVE METHOD, DRILL METHOD, HYPERLINK METHOD, CHANGE METHOD, DISPLAY METHOD, EDITFMT METHOD: Toolkit field processing methods.
+   
 -    **Optional SMC-specifc attributes**:
-     -    `WEB`
-     -    `COERCED TYPE`: 
+     -    WEB
+     -    COERCED TYPE: 
           -   Specifies the data type for xfNetLink Java or .NET clients.
-          -   Valid values depend on the `TYPE` attribute.
-              - **Valid coerced types by `TYPE`:**
+          -   Valid values depend on the TYPE attribute.
+              - **Valid coerced types by TYPE:**
               - **Decimal (without precision):**
                 - DEFAULT, BYTE, SHORT, INT, LONG, SBYTE, USHORT, UINT, ULONG, BOOLEAN, DECIMAL, NULLABLE DECIMAL
               - **Decimal (with precision):**
@@ -93,17 +93,17 @@ Most of the definition types provided by the Synergy Data Language have an optio
                 - DEFAULT, BYTE, SHORT, INT, LONG, SBYTE, USHORT, UINT, ULONG, BOOLEAN
               - **Date/Time/User:**
                 - If DATE format is `YYMMDD`, `YYYYMMDD`, `YYJJJ`, or `YYYYJJJ`, or USER subtype is DATE with `^CLASS^=YYYYMMDDHHMISS`, or `^CLASS^=YYYYMMDDHHMISSUUUUUU` the type can be DATETIME, NULLABLE_DATETIME
-- **Attribute negations**: Many attributes come with a negation, often prefixed with "NO" (e.g., `NODATE`, `NODESC`). When specifying an attribute, consider whether its positive or negative form is required.
+- **Attribute negations**: Many attributes come with a negation, often prefixed with "NO" (e.g., NODATE, NODESC). When specifying an attribute, consider whether its positive or negative form is required.
 
 **Specific to FIELD**:
 
--   `TEMPLATE template`: Links the field to a particular template.
+-   TEMPLATE template: Links the field to a particular template.
 
 **Specific to GROUP**:
 
--   `REFERENCE structure`: References a particular structure.
--   `PREFIX prefix`, `COMPILE PREFIX`: Prefix details.
--   `NOSIZE`: Specifies if size shouldn't be defined.
+-   REFERENCE structure: References a particular structure.
+-   PREFIX prefix, COMPILE PREFIX: Prefix details.
+-   NOSIZE: Specifies if size shouldn't be defined.
 
 **Defining a field**
 
@@ -196,7 +196,7 @@ FILE name filetype "open_filename"
 
 ### Arguments:
 
-Most of these arguments are optional and also can be negated by appending "NO" on the front of the argument. For example, `NOCOMPRESS` would be the negation of `COMPRESS`.
+Most of these arguments are optional and also can be negated by appending "NO" on the front of the argument. For example, NOCOMPRESS would be the negation of COMPRESS.
 
 1.  **name**: Name for the file definition.
     -   Max length: 30 characters.
@@ -314,7 +314,7 @@ MEMBERS [member] [value], [member] [value], ...
 
 **Description**:
 
-ENUMERATION provides a mechanism for developers to create a set of named constants, enhancing code clarity. This is a mimic to <!--TODO: How about "the same as" or "similar to"-->the enum provided in DBL but with the benefits of a repository definition.
+ENUMERATION provides a mechanism for developers to create a set of named constants, enhancing code clarity. This is an analog to the enum provided in DBL but with the benefits of a repository definition.
 
 For instance, one might define an enumeration for days of the week. Instead of working directly with numeric values (which could lead to errors and make the code harder to interpret), developers can use the named constants of the enumeration.
 
@@ -333,7 +333,7 @@ ALIAS [alias] [type] [name]
 
 -   **alias**: The name for the alias. This name can be up to 30 characters long.
 
--   **type**: Specifies the alias type. Acceptable values include `STRUCTURE` and `FIELD`.
+-   **type**: Specifies the alias type. Acceptable values include STRUCTURE and FIELD.
 
 -   **name**: Represents the original name of the structure or field being aliased. This too can have a length of up to 30 characters.
 
