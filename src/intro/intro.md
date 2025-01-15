@@ -29,4 +29,4 @@ In general, this book assumes that you’re reading it in sequence from front to
 
 ## Special Thanks
 
-This book is inspired by, loosely structured as, and sometimes copied from the [Rust Book](https://github.com/rust-lang/book){:target="_blank"}.
+This book is inspired by, loosely structured as, and sometimes copied from the <a href="https://github.com/rust-lang/book" target="_blank">Rust Book</a>.

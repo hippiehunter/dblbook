@@ -1,4 +1,4 @@
-### Big Ball Of Mud
+## Big Ball Of Mud
 The "big ball of mud" is a term used in software engineering to describe a system that lacks a discernible architecture. It is often considered an anti-pattern, representing a codebase that has grown haphazardly and chaotically over time, resulting in a monolithic structure where everything is entwined into a single, tightly-coupled entity. This often occurs when rapid growth and immediate functionality are prioritized over sustainable design and future scalability.
 
 In the DBL environment, this pattern is frequently exhibited through extensive use of GLOBAL and COMMON. These large collections of global data variables can become sprawling, where understanding the interplay and dependencies among the variables can be a daunting task. As a result, the system becomes progressively more entangled, complex, and interconnected, resembling a big ball of mud.

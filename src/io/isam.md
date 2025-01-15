@@ -11,7 +11,6 @@ CRUD, an acronym for create, read, update, and delete, represents the essential 
 - **error_list** This argument allows you to specify an I/O error list for robust error management, which ensures the program can handle exceptions like locked records or EOF conditions gracefully.
 
 ### Create
-***
 `STORE(channel, data_area[, GETRFA:new_rfa][, LOCK:lock_spec]) [[error_list]]`
 
 The STORE statement adds new records to an ISAM file. The statement requires an open channel in update mode (U:I) and a data area that contains the record to be added.
@@ -34,7 +33,6 @@ TODO: Add example
 ```
 
 ### Read
-***
 ```
 READ(channel, data_area, key_spec[, KEYNUM:key_num][, LOCK:lock_spec]
   [, MATCH:match_spec][, POSITION:position_spec][, RFA:rfa_spec]
@@ -75,7 +73,6 @@ In terms of error control, appropriate use of the `WAIT` argument can prevent yo
 However, developers need to be careful to avoid potential infinite loops or excessively long wait times. This caution is particularly important in high-throughput systems where waiting for extended periods can significantly impact performance. One approach is to implement a retry logic with a maximum number of attempts or a cumulative maximum wait time. After these thresholds are reached, the application can either log an error, alert the user, or take alternative action. This strategy ensures that the application retries sufficiently to handle temporary locks but not indefinitely, thus maintaining a balance between robust error handling and application responsiveness.
 
 ### Update
-***
 `WRITE(channel, data_area[, GETRFA:new_rfa]) [[error_list]]`
 
 The WRITE statement in DBL is used to update a record in a file. When you execute a WRITE operation on a channel that is open in output, append, or update mode, the specified record is updated with the contents of the data area.
@@ -93,7 +90,6 @@ Individual keys in an ISAM file can be marked as immutable, meaning they cannot 
 **Avoiding designs with complex updates**: Allowing keys to change can lead to complex update scenarios where multiple related records need to be updated simultaneously. This can increase the complexity of CRUD operations, making the system more prone to errors and harder to maintain. By enforcing immutability, developers can simplify update logic, as they don’t have to account for cascading changes across related records or indexes.
 
 ### Delete
-***
 
 #### Soft delete vs hard delete
 Delete is a pretty fundamental operation in DBL applications, but your codebase has probably already decided how it's going to handle deletes. We're going to cover both soft and hard approaches here to help you better understand the tradeoffs that your application's designers originally made. 

@@ -1,6 +1,6 @@
 # Control Flow
 
-<!--A brief intro would be good-->
+<!--TODO: A brief intro would be good-->
 
 ### IF-THEN-ELSE
 IF is the most basic statement that allows for conditional control flow in a DBL program. The IF statement checks a specified condition (a statement that evaluates to a Boolean value), and if the condition is true, it executes an associated code block&mdash;e.g., a statement or a BEGIN-END block.

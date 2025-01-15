@@ -24,7 +24,7 @@ READ(channel, recordArea, key) [$ERR_EOF=notfound_label, $ERR_LOCKED=retry_label
 
 In the above example,
 
-- `READ`: DBL I/O statement that attempts to read a record.
+- READ: DBL I/O statement that attempts to read a record.
 - `recordArea`: The variable into which the read data will be placed.
 - `key`: The key value to use for the read operation.
 - `channel`: The channel from which the data is being read.
