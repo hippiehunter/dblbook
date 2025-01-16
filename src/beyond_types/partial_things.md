@@ -59,7 +59,7 @@ While partial classes and methods offer significant advantages in managing large
 
 Similarly, partial methods, while useful for providing extension points, can lead to confusion if overused or poorly documented. For example, declaring too many partial methods without clear documentation on their intended use can make it difficult for other developers to understand which methods are critical and which are optional. This misuse can lead to a fragmented implementation where the flow of control is obscured, making the codebase harder to maintain and debug. Developers should use partial methods sparingly and ensure their purpose is well-documented, indicating when and why a method might be implemented or left unimplemented.
 
-## Common mistakes and how to avoid them**<!--TODO: Jeff, do these asterisks mean something?-->
+## Common mistakes and how to avoid them
 
 A frequent pitfall is relying too heavily on partial methods as a means of customization, especially in scenarios where other design patterns might be more appropriate. For example, if a partial method is used to override behavior that could be better handled through polymorphism or design patterns like the strategy pattern, it can lead to code that is less flexible and harder to extend in the future. Developers should instead carefully consider whether a partial method is the best tool for the job or if other, more robust patterns would offer better long-term maintainability.
 
