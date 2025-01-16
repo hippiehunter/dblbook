@@ -35,8 +35,6 @@ In the above example,
 **Extended example with multiple I/O statements:**
 
 ```dbl
-TODO add an example that has error labels for multiple I/O statements but doesn't suck
-
 main
     record myData
         fld1, d10
