@@ -1,4 +1,4 @@
-### Circular References
+## Circular References
 
 Circular references manifest when two or more entities—whether they be functions, modules, or data structures—depend on each other either directly or indirectly, thus creating a loop of dependencies. This phenomenon is particularly noticeable in procedural programming, where the flow of execution revolves around procedures or functions and modules that contain related functions. At a higher level, they can manifest between libraries or projects, where one library depends on another, which in turn depends on the first. This kind of circularity at the library or project level can pose significant challenges for building, maintaining, and deploying software.
 

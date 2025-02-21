@@ -40,6 +40,7 @@ dotnet new synTradUnitTestProj -n MyUnitTestProject
 ```
 
 Running tests
+
 Once you've build the project, you can run the test by opening a Visual Studio developer command prompt, moving to the output directory for the project, and then running the following command:
 ```console
 vstest.console.exe MyUnitTestProject.elb

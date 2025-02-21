@@ -62,5 +62,9 @@ The .INCLUDE statement is used to include a repository structure in a program. T
 ### Recommendations:
 
 -   Use RPSMFIL and RPSTFIL instead of DBLDICTIONARY because these environment variables are compatible with the Synergy/DE Repository.
-### Relationship to SMC
-TODO Add content for this section
+### Relationship to the Synergy Method Catalog
+While the purpose of the repository is to store and organize the structure and relationships of your application's data and to define the schema for your Synergy applications, the Synergy Method Catalog (SMC) is a tool to define and manage functions and subroutines that you want to be able to call remotely to handle your application's logic.
+
+The two share metadata: the repository often serves as the source for data structures that methods in the method catalog manipulate. For example, a method defined in the catalog may operate on data structures or entities defined in the repository. Together, they provide a holistic approach to building applications where data and logic are tightly integrated but separately managed.
+
+The method catalog can directly reference repository definitions to ensure consistency between data and the methods that process it. This reduces duplication and errors in defining how data is handled.

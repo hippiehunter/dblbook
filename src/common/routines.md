@@ -17,9 +17,9 @@ Finally, decomposing a problem into smaller parts can often make the problem eas
 
 ### Subroutines
 
-Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: local and regular.
+Subroutines are self-contained blocks of code designed to perform specific tasks. They are similar to functions with a void return type in other languages. There are two types of subroutines in DBL: subroutines and local subroutines.
 
-An external subroutine, simply referred to as a subroutine, is a separate entity from the routine that calls it. This subroutine can be present in the same source file as the invoking routine or in a different file.
+A subroutine, sometimes referred to as an external subroutine, is a separate entity from the routine that calls it. This subroutine can be present in the same source file as the invoking routine or in a different file.
 
 To define a subroutine, we use the SUBROUTINE statement. The return point to the calling routine is determined by the RETURN or XRETURN statement. Using XRETURN is recommended because it supersedes any nested local subroutine calls. If an exit control statement is not explicitly specified, a STOP statement is implied at the end of the subroutine.
 
@@ -114,8 +114,8 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 > [ENDSUBROUTINE|END]
 > ```
 
-#### Common between functions and subroutines
-<!--I think we need an intro line here (or else least a more complete heading) so people understand what this bulleted list is-->
+#### Similarities between function and subroutine declarations
+
 * access (optional): Sets access levels when defined inside a class. Options include PUBLIC, PROTECTED, PRIVATE, INTERNAL, and PROTECTED INTERNAL. 
 > TODO Add more details
 
@@ -138,7 +138,6 @@ The VARARGS modifier, which is optional for unprototyped functions and subroutin
 * parameter_def: Definition of parameters.
 
 #### Function specific
-<!--Add intro line-->
 * return_type (optional): Specifies the return type of the function. Defaults to the type of the variable or literal of the first FRETURN statement.
 * size (optional): Specifies the size of the function return value.
 
@@ -326,4 +325,4 @@ For leading or middle parameters, you can use `,` without any argument to indica
 On the other hand, parameters with a default value are technically always supplied an argument. If no explicit argument is passed in the function call, the default value is used. As a result, ^PASSED will always return true for these parameters, indicating that an argument, even if it's the default one, was provided. This behavior effectively makes these parameters a hybrid between optional and required parameters.
 
 ### Methods, properties, lambdas, delegates
-These are function-like things, and we will describe them in much more detail in chapters TODO. You've already seen at least one example of a method: `Console.WriteLine` is a static method on a class named `System.Console`.
+These are function-like things, and we will describe them in much more detail in later chapters <!--TODO-->. You've already seen at least one example of a method: `Console.WriteLine` is a static method on a class named `System.Console`.
