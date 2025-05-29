@@ -15,7 +15,7 @@
   - [Comments](./common/comments.md)
   - [Assignment](./common/assignment.md)
   - [Strings](./common/strings.md)
-  - [Math](./common/math.md)
+  - [Arithmetic](./common/math.md)
   - [Comparison](./common/comparison.md)
   - [Control Flow](./common/control_flow.md)
   - [Combining Comparisons](./common/combined_comparisons.md)

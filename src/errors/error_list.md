@@ -67,18 +67,18 @@ endmain
 
 While DBL's error list mechanism provides a straightforward way to handle I/O errors, the label-based control flow presents several challenges and restrictions that developers must understand to avoid subtle bugs and maintain code clarity.
 
-**Flow-through Prevention**
+**Flow-through prevention**
 
 One of the most common pitfalls with label-based error handling is inadvertent "flow-through" from one error handler to another. Unlike structured exception handling in modern languages, DBL's label-based system doesn't automatically terminate execution after an error handler completes. This means execution will continue with the next statement after the error handler label unless explicitly redirected.
 
 To prevent unintended flow-through between error handlers:
-- Always use explicit control flow statements like `exitloop`, `nextloop`, `return`, `xreturn`, `freturn`, `mreturn`, `goto`, or `stop` at the end of each error handler block.
+- Always use explicit control flow statements like `EXITLOOP`, `NEXTLOOP`, `RETURN`, `XRETURN`, `FRETURN`, `MRETURN`, `GOTO`, or `STOP` at the end of each error handler block.
 - Consider implementing a hierarchical structure where less severe errors can intentionally flow into more general error handling code.
 - Use comments to clearly mark the beginning and end of error handling sections.
 
 TODO: check that this description of labels and scopes is correct
 
-**Scope Restrictions**
+**Scope restrictions**
 
 DBL enforces strict scope boundaries for label-based jumps:
 - Labels and their GOTOs must exist within the same scope level.
@@ -86,19 +86,19 @@ DBL enforces strict scope boundaries for label-based jumps:
 - You cannot jump from an inner scope to an outer scope (such as jumping out of a subroutine directly to the main program).
 - Labels declared within conditional blocks (IF/ELSE) or loops cannot be targeted from outside those structures.
 
-These scope restrictions help prevent some programming errors but require careful planning of error handling strategies.
+These scope restrictions help prevent some programming errors but require you to plan your error handling strategies carefully.
 
-**Structured Alternatives**
+**Structured alternatives**
 
-For complex error handling scenarios, consider:
-- Using nested TRY/CATCH blocks when compiling for .NET
-- Creating dedicated error handling subroutines that can be called from multiple locations
+For complex error handling scenarios, consider
+- Using nested TRY/CATCH blocks when compiling for .NET.
+- Creating dedicated error handling subroutines that can be called from multiple locations.
 
-**Best Practices**
+**Best practices**
 
-To maintain readable and maintainable code:
-- Group related error handlers together
-- Use descriptive label names that indicate the error being handled
-- Document the expected program flow, especially when multiple error handlers interact
-- Consider refactoring complex label-based error handling into more structured approaches when possible
-- Test error scenarios thoroughly, as flow-through bugs can be difficult to detect during code review
+To maintain readable and maintainable code,
+- Group related error handlers together.
+- Use descriptive label names that indicate the error being handled.
+- Document the expected program flow, especially when multiple error handlers interact.
+- Consider refactoring complex label-based error handling into more structured approaches when possible.
+- Test error scenarios thoroughly, as flow-through bugs can be difficult to detect during code review.
