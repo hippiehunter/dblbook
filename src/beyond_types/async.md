@@ -99,13 +99,13 @@ proc
     context = new AsyncContext()
     
     ; Run our async code in this context
-    context.Run(
-&       lambda async()
-&       begin
-&           data result, string
-&           result = await GetDataAsync()
-&           writes(1, result)
-&       end)
+    async lambda myAsync()
+    begin
+        data result, string
+        result = await GetDataAsync()
+        writes(1, result)
+    end
+    context.Run(myAsync)
 endmain
 ```
 
