@@ -25,6 +25,8 @@ fconvert -i1 employees.txt -oi employee -d employee.xdl
 It shouldn't output anything to the screen if it worked correctly, but if you look in your project directory, you should see a new file named `employee.ism`. This is our ISAM file. Now that we have our data, let's write a program to read it. Create a new file named `select.dbl` in your project directory and add the following code:
 
 ```dbl
+import Synergex.SynergyDE.Select
+
 main
 record emp_rec
     EmployeeID,   a5
@@ -73,9 +75,9 @@ Pretty easy right? You've already seen most of this stuff plenty of times before
 
 ```dbl, ignore, does_not_compile
 whereObj = (Where)emp_rec.Department == "Sales"
-whereObj = (Where)emp_rec.Department == "Sales" && emp_rec.Salary.gt.100000
-whereObj = (Where)emp_rec.Department.eq."Sales".and.
-&   emp_rec.Salary > 100000 || emp_rec.Salary < 50000
+whereObj = (Where)(emp_rec.Department == "Sales" && emp_rec.Salary.gt.100000)
+whereObj = (Where)(emp_rec.Department.eq."Sales".and.
+&   emp_rec.Salary > 100000 || emp_rec.Salary < 50000)
 ```
 
 Notice that you can use the `&&` and `||` operators to build more complex criteria. You can also use the `eq` and `gt` operators instead of `==` and `>`. The choice of symbols or words is really a stylistic choice. As a comparison, the query in our program would look something like this in SQL:
