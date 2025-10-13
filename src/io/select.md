@@ -75,9 +75,9 @@ Pretty easy right? You've already seen most of this stuff plenty of times before
 
 ```dbl, ignore, does_not_compile
 whereObj = (Where)emp_rec.Department == "Sales"
-whereObj = (Where)emp_rec.Department == "Sales" && (Where)emp_rec.Salary.gt.100000
-whereObj = (Where)emp_rec.Department.eq."Sales".and.
-&   (Where)emp_rec.Salary > 100000 || emp_rec.Salary < 50000
+whereObj = (Where)(emp_rec.Department == "Sales" && emp_rec.Salary.gt.100000)
+whereObj = (Where)(emp_rec.Department.eq."Sales".and.
+&   emp_rec.Salary > 100000 || emp_rec.Salary < 50000)
 ```
 
 Notice that you can use the `&&` and `||` operators to build more complex criteria. You can also use the `eq` and `gt` operators instead of `==` and `>`. The choice of symbols or words is really a stylistic choice. As a comparison, the query in our program would look something like this in SQL:
