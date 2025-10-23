@@ -34,15 +34,13 @@ record emp_rec
     Department,   a20
     Salary,       d7.2
 endrecord
-
+record
+    channel, i4      ; Channel for file access
+    fromObj, @From   ; From object for Select
+    whereObj, @Where ; Where object for Select
+    selectObj, @Select
+endrecord
 proc
-    record
-        channel, i4      ; Channel for file access
-        fromObj, @From   ; From object for Select
-        whereObj, @Where ; Where object for Select
-        selectObj, @Select
-    endrecord
-
     ; Open the employee file
     open(channel=0, I:I, "employee.ism")
 
