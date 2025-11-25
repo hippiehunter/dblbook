@@ -5,12 +5,12 @@ I/O hooks in DBL provide a powerful mechanism for intercepting and customizing f
 
 To demonstrate the power and flexibility of I/O hooks in DBL, consider a scenario where you need to add logging for every read operation on a file. Instead of modifying every instance where a read operation occurs, you can create a custom IOHooks class that overrides the `read_pre_operation_hook` and `read_post_operation_hook` methods.
 
-### Implementing read operation ogging
+### Implementing read operation logging
 
 First, define a class that extends the `IOHooks` class:
 
 ```dbl
-import Synergex.SynergyDE.IOHooks
+import Synergex.SynergyDE.IOExtensions
 
 namespace Example
     class LoggingIOHooks inherits IOHooks
@@ -20,15 +20,16 @@ namespace Example
         proc
         endmethod
 
-        protected method read_pre_operation_hook, void
+        public override method reads_pre_operation_hook, void
             in flags, IOFlags
         proc
             ; Custom logic before a read operation
             Console.WriteLine("Pre-read hook: Starting read operation.")
         endmethod
 
-        protected method read_post_operation_hook, void
+        public override method reads_post_operation_hook, void
             inout buffer, a
+            in optional out_rfa, a
             in flags, IOFlags
             inout error, int
         proc
@@ -51,8 +52,8 @@ record rec
     somedata, a100
 proc
     open(channel=0, i:i, "mydatafile.ism")
-    new BufferedLoggingIOHooks(channel)
-    
+    new Example.LoggingIOHooks(channel)
+
     ; Perform read operations as usual
     reads(channel, rec)
     ; The hooks will automatically log messages before and after the read
@@ -69,13 +70,15 @@ When the READS statement is executed, the pre- and post-read hooks are automatic
 For an application that wasn't designed with a single routine for all file opens, consider using global I/O hooks. Inside the global hook, you get enough information to decide if you want to hook the file and potentially determine which hook if you have multiple. To implement global hooks, you need to define them in the SYN_GLOBALHOOKS_OPEN routine:
 
 ```dbl
+import Synergex.SynergyDE.IOExtensions
+
 subroutine SYN_GLOBALHOOKS_OPEN
     in channel, n
     in modes, OPModes
     in filename, a 
 proc
     if(filename == "mydatafile") then
-        new LoggingIOHooks(channel)
+        new Example.LoggingIOHooks(channel)
     else
         nop ; Do nothing, it's not our file
 endsubroutine
@@ -92,6 +95,8 @@ While powerful, I/O hooks in DBL execute synchronously with I/O operations. This
 Consider a scenario where you have implemented a `read_post_operation_hook` to perform complex data processing or external API calls:
 
 ```dbl
+import Synergex.SynergeDE.IOExtensions
+
 namespace Example
     class HeavyProcessingIOHooks inherits IOHooks
         public method HeavyProcessingIOHooks
@@ -101,8 +106,9 @@ namespace Example
 
         endmethod
 
-        protected method read_post_operation_hook, void
+        public override method read_post_operation_hook, void
             inout buffer, a
+            in optional out_rfa, a
             in flags, IOFlags
             inout error, int
         proc
